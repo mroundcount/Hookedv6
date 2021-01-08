@@ -20,8 +20,7 @@ class AudioTableViewCell: UITableViewCell {
     @IBOutlet weak var genreLbl: UILabel!
     @IBOutlet weak var dataLbl: UILabel!
     @IBOutlet weak var likesLbl: UILabel!
-    
-    
+
     var audio: Audio!
     
     override func awakeFromNib() {

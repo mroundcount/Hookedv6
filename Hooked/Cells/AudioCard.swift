@@ -37,7 +37,16 @@ class AudioCard: UIView {
         //pass the user object the array and create a new card, then append the card to the cards array
         didSet {
             Api.User.getUserInforSingleEvent(uid: audio.artist) { (user) in
-                self.photo.loadImage(user.profileImageUrl)
+                
+                //self.photo.loadImage(user.profileImageUrl)
+                //Testing to see if we can use a blank profile pic
+                if user.profileImageUrl != "" {
+                    self.photo.loadImage(user.profileImageUrl)
+                } else {
+                    self.photo.loadImage("https://firebasestorage.googleapis.com/v0/b/hooked-217d3.appspot.com/o/profile%2FBwfxgQ9mmzNk7jRjO0hzjC9qyBs1?alt=media&token=b5bfe675-8aa8-4ecd-ac20-8ada0b223969")
+                }
+                
+                
                 //Customizing the text for the username label
                 let attributedArtistText = NSMutableAttributedString(string: "   \(user.username)", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 22), NSAttributedString.Key.foregroundColor : UIColor.white])
                 self.usernameLbl.attributedText = attributedArtistText

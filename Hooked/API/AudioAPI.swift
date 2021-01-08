@@ -58,7 +58,7 @@ class AudioApi {
         Ref().databaseRoot.child("likes").child(Api.User.currentUserId).observeSingleEvent(of: .value) { (snapshot) in
             guard let dict = snapshot.value as? [String: Bool] else { return }
             dict.forEach({ (key, value) in
-                self.getUserInforSingleEvent(id: key, onSuccess: { (audio) in
+                self.getAudioInforSingleEvent(id: key, onSuccess: { (audio) in
                     onSuccess(audio)
                 })
             })
@@ -74,7 +74,8 @@ class AudioApi {
     }
     
     //Maybe trying using the reference from User API.... might be worth testing.
-    func getUserInforSingleEvent(id: String, onSuccess: @escaping(AudioCompletion)) {
+    //used to be called getUserInforSingleEvent
+    func getAudioInforSingleEvent(id: String, onSuccess: @escaping(AudioCompletion)) {
         let ref = Ref().databaseSpecificAudio(id: id)
         ref.observeSingleEvent(of: .value) { (snapshot) in
             if let dict = snapshot.value as? Dictionary<String, Any> {
@@ -98,7 +99,7 @@ class AudioApi {
                 }
             }
         }
-    }    
+    }
 }
 
 typealias AudioCompletion = (Audio) -> Void

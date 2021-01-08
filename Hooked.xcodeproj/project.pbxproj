@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A7C0FFF751AA60E50B1C40F2 /* Pods_Hooked.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C20742E28302DD4BE741B3F /* Pods_Hooked.framework */; };
+		28524AC8E629513781AFDB31 /* Pods_Hooked.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F7B234D18FF2EF536612AF9 /* Pods_Hooked.framework */; };
 		BF04F42A254F2DD800DFC625 /* UploadTableViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF04F429254F2DD800DFC625 /* UploadTableViewController + Extension.swift */; };
+		BF186A7C259A946500C38121 /* EditUploadTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF186A7B259A946500C38121 /* EditUploadTableViewController.swift */; };
+		BF186A7F259A95EA00C38121 /* EditUploadTableViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF186A7E259A95EA00C38121 /* EditUploadTableViewController + Extension.swift */; };
 		BF25D3A42557927B00D9098F /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF25D3A32557927B00D9098F /* Preferences.swift */; };
 		BF25D3A625579FDD00D9098F /* PreferencesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF25D3A525579FDD00D9098F /* PreferencesAPI.swift */; };
+		BF4219B3259DA9F100A139F5 /* DemoMusicPlayerController + ExtensionPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4219B2259DA9F100A139F5 /* DemoMusicPlayerController + ExtensionPreview.swift */; };
+		BF5ADFDF25950E0500C05B6C /* UserProfileViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5ADFDE25950E0500C05B6C /* UserProfileViewController + Extension.swift */; };
 		BF633AE724CFE78200B2BCB1 /* AudioCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF633AE524CFE78100B2BCB1 /* AudioCard.xib */; };
 		BF633AE924D139CD00B2BCB1 /* LikesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF633AE824D139CD00B2BCB1 /* LikesTableViewController.swift */; };
 		BF633AEB24D2500900B2BCB1 /* LikesAudioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF633AEA24D2500900B2BCB1 /* LikesAudioTableViewCell.swift */; };
@@ -23,6 +27,7 @@
 		BF6B25F2249DB04B0076B069 /* LNPopupController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BF6B25F0249DB03F0076B069 /* LNPopupController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BF78D54A2559DEA400D0F9A5 /* AudioRadarViewController + Card Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF78D5492559DEA400D0F9A5 /* AudioRadarViewController + Card Extension.swift */; };
 		BF82D24E242FF4ED00C90CDA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF82D24D242FF4ED00C90CDA /* DetailViewController.swift */; };
+		BF92B16F258D3F5C00A1E15E /* PopUpWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF92B16E258D3F5C00A1E15E /* PopUpWindow.swift */; };
 		BF9C6370240A160100DA740D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9C636F240A160100DA740D /* AppDelegate.swift */; };
 		BF9C6372240A160100DA740D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9C6371240A160100DA740D /* SceneDelegate.swift */; };
 		BF9C6374240A160100DA740D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9C6373240A160100DA740D /* ViewController.swift */; };
@@ -42,29 +47,17 @@
 		BF9C63992413522D00DA740D /* UserApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9C63982413522D00DA740D /* UserApi.swift */; };
 		BF9C639B241361AE00DA740D /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9C639A241361AE00DA740D /* StorageService.swift */; };
 		BF9C639D2413674300DA740D /* Ref.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9C639C2413674300DA740D /* Ref.swift */; };
-		BF9C63A124143FB800DA740D /* PeopleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9C63A024143FB800DA740D /* PeopleTableViewController.swift */; };
-		BF9C63A3241441E700DA740D /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9C63A2241441E700DA740D /* UserTableViewCell.swift */; };
 		BF9C63A5241493D900DA740D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9C63A4241493D900DA740D /* User.swift */; };
 		BF9C63A72414A09A00DA740D /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9C63A62414A09A00DA740D /* Extension.swift */; };
 		BF9C63A92426A7C200DA740D /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9C63A82426A7C200DA740D /* ProfileTableViewController.swift */; };
-		BF9C63AB242C5B8A00DA740D /* UsersAroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9C63AA242C5B8A00DA740D /* UsersAroundViewController.swift */; };
-		BF9C63AD242DAE9000DA740D /* UserAroundCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9C63AC242DAE9000DA740D /* UserAroundCollectionViewCell.swift */; };
 		BFC9EF5424AC30AD004FFF1E /* AudioRadarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9EF5324AC30AD004FFF1E /* AudioRadarViewController.swift */; };
 		BFC9EF5624AC3403004FFF1E /* AudioCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9EF5524AC3403004FFF1E /* AudioCard.swift */; };
 		BFE9C374246B9ED1005686BC /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE9C373246B9ED1005686BC /* UserProfileViewController.swift */; };
 		BFE9C376246E202D005686BC /* AudioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE9C375246E202D005686BC /* AudioTableViewCell.swift */; };
 		BFE9C38F246FC791005686BC /* DemoMusicPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE9C38E246FC791005686BC /* DemoMusicPlayerController.swift */; };
-		BFEA9653245BCDEE00A43DDD /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEA9652245BCDED00A43DDD /* ChatViewController.swift */; };
-		BFEA9655245BCEB200A43DDD /* ChatViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEA9654245BCEB200A43DDD /* ChatViewController+Extension.swift */; };
-		BFEA9657245BCEFA00A43DDD /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEA9656245BCEFA00A43DDD /* MessageTableViewCell.swift */; };
-		BFEA9659245BD02D00A43DDD /* MessageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEA9658245BD02D00A43DDD /* MessageAPI.swift */; };
-		BFEA965B245BD06800A43DDD /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEA965A245BD06800A43DDD /* Message.swift */; };
 		BFF1C3CA2449546800E99A46 /* PreferenceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF1C3C92449546800E99A46 /* PreferenceTableViewController.swift */; };
 		BFF1C3CE244CBE4C00E99A46 /* Likes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF1C3CD244CBE4C00E99A46 /* Likes.swift */; };
-		BFF276AD2432F32C00E66930 /* RadarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF276AC2432F32C00E66930 /* RadarViewController.swift */; };
 		BFF276AF2432FB1000E66930 /* Card.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFF276AE2432FB1000E66930 /* Card.xib */; };
-		BFF276B12432FCC000E66930 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF276B02432FCC000E66930 /* Card.swift */; };
-		BFF97E6E243447A90077DC77 /* NewMatchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF97E6D243447A80077DC77 /* NewMatchTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,14 +85,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4C20742E28302DD4BE741B3F /* Pods_Hooked.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hooked.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A6B5206FF3B81A24D1403B1A /* Pods-Hooked.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hooked.release.xcconfig"; path = "Target Support Files/Pods-Hooked/Pods-Hooked.release.xcconfig"; sourceTree = "<group>"; };
-		B6A020538E7B994B8156AA08 /* Pods-Hooked.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hooked.debug.xcconfig"; path = "Target Support Files/Pods-Hooked/Pods-Hooked.debug.xcconfig"; sourceTree = "<group>"; };
+		0573CF495B443E65D52301FB /* Pods-Hooked.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hooked.debug.xcconfig"; path = "Target Support Files/Pods-Hooked/Pods-Hooked.debug.xcconfig"; sourceTree = "<group>"; };
+		250037A02D34DB60F4254BDF /* Pods-Hooked.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hooked.release.xcconfig"; path = "Target Support Files/Pods-Hooked/Pods-Hooked.release.xcconfig"; sourceTree = "<group>"; };
+		4F7B234D18FF2EF536612AF9 /* Pods_Hooked.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hooked.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF04F429254F2DD800DFC625 /* UploadTableViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UploadTableViewController + Extension.swift"; sourceTree = "<group>"; };
+		BF186A7B259A946500C38121 /* EditUploadTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUploadTableViewController.swift; sourceTree = "<group>"; };
+		BF186A7E259A95EA00C38121 /* EditUploadTableViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditUploadTableViewController + Extension.swift"; sourceTree = "<group>"; };
 		BF25D3A32557927B00D9098F /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		BF25D3A525579FDD00D9098F /* PreferencesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesAPI.swift; sourceTree = "<group>"; };
+		BF4219B2259DA9F100A139F5 /* DemoMusicPlayerController + ExtensionPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DemoMusicPlayerController + ExtensionPreview.swift"; sourceTree = "<group>"; };
+		BF5ADFDE25950E0500C05B6C /* UserProfileViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileViewController + Extension.swift"; sourceTree = "<group>"; };
 		BF633AE524CFE78100B2BCB1 /* AudioCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AudioCard.xib; path = Hooked/AudioCard.xib; sourceTree = SOURCE_ROOT; };
-		BF633AE824D139CD00B2BCB1 /* LikesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesTableViewController.swift; sourceTree = "<group>"; };
+		BF633AE824D139CD00B2BCB1 /* LikesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LikesTableViewController.swift; path = "../New Group2/LikesTableViewController.swift"; sourceTree = "<group>"; };
 		BF633AEA24D2500900B2BCB1 /* LikesAudioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesAudioTableViewCell.swift; sourceTree = "<group>"; };
 		BF633AEC24DF431300B2BCB1 /* AudioRadarViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AudioRadarViewController + Extension.swift"; sourceTree = "<group>"; };
 		BF68912B246665DA00690BDF /* UploadTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTableViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +106,7 @@
 		BF6B25EB249DB03E0076B069 /* LNPopupController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNPopupController.xcodeproj; path = "../LNPopupController-master/LNPopupController/LNPopupController.xcodeproj"; sourceTree = "<group>"; };
 		BF78D5492559DEA400D0F9A5 /* AudioRadarViewController + Card Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AudioRadarViewController + Card Extension.swift"; sourceTree = "<group>"; };
 		BF82D24D242FF4ED00C90CDA /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		BF92B16E258D3F5C00A1E15E /* PopUpWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpWindow.swift; sourceTree = "<group>"; };
 		BF9C636C240A160100DA740D /* Hooked.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hooked.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF9C636F240A160100DA740D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF9C6371240A160100DA740D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -130,29 +128,17 @@
 		BF9C63982413522D00DA740D /* UserApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserApi.swift; sourceTree = "<group>"; };
 		BF9C639A241361AE00DA740D /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		BF9C639C2413674300DA740D /* Ref.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ref.swift; sourceTree = "<group>"; };
-		BF9C63A024143FB800DA740D /* PeopleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleTableViewController.swift; sourceTree = "<group>"; };
-		BF9C63A2241441E700DA740D /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		BF9C63A4241493D900DA740D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		BF9C63A62414A09A00DA740D /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		BF9C63A82426A7C200DA740D /* ProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
-		BF9C63AA242C5B8A00DA740D /* UsersAroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersAroundViewController.swift; sourceTree = "<group>"; };
-		BF9C63AC242DAE9000DA740D /* UserAroundCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAroundCollectionViewCell.swift; sourceTree = "<group>"; };
-		BFC9EF5324AC30AD004FFF1E /* AudioRadarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRadarViewController.swift; sourceTree = "<group>"; };
+		BFC9EF5324AC30AD004FFF1E /* AudioRadarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AudioRadarViewController.swift; path = "../New Group/AudioRadarViewController.swift"; sourceTree = "<group>"; };
 		BFC9EF5524AC3403004FFF1E /* AudioCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCard.swift; sourceTree = "<group>"; };
 		BFE9C373246B9ED1005686BC /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		BFE9C375246E202D005686BC /* AudioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTableViewCell.swift; sourceTree = "<group>"; };
-		BFE9C38E246FC791005686BC /* DemoMusicPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoMusicPlayerController.swift; sourceTree = "<group>"; };
-		BFEA9652245BCDED00A43DDD /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
-		BFEA9654245BCEB200A43DDD /* ChatViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Extension.swift"; sourceTree = "<group>"; };
-		BFEA9656245BCEFA00A43DDD /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
-		BFEA9658245BD02D00A43DDD /* MessageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageAPI.swift; sourceTree = "<group>"; };
-		BFEA965A245BD06800A43DDD /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		BFE9C38E246FC791005686BC /* DemoMusicPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DemoMusicPlayerController.swift; path = "../New Group1/DemoMusicPlayerController.swift"; sourceTree = "<group>"; };
 		BFF1C3C92449546800E99A46 /* PreferenceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceTableViewController.swift; sourceTree = "<group>"; };
 		BFF1C3CD244CBE4C00E99A46 /* Likes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Likes.swift; sourceTree = "<group>"; };
-		BFF276AC2432F32C00E66930 /* RadarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarViewController.swift; sourceTree = "<group>"; };
 		BFF276AE2432FB1000E66930 /* Card.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Card.xib; sourceTree = "<group>"; };
-		BFF276B02432FCC000E66930 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
-		BFF97E6D243447A80077DC77 /* NewMatchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMatchTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,44 +147,86 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF6B25F1249DB04B0076B069 /* LNPopupController.framework in Frameworks */,
-				A7C0FFF751AA60E50B1C40F2 /* Pods_Hooked.framework in Frameworks */,
+				28524AC8E629513781AFDB31 /* Pods_Hooked.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		BF6B25E12496AB190076B069 /* References */ = {
+		A4DCB6DBBB25ED6CA9021759 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BF6B25E32496B0AB0076B069 /* API */,
-				BFC9EF5124A4646F004FFF1E /* Cells */,
-				BF6B25E22496B0840076B069 /* Controller */,
+				4F7B234D18FF2EF536612AF9 /* Pods_Hooked.framework */,
 			);
-			path = References;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		BF6B25E22496B0840076B069 /* Controller */ = {
+		BF186A80259A964400C38121 /* Audio Radar */ = {
 			isa = PBXGroup;
 			children = (
-				BFEA9652245BCDED00A43DDD /* ChatViewController.swift */,
-				BFEA9654245BCEB200A43DDD /* ChatViewController+Extension.swift */,
-				BFEA9656245BCEFA00A43DDD /* MessageTableViewCell.swift */,
-				BF9C63A024143FB800DA740D /* PeopleTableViewController.swift */,
-				BF9C63AA242C5B8A00DA740D /* UsersAroundViewController.swift */,
-				BFF276AC2432F32C00E66930 /* RadarViewController.swift */,
-				BFF97E6D243447A80077DC77 /* NewMatchTableViewController.swift */,
+				BFC9EF5324AC30AD004FFF1E /* AudioRadarViewController.swift */,
+				BF633AEC24DF431300B2BCB1 /* AudioRadarViewController + Extension.swift */,
+				BF78D5492559DEA400D0F9A5 /* AudioRadarViewController + Card Extension.swift */,
 			);
-			path = Controller;
+			path = "Audio Radar";
 			sourceTree = "<group>";
 		};
-		BF6B25E32496B0AB0076B069 /* API */ = {
+		BF186A81259A967A00C38121 /* Upload Audio */ = {
 			isa = PBXGroup;
 			children = (
-				BFEA9658245BD02D00A43DDD /* MessageAPI.swift */,
-				BFEA965A245BD06800A43DDD /* Message.swift */,
+				BF68912B246665DA00690BDF /* UploadTableViewController.swift */,
+				BF04F429254F2DD800DFC625 /* UploadTableViewController + Extension.swift */,
+				BF186A7B259A946500C38121 /* EditUploadTableViewController.swift */,
+				BF186A7E259A95EA00C38121 /* EditUploadTableViewController + Extension.swift */,
 			);
-			path = API;
+			path = "Upload Audio";
+			sourceTree = "<group>";
+		};
+		BF186A82259A96BC00C38121 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				BF9C638C240AF57F00DA740D /* SignInViewController.swift */,
+				BF9C638E240AF59200DA740D /* SignInViewController+UI.swift */,
+				BF9C6388240AE08300DA740D /* SignUpViewController.swift */,
+				BF9C638A240AE9C000DA740D /* SignUpViewController+UI.swift */,
+				BF9C6373240A160100DA740D /* ViewController.swift */,
+				BF9C6386240AD8C300DA740D /* ViewController+UI.swift */,
+				BF9C6390240AFA9600DA740D /* ForgotPasswordViewController.swift */,
+				BF9C6392240AFAAE00DA740D /* ForgotPasswordViewController+UI.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		BF186A83259A96FD00C38121 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				BF82D24D242FF4ED00C90CDA /* DetailViewController.swift */,
+				BF92B16E258D3F5C00A1E15E /* PopUpWindow.swift */,
+				BF9C63A82426A7C200DA740D /* ProfileTableViewController.swift */,
+				BFF1C3C92449546800E99A46 /* PreferenceTableViewController.swift */,
+				BFE9C373246B9ED1005686BC /* UserProfileViewController.swift */,
+				BF5ADFDE25950E0500C05B6C /* UserProfileViewController + Extension.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		BF186A84259AB72000C38121 /* Demo Player */ = {
+			isa = PBXGroup;
+			children = (
+				BFE9C38E246FC791005686BC /* DemoMusicPlayerController.swift */,
+				BF6B25DE2478C6680076B069 /* DemoMusicPlayerController+Extension.swift */,
+				BF4219B2259DA9F100A139F5 /* DemoMusicPlayerController + ExtensionPreview.swift */,
+			);
+			path = "Demo Player";
+			sourceTree = "<group>";
+		};
+		BF186A85259AB74100C38121 /* Likes */ = {
+			isa = PBXGroup;
+			children = (
+				BF633AE824D139CD00B2BCB1 /* LikesTableViewController.swift */,
+			);
+			path = Likes;
 			sourceTree = "<group>";
 		};
 		BF6B25EC249DB03E0076B069 /* Products */ = {
@@ -216,7 +244,7 @@
 				BF9C636E240A160100DA740D /* Hooked */,
 				BF9C636D240A160100DA740D /* Products */,
 				DDE3FC04C314C6E6311349FC /* Pods */,
-				CD99F2128BC34C43D006EA5D /* Frameworks */,
+				A4DCB6DBBB25ED6CA9021759 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -234,7 +262,6 @@
 				BF9C636F240A160100DA740D /* AppDelegate.swift */,
 				BF9C6371240A160100DA740D /* SceneDelegate.swift */,
 				BF9C6375240A160100DA740D /* Main.storyboard */,
-				BF6B25E12496AB190076B069 /* References */,
 				BFDE1373243AB288001456FD /* API */,
 				BFDE1374243AB2BD001456FD /* Cells */,
 				BFDE1372243AB1A8001456FD /* Controller */,
@@ -249,39 +276,15 @@
 			path = Hooked;
 			sourceTree = "<group>";
 		};
-		BFC9EF5124A4646F004FFF1E /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				BF9C63AC242DAE9000DA740D /* UserAroundCollectionViewCell.swift */,
-				BFF276B02432FCC000E66930 /* Card.swift */,
-				BF9C63A2241441E700DA740D /* UserTableViewCell.swift */,
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
 		BFDE1372243AB1A8001456FD /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				BFC9EF5324AC30AD004FFF1E /* AudioRadarViewController.swift */,
-				BF633AEC24DF431300B2BCB1 /* AudioRadarViewController + Extension.swift */,
-				BF78D5492559DEA400D0F9A5 /* AudioRadarViewController + Card Extension.swift */,
-				BFE9C38E246FC791005686BC /* DemoMusicPlayerController.swift */,
-				BF6B25DE2478C6680076B069 /* DemoMusicPlayerController+Extension.swift */,
-				BF82D24D242FF4ED00C90CDA /* DetailViewController.swift */,
-				BF9C6390240AFA9600DA740D /* ForgotPasswordViewController.swift */,
-				BF9C6392240AFAAE00DA740D /* ForgotPasswordViewController+UI.swift */,
-				BF633AE824D139CD00B2BCB1 /* LikesTableViewController.swift */,
-				BFF1C3C92449546800E99A46 /* PreferenceTableViewController.swift */,
-				BF9C63A82426A7C200DA740D /* ProfileTableViewController.swift */,
-				BF68912B246665DA00690BDF /* UploadTableViewController.swift */,
-				BF04F429254F2DD800DFC625 /* UploadTableViewController + Extension.swift */,
-				BFE9C373246B9ED1005686BC /* UserProfileViewController.swift */,
-				BF9C638C240AF57F00DA740D /* SignInViewController.swift */,
-				BF9C638E240AF59200DA740D /* SignInViewController+UI.swift */,
-				BF9C6388240AE08300DA740D /* SignUpViewController.swift */,
-				BF9C638A240AE9C000DA740D /* SignUpViewController+UI.swift */,
-				BF9C6373240A160100DA740D /* ViewController.swift */,
-				BF9C6386240AD8C300DA740D /* ViewController+UI.swift */,
+				BF186A82259A96BC00C38121 /* Home */,
+				BF186A80259A964400C38121 /* Audio Radar */,
+				BF186A84259AB72000C38121 /* Demo Player */,
+				BF186A85259AB74100C38121 /* Likes */,
+				BF186A83259A96FD00C38121 /* Profile */,
+				BF186A81259A967A00C38121 /* Upload Audio */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -314,19 +317,11 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		CD99F2128BC34C43D006EA5D /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				4C20742E28302DD4BE741B3F /* Pods_Hooked.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		DDE3FC04C314C6E6311349FC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B6A020538E7B994B8156AA08 /* Pods-Hooked.debug.xcconfig */,
-				A6B5206FF3B81A24D1403B1A /* Pods-Hooked.release.xcconfig */,
+				0573CF495B443E65D52301FB /* Pods-Hooked.debug.xcconfig */,
+				250037A02D34DB60F4254BDF /* Pods-Hooked.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -338,12 +333,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BF9C6383240A160200DA740D /* Build configuration list for PBXNativeTarget "Hooked" */;
 			buildPhases = (
-				FA68B445473C823B018ABE4C /* [CP] Check Pods Manifest.lock */,
+				B6C3F588992B212B9F4ED387 /* [CP] Check Pods Manifest.lock */,
 				BF9C6368240A160100DA740D /* Sources */,
 				BF9C6369240A160100DA740D /* Frameworks */,
 				BF9C636A240A160100DA740D /* Resources */,
 				BFE9C383246FB0C6005686BC /* Embed Frameworks */,
-				E1CD569D84743393C86720A8 /* [CP] Embed Pods Frameworks */,
+				65D2DBE82BCB2F1FB9A63C85 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -421,7 +416,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		E1CD569D84743393C86720A8 /* [CP] Embed Pods Frameworks */ = {
+		65D2DBE82BCB2F1FB9A63C85 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -438,7 +433,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hooked/Pods-Hooked-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FA68B445473C823B018ABE4C /* [CP] Check Pods Manifest.lock */ = {
+		B6C3F588992B212B9F4ED387 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -471,48 +466,41 @@
 				BF68912E246668E600690BDF /* AudioAPI.swift in Sources */,
 				BF9C63A92426A7C200DA740D /* ProfileTableViewController.swift in Sources */,
 				BF9C638F240AF59200DA740D /* SignInViewController+UI.swift in Sources */,
-				BFEA9657245BCEFA00A43DDD /* MessageTableViewCell.swift in Sources */,
+				BF4219B3259DA9F100A139F5 /* DemoMusicPlayerController + ExtensionPreview.swift in Sources */,
 				BF9C6389240AE08300DA740D /* SignUpViewController.swift in Sources */,
 				BF04F42A254F2DD800DFC625 /* UploadTableViewController + Extension.swift in Sources */,
-				BF9C63AD242DAE9000DA740D /* UserAroundCollectionViewCell.swift in Sources */,
 				BF9C6374240A160100DA740D /* ViewController.swift in Sources */,
-				BFEA965B245BD06800A43DDD /* Message.swift in Sources */,
+				BF186A7F259A95EA00C38121 /* EditUploadTableViewController + Extension.swift in Sources */,
 				BF9C638B240AE9C000DA740D /* SignUpViewController+UI.swift in Sources */,
 				BF25D3A625579FDD00D9098F /* PreferencesAPI.swift in Sources */,
 				BFE9C374246B9ED1005686BC /* UserProfileViewController.swift in Sources */,
 				BFF1C3CE244CBE4C00E99A46 /* Likes.swift in Sources */,
-				BF9C63A124143FB800DA740D /* PeopleTableViewController.swift in Sources */,
 				BF9C637A240A160100DA740D /* Hooked.xcdatamodeld in Sources */,
+				BF92B16F258D3F5C00A1E15E /* PopUpWindow.swift in Sources */,
 				BFC9EF5624AC3403004FFF1E /* AudioCard.swift in Sources */,
 				BFE9C376246E202D005686BC /* AudioTableViewCell.swift in Sources */,
-				BFEA9659245BD02D00A43DDD /* MessageAPI.swift in Sources */,
-				BF9C63AB242C5B8A00DA740D /* UsersAroundViewController.swift in Sources */,
 				BF9C638D240AF57F00DA740D /* SignInViewController.swift in Sources */,
+				BF186A7C259A946500C38121 /* EditUploadTableViewController.swift in Sources */,
 				BF9C6397241351D000DA740D /* Api.swift in Sources */,
 				BF9C6391240AFA9600DA740D /* ForgotPasswordViewController.swift in Sources */,
 				BF68912C246665DA00690BDF /* UploadTableViewController.swift in Sources */,
-				BF9C63A3241441E700DA740D /* UserTableViewCell.swift in Sources */,
 				BF9C6370240A160100DA740D /* AppDelegate.swift in Sources */,
 				BF82D24E242FF4ED00C90CDA /* DetailViewController.swift in Sources */,
-				BFF97E6E243447A90077DC77 /* NewMatchTableViewController.swift in Sources */,
 				BF9C6393240AFAAE00DA740D /* ForgotPasswordViewController+UI.swift in Sources */,
 				BF78D54A2559DEA400D0F9A5 /* AudioRadarViewController + Card Extension.swift in Sources */,
-				BFF276B12432FCC000E66930 /* Card.swift in Sources */,
 				BF6B25DF2478C6690076B069 /* DemoMusicPlayerController+Extension.swift in Sources */,
 				BF9C6387240AD8C300DA740D /* ViewController+UI.swift in Sources */,
-				BFF276AD2432F32C00E66930 /* RadarViewController.swift in Sources */,
 				BF9C63992413522D00DA740D /* UserApi.swift in Sources */,
 				BF25D3A42557927B00D9098F /* Preferences.swift in Sources */,
 				BF9C63A72414A09A00DA740D /* Extension.swift in Sources */,
 				BF633AEB24D2500900B2BCB1 /* LikesAudioTableViewCell.swift in Sources */,
 				BF9C6372240A160100DA740D /* SceneDelegate.swift in Sources */,
 				BFE9C38F246FC791005686BC /* DemoMusicPlayerController.swift in Sources */,
+				BF5ADFDF25950E0500C05B6C /* UserProfileViewController + Extension.swift in Sources */,
 				BF9C639B241361AE00DA740D /* StorageService.swift in Sources */,
 				BF9C639D2413674300DA740D /* Ref.swift in Sources */,
 				BF9C63A5241493D900DA740D /* User.swift in Sources */,
 				BF633AE924D139CD00B2BCB1 /* LikesTableViewController.swift in Sources */,
-				BFEA9653245BCDEE00A43DDD /* ChatViewController.swift in Sources */,
-				BFEA9655245BCEB200A43DDD /* ChatViewController+Extension.swift in Sources */,
 				BFF1C3CA2449546800E99A46 /* PreferenceTableViewController.swift in Sources */,
 				BF633AED24DF431400B2BCB1 /* AudioRadarViewController + Extension.swift in Sources */,
 				BFC9EF5424AC30AD004FFF1E /* AudioRadarViewController.swift in Sources */,
@@ -657,7 +645,7 @@
 		};
 		BF9C6384240A160200DA740D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B6A020538E7B994B8156AA08 /* Pods-Hooked.debug.xcconfig */;
+			baseConfigurationReference = 0573CF495B443E65D52301FB /* Pods-Hooked.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -681,7 +669,7 @@
 		};
 		BF9C6385240A160200DA740D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A6B5206FF3B81A24D1403B1A /* Pods-Hooked.release.xcconfig */;
+			baseConfigurationReference = 250037A02D34DB60F4254BDF /* Pods-Hooked.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

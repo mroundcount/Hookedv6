@@ -57,7 +57,15 @@ class LikesAudioTableViewCell: UITableViewCell {
         self.audio = audio
         Api.User.getUserInforSingleEvent(uid: audio.artist) { (user) in
             self.artistLbl.text = user.username
-            self.avatar.loadImage(user.profileImageUrl)
+            
+            
+            //self.avatar.loadImage(user.profileImageUrl)
+            //Testing to see if we can use a blank profile pic
+            if user.profileImageUrl != "" {
+                self.avatar.loadImage(user.profileImageUrl)
+            } else {
+                self.avatar.loadImage("https://firebasestorage.googleapis.com/v0/b/hooked-217d3.appspot.com/o/profile%2FBwfxgQ9mmzNk7jRjO0hzjC9qyBs1?alt=media&token=b5bfe675-8aa8-4ecd-ac20-8ada0b223969")
+            }
         }
         self.titleLbl.text = audio.title
         //titleLbl.adjustsFontSizeToFitWidth = true

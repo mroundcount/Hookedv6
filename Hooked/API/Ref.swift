@@ -44,6 +44,7 @@ let IDENTIFIER_CELL_USERS = "UserTableViewCell"
 let IDENTIFIER_PEOPLE = "PeopleTableViewController"
 let IDENTIFIER_EDIT_PROFILE = "ProfileTableViewController"
 let IDENTIFIER_UPLOAD = "UploadTableViewController"
+let IDENTIFIER_EDIT_UPLOAD = "EditUploadTableViewController"
 let IDENTIFIER_PREFERENCES = "PreferenceTableViewController"
 
 let REF_GEO = "Geolocs"
