@@ -113,16 +113,16 @@ extension EditUploadTableViewController {
         print("Time Check: \(timeCheck)")
         
         if timeCheck > 15 {
-            validationStatus = "Fail"
-            print(validationStatus)
+            previewValidationStatus = "Fail"
+            print(previewValidationStatus)
             let alert = UIAlertController(title: "Too long", message: "Please keep the length of this clip to 15 seconds or less", preferredStyle: .alert)
             
             self.present(alert, animated: true)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil))
         }
         if timeCheck < 5 && timeCheck >= 0 {
-            validationStatus = "Fail"
-            print(validationStatus)
+            previewValidationStatus = "Fail"
+            print(previewValidationStatus)
             
             let alert = UIAlertController(title: "Too Short", message: "Come on pal give the people what they want, more than 5 seconds please", preferredStyle: .alert)
             
@@ -130,8 +130,8 @@ extension EditUploadTableViewController {
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil))
         }
         if timeCheck < 0 {
-            validationStatus = "Fail"
-            print(validationStatus)
+            previewValidationStatus = "Fail"
+            print(previewValidationStatus)
             
             let alert = UIAlertController(title: "Whoa there", message: "You're start time is further along than your ending time", preferredStyle: .alert)
             

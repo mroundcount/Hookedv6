@@ -58,9 +58,7 @@ class LikesAudioTableViewCell: UITableViewCell {
         Api.User.getUserInforSingleEvent(uid: audio.artist) { (user) in
             self.artistLbl.text = user.username
             
-            
-            //self.avatar.loadImage(user.profileImageUrl)
-            //Testing to see if we can use a blank profile pic
+            //Defaulting to a blank profile pic
             if user.profileImageUrl != "" {
                 self.avatar.loadImage(user.profileImageUrl)
             } else {

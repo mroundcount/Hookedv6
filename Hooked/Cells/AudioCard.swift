@@ -45,8 +45,7 @@ class AudioCard: UIView {
                 } else {
                     self.photo.loadImage("https://firebasestorage.googleapis.com/v0/b/hooked-217d3.appspot.com/o/profile%2FBwfxgQ9mmzNk7jRjO0hzjC9qyBs1?alt=media&token=b5bfe675-8aa8-4ecd-ac20-8ada0b223969")
                 }
-                
-                
+
                 //Customizing the text for the username label
                 let attributedArtistText = NSMutableAttributedString(string: "   \(user.username)", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 22), NSAttributedString.Key.foregroundColor : UIColor.white])
                 self.usernameLbl.attributedText = attributedArtistText
@@ -66,7 +65,6 @@ class AudioCard: UIView {
         }
     }
     
-    //I don't think much needs to me modified here.
     override func awakeFromNib() {
         super.awakeFromNib()
         

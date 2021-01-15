@@ -12,9 +12,11 @@ import UIKit
 
 extension AudioRadarViewController {
 
+    
+    
     //confifure the card frame and pass in the user parameter and append it to the card array
     func setupCard(audio: Audio) {
-        print("In card set up")
+        
         let card: AudioCard = UIView.fromNib()
         card.frame = CGRect(x: 0, y: 0, width: cardStack.bounds.width, height: cardStack.bounds.height)
         card.audio = audio
@@ -33,7 +35,6 @@ extension AudioRadarViewController {
         Api.Audio.observeNewLike { (likedAudio) in
             self.likesCollection.append(likedAudio)
             if card.audio.id == likedAudio.id {
-                print("preparing to remove audio at 2: \(likedAudio.title)")
                 card.removeFromSuperview()
                 self.updateCards(card: card)
             }
@@ -43,15 +44,14 @@ extension AudioRadarViewController {
             //creates an array called "audioCollection" which containts all the audio files
             self.userCollection.append(userAudio)
             if card.audio.artist == userAudio.artist {
-                print("preparing to remove audio at 2: \(userAudio.title)")
+                //print("preparing to remove audio at 2: \(userAudio.title)")
                 card.removeFromSuperview()
                 self.updateCards(card: card)
             }
         }
         
-        
+        //Checking user preferences and removing cards accordingly
         Api.Preferences.getUserPreferencesforSingleEvent(user: Api.User.currentUserId) { (preference) in
-
             if card.audio.genre == "Alternative Rock" && preference.alternativeRock == false {
                 print("removing for genre conflight \(audio.title)")
                 card.removeFromSuperview()
@@ -81,7 +81,6 @@ extension AudioRadarViewController {
                 card.removeFromSuperview()
                 self.updateCards(card: card)
             }
-            
             if card.audio.genre == "Disco" && preference.disco == false {
                 card.removeFromSuperview()
                 self.updateCards(card: card)
@@ -114,7 +113,6 @@ extension AudioRadarViewController {
                 card.removeFromSuperview()
                 self.updateCards(card: card)
             }
-
             if card.audio.genre == "Jazz & Blues" && preference.jazzBlues == false {
                 card.removeFromSuperview()
                 self.updateCards(card: card)
@@ -147,7 +145,6 @@ extension AudioRadarViewController {
                 card.removeFromSuperview()
                 self.updateCards(card: card)
             }
-                        
             if card.audio.genre == "Rock" && preference.rock == false {
                 card.removeFromSuperview()
                 self.updateCards(card: card)
@@ -173,13 +170,11 @@ extension AudioRadarViewController {
                 self.updateCards(card: card)
             }
         }
-        
-        //make sure that only the top card is being interacted with
+                
         if cards.count == 1 {
             cardInitialLocationCenter = card.center
-            print("Playing 1: \(audio.title)")
-            downloadFile(audio: audio)
-            //preDownload()
+            //downloadFile(audio: audio)
+            //testDownloadFile(audio: audio)
             card.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(pan(gesture:))))
         }
     }

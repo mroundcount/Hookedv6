@@ -46,7 +46,6 @@ class Preferences {
     }
     
     static func transformPreferences(dict: [String: Any]) -> Preferences? {
-        print("In transformPreferences")
 
         let preference = Preferences (user: Api.User.currentUserId)
         

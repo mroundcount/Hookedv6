@@ -41,8 +41,7 @@ class DetailViewController: UIViewController {
         usernameLbl.numberOfLines = 0
         usernameLbl.adjustsFontSizeToFitWidth = true
         
-        //avatar.loadImage(user.profileImageUrl)
-        //Testing to see if we can use a blank profile pic
+        //Adding logic for a default profile picture if null
         if user.profileImageUrl != "" {
             self.avatar.loadImage(user.profileImageUrl)
         } else {
@@ -157,7 +156,6 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             self.popupContentController.albumArt = user.profileImage
             
             //This works
-            //self.popupContentController.albumArt = UIImage(named: "icon-gender")!
             let url = URL(string: user.profileImageUrl)
             let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
             self.popupContentController.albumArt = UIImage(data: data!)!

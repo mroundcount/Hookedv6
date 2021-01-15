@@ -55,14 +55,7 @@ class AudioTableViewCell: UITableViewCell {
         let date = Date(timeIntervalSince1970: audio.date)
         let dateString = timeAgoSinceDate(date, currentDate: Date(), numericDates: true)
         dataLbl.text = dateString
-        
-        
-        
-        
-        
 
-
-        print("In the cell!!")
         
         //This returns the numbers of likes under a particular user
         let ref = Database.database().reference().child("likesCount").child(audio.id)
@@ -73,15 +66,7 @@ class AudioTableViewCell: UITableViewCell {
             print("Count of \(audio.title): \(audio.id) : \(snapshot.childrenCount)")
             self.likesLbl.text = "Likes: \(snapshot.childrenCount)"
         })
-        
-        print("Get out of the cell!!")
-        /*
-        Api.Audio.observerCountLikes(id: audio.id) {_ in
-            print("Count of \(audio.id) : \(snapshot.childrenCount)")
-        }
-        */
-        
-        
+
     }
     
     //This is commented out everywhere.... review it later.

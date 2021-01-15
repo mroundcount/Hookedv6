@@ -6,6 +6,9 @@
 //  Copyright © 2020 Michael Roundcount. All rights reserved.
 //
 
+
+
+/*
 import Foundation
 import UIKit
 import LNPopupController
@@ -15,14 +18,37 @@ import Firebase
 import FirebaseStorage
 import FirebaseDatabase
 
+
+
+ //Old method of downloading files!!!!!!!!!
+ //NOT IN USE
+
 extension AudioRadarViewController {
+        
+    
+    /*
+    func preDownload() {
+        if cards.count > 1 {
+        preDownloadFile(audio: (cards[1].audio)!)
+        }
+        if cards.count > 2 {
+        preDownloadFile(audio: (cards[2].audio)!)
+        }
+        if cards.count > 3 {
+        preDownloadFile(audio: (cards[3].audio)!)
+        }
+        if cards.count > 4 {
+        preDownloadFile(audio: (cards[4].audio)!)
+        }
+        if cards.count > 5 {
+        preDownloadFile(audio: (cards[5].audio)!)
+        }
+    */
     
     //This is the one we'll be using
+    
     //https://mobikul.com/play-audio-file-save-document-directory-ios-swift/
-    
-    
     func preDownloadFile(audio: Audio) {
-        print("predownloading")
         let audioUrl = audio.audioUrl
         if audioUrl.isEmpty {
             return
@@ -34,18 +60,18 @@ extension AudioRadarViewController {
             let destinationUrl = documentsDirectoryURL.appendingPathComponent(audioUrl.lastPathComponent)
             // to check if it exists before downloading it
             if FileManager.default.fileExists(atPath: destinationUrl.path) {
-                print("The file already exists at path")
+                print("The file for \(audio.title) already exists at path")
                 return
                 // if the file doesn't exist
             } else {
                 // you can use NSURLSession.sharedSession to download the data asynchronously
-                print("Have to download the URL")
+                print("Have to download the URL for \(audio.title)")
                 URLSession.shared.downloadTask(with: audioUrl, completionHandler: { [self] (location, response, error) -> Void in
                     guard let location = location, error == nil else { return }
                     do {
                         // after downloading your file you need to move it to your destination url
                         try FileManager.default.moveItem(at: location, to: destinationUrl)
-                        print("File moved to documents folder")
+                        //print("File moved to documents folder")
                         return
                         } catch let error as NSError {
                             print(error.localizedDescription)
@@ -55,41 +81,28 @@ extension AudioRadarViewController {
         }
     }
     
-    
-    
-    
-    
-    
-    
+
     func downloadFile(audio: Audio) {
-        
         let audioUrl = audio.audioUrl
         if audioUrl.isEmpty {
             return
         }
-        
         if let audioUrl = URL(string: audioUrl) {
             // then lets create your document folder url
             let documentsDirectoryURL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-            
             // lets create your destination file url
             let destinationUrl = documentsDirectoryURL.appendingPathComponent(audioUrl.lastPathComponent)
-                        
             // to check if it exists before downloading it
             if FileManager.default.fileExists(atPath: destinationUrl.path) {
-                print("The file already exists at path")
-                
+                print("Player Download: the file for \(audio.title) already exists at path")
                 do {
                     audioPlayer = try AVAudioPlayer(contentsOf: destinationUrl)
-                    //guard let player = self.audioPlayer else { return }
                     audioPlayer.prepareToPlay()
-                    //Look at this for experiment
                     startTime = Int(audio.startTime)
                     stopTime = Int(audio.stopTime)
                     playAudioFromBeginning()
                     
                     startTimer()
-                    //gotAudioLength()
                     audioPlayer.delegate = self
                     print("playing \(audio.title)")
                     
@@ -99,26 +112,21 @@ extension AudioRadarViewController {
                 // if the file doesn't exist
             } else {
                 // you can use NSURLSession.sharedSession to download the data asynchronously
-                print("Have to download the URL")
+                print("Player Download: have to download the URL for \(audio.title) before playing!")
                 URLSession.shared.downloadTask(with: audioUrl, completionHandler: { [self] (location, response, error) -> Void in
                     guard let location = location, error == nil else { return }
                     do {
                         // after downloading your file you need to move it to your destination url
                         try FileManager.default.moveItem(at: location, to: destinationUrl)
-                        print("File moved to documents folder")
+                        //print("File moved to documents folder")
                         
                         do {
-                            print("playing audio from the download file step")
                             self.audioPlayer = try AVAudioPlayer(contentsOf: destinationUrl)
-                            //guard let player = self.audioPlayer else { return }
-                            
                             self.audioPlayer.prepareToPlay()
-                            //Look at this for experiment
                             self.startTime = Int(audio.startTime)
                             self.stopTime = Int(audio.stopTime)
                             self.playAudio()
                             self.startTimer()
-                            //gotAudioLength()
                             self.audioPlayer.delegate = self
                             print("playing \(audio.title)")
 
@@ -133,7 +141,7 @@ extension AudioRadarViewController {
             }
         }
     }
-    
+    /*
     @objc func playImgDidTap() {
         if recordStatus == "Playing" {
             pauseAudio()
@@ -146,12 +154,37 @@ extension AudioRadarViewController {
             
         } else {
         }
+    }*/
+    
+    
+    func playAudioFromBeginning() {
+        audioSettings()
+        //loadingInidcator.stopAnimating()
+        audioPlayer.currentTime = TimeInterval(startTime)
+        audioPlayer?.play()
+        recordStatus = "Playing"
+        playImg.isHidden = false
+        playImg.image = UIImage(systemName: "pause.circle")
+        stopImg.image = UIImage(named: "refresh_circle")
     }
     
+    func playAudio() {
+        audioSettings()
+        audioPlayer.currentTime = TimeInterval(startTime)
+        audioPlayer?.play()
+        recordStatus = "Playing"
+        //playImg.isHidden = false
+        DispatchQueue.main.async { [self] in
+            //loadingInidcator.stopAnimating()
+            playImg.image = UIImage(systemName: "pause.circle")
+            stopImg.image = UIImage(named: "refresh_circle")
+        }
+    }
     
+    /*
     @objc func stopImgDidTap() {
         totalReplayAudio()
-    }
+    } */
     
     func stopAudio() {
         audioPlayer?.stop()
@@ -180,28 +213,7 @@ extension AudioRadarViewController {
         playImg.image = UIImage(systemName: "pause.circle")
     }
     
-    func playAudioFromBeginning() {
-        audioSettings()
-        
-        audioPlayer.currentTime = TimeInterval(startTime)
-        audioPlayer?.play()
-        recordStatus = "Playing"
-        playImg.isHidden = false
-        playImg.image = UIImage(systemName: "pause.circle")
-        stopImg.image = UIImage(named: "refresh_circle")
-    }
-    
-    func playAudio() {
-        audioSettings()
-        audioPlayer.currentTime = TimeInterval(startTime)
-        audioPlayer?.play()
-        recordStatus = "Playing"
-        //playImg.isHidden = false
-        DispatchQueue.main.async { [self] in
-            playImg.image = UIImage(systemName: "pause.circle")
-            stopImg.image = UIImage(named: "refresh_circle")
-        }
-    }
+
     
     func pauseAudio() {
         audioPlayer?.pause()
@@ -299,3 +311,4 @@ extension AudioRadarViewController {
     
 }
 
+*/

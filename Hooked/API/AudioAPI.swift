@@ -13,20 +13,16 @@ class AudioApi {
     
     //This is the old method that uploads the audio file to the "audio" database. It stores each file under an artist.
     //11/29... Remove this and test
+    /*
     func uploadAudio(artist: String, value: Dictionary<String, Any>) {
         let ref = Ref().databaseAudioArtist(artist: artist)
         ref.childByAutoId().updateChildValues(value)
-    }
-    
-    //Method to load files to the "AudioFile" table.
-    func uploadAudioFile(value: Dictionary<String, Any>) {
-        let ref = Ref().databaseAudioFileOnly()
-        ref.childByAutoId().updateChildValues(value)
-    }
-    
+    } */
+
     //pulls down the audio info....This is looking at the 'audio' node
     //Old method no longer used.
     //11/29... Remove this and test
+    /*
     func pullAudio(artist: String, onSuccess: @escaping(Audio) -> Void) {
         let ref = Ref().databaseAudioArtist(artist: artist)
         ref.observe(.childAdded) { (snapshot) in
@@ -37,7 +33,13 @@ class AudioApi {
             }
         }
     }
+    */
     
+    //Method to load files to the "AudioFile" table.
+    func uploadAudioFile(value: Dictionary<String, Any>) {
+        let ref = Ref().databaseAudioFileOnly()
+        ref.childByAutoId().updateChildValues(value)
+    }
     
     //Pulling audio from AudioFiles.. filters out the current artist
     //https://stackoverflow.com/questions/41606963/how-to-make-firebase-database-query-to-get-some-of-the-children-using-swift-3
@@ -45,7 +47,6 @@ class AudioApi {
         let ref = Database.database().reference().child("audioFiles")
         ref.queryOrdered(byChild: "artist").queryEqual(toValue: artist).observe(.childAdded, with: { snapshot in
             if let dict = snapshot.value as? [String : AnyObject] {
-                // do stuff with 'post' here.
                 if let audio = Audio.transformAudio(dict: dict, keyId: snapshot.key) {
                     onSuccess(audio)
                 }

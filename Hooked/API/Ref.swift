@@ -10,64 +10,51 @@ import Foundation
 import Firebase
 
 //All of our firebase related references. We'll assign one for every node. This was we do not have to hardcode elsewhere
-let REF_USER = "users"
-let REF_MESSAGE = "messages"
 
+//App reference and configuration
+let URL_STORAGE_ROOT = "gs://hooked-217d3.appspot.com"
 
-//Artist heiarchy
+//Storage and database references
 let REF_AUDIO = "audio"
 let REF_AUDIO_FILE = "audioFiles"
-
-
-let URL_STORAGE_ROOT = "gs://hooked-217d3.appspot.com"
+let REF_LIKES = "likes"
+let REF_LIKE_COUNT = "likesCount"
+let REF_PREFERENCES = "preferences"
+let REF_USER = "users"
 let STORAGE_PROFILE = "profile"
+
+
+//User profile attributes
 let PROFILE_IMAGE_URL = "profileImageUrl"
 let UID = "uid"
 let EMAIL = "email"
 let USERNAME = "username"
 let STATUS = "status"
 
+//Error handling
 //let ERROR_EMPTY_PHOTO = "Please choose your profile image"
 let ERROR_EMPTY_EMAIL = "Please enter an email address"
 let ERROR_EMPTY_USERNAME = "Please enter a username"
 let ERROR_EMPTY_PASSWORD = "Please enter a password"
 let ERROR_EMPTY_EMAIL_RESET = "Please enter an email address to reset your password"
-
+//Success message for passsword resent
 let SUCCESS_EMAIL_RESET = "We have just resent you a password reset email. Please check your inbox"
 
+//App info for landing page
 let IDENTIFIER_TABBAR = "TabBarVC"
 let IDENTIFIER_WELCOME = "WelcomeVC"
-let IDENTIFIER_CHAT = "ChatViewController"
 
-let IDENTIFIER_USER_AROUND = "UsersAroundViewController"
-let IDENTIFIER_CELL_USERS = "UserTableViewCell"
-let IDENTIFIER_PEOPLE = "PeopleTableViewController"
+//Viewcontroller references
 let IDENTIFIER_EDIT_PROFILE = "ProfileTableViewController"
 let IDENTIFIER_UPLOAD = "UploadTableViewController"
 let IDENTIFIER_EDIT_UPLOAD = "EditUploadTableViewController"
 let IDENTIFIER_PREFERENCES = "PreferenceTableViewController"
-
-let REF_GEO = "Geolocs"
-
 let IDENTIFIER_DETAIL = "DetailViewController"
-
-let IDENTIFIER_RADAR = "RadarViewController"
 let IDENTIFIER_AUDIO_RADAR = "AudioRadarViewController"
-
-
-let IDENTIFIER_NEW_MATCH = "NewMatchTableViewController"
 let IDENTIFIER_LIKES = "LikesTableViewController"
 
 
-let REF_ACTION = "action"
 
-let REF_AUDIO_ACTION = "audioAction"
-
-let REF_LIKES = "likes"
-let REF_LIKE_COUNT = "likesCount"
-
-//New preferecnes database
-let REF_PREFERENCES = "preferences"
 
 
 class Ref {
@@ -77,6 +64,7 @@ class Ref {
     var databaseUsers: DatabaseReference {
         return databaseRoot.child(REF_USER)
     }
+    
     //method for taking a user id as a parameter to get the reference node
     func databaseSpecificUser(uid: String) -> DatabaseReference {
         return databaseUsers.child(uid)
@@ -86,7 +74,6 @@ class Ref {
     func databaseSpecificUsername(username: String) -> DatabaseReference {
         return databaseUsers.child(username)
     }
-    
     
     //StorageRoot that is stored in a global variable
     let storageRoot = Storage.storage().reference(forURL: URL_STORAGE_ROOT)
@@ -100,26 +87,6 @@ class Ref {
         //naigiating to the specific user usering uid
         return storageProfile.child(uid)
     }
-    
-    
-    
-    
-    //Not currently using
-    var databaseGeo: DatabaseReference {
-        return databaseRoot.child(REF_GEO)
-    }
-    
-    
-    
-    //For the user based likes
-    //This is referring to the "action" node that I am not using
-    var databaseAction: DatabaseReference {
-        return databaseRoot.child(REF_ACTION)
-    }
-    func databaseActionForUser(uid: String) -> DatabaseReference {
-        return databaseAction.child(uid)
-    }
-    
 
 
     //adding in the new tables for just likes
@@ -153,11 +120,6 @@ class Ref {
     }
 
 
-    
-    
-    
-    
-    
     //Uploading audio in artist heiarchy
     var databaseAudio: DatabaseReference {
         return databaseRoot.child(REF_AUDIO)
@@ -166,12 +128,12 @@ class Ref {
     func databaseAudioArtist(artist: String) -> DatabaseReference {
         return databaseAudio.child(artist)
     }
+ 
     
     //Uploading JUST audio files
     func databaseAudioFileOnly() -> DatabaseReference {
         return databaseRoot.child(REF_AUDIO_FILE)
     }
-    
     
     //In an attempt to remove records from audioFile
     var databaseAudioFile: DatabaseReference {
@@ -182,10 +144,8 @@ class Ref {
         return databaseAudio.child(artist)
     }
   
-    
-    
-    
-    //Need this for both
+
+    //Saving audio to storage
     var storageAudio: StorageReference {
         return storageRoot.child(REF_AUDIO)
     }
@@ -199,37 +159,7 @@ class Ref {
     func databaseSpecificAudio(id: String) -> DatabaseReference {
         return databaseAudioFileOnly().child(id)
      }
-    
-    
-    
 
-    
-    
-    //These are for training. I do not actually use these in the MVP
-    var databaseMessage: DatabaseReference {
-        return databaseRoot.child(REF_MESSAGE)
-    }
-    
-    func databaseMessageSendTo(from: String /*,to: String*/) -> DatabaseReference {
-        return databaseMessage.child(from)/*.child(to)*/
-    }
-    
-    var storageMessage: StorageReference {
-        return storageRoot.child(REF_MESSAGE)
-    }
-    
-    
-    func storageSpecificImageMessage(id: String) -> StorageReference {
-        return storageMessage.child("photo").child(id)
-    }
-    
-    func storageSpecificVideoMessage(id: String) -> StorageReference {
-        return storageMessage.child("video").child(id)
-    }
-    
-    func storageSpecificAudioMessage(id: String) -> StorageReference {
-        return storageMessage.child("audio").child(id)
-    }
 }
 
 

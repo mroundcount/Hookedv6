@@ -11,30 +11,7 @@ import Firebase
 
 class PreferencesApi {
     
-    //This method does not appear to be used anywhere else.
-    //11/29 Remove and test
-    func uploadPreferences(user: String, value: Dictionary<String, Any>) {
-        let ref = Ref().databasePreferencesUser(user: user)
-        ref.childByAutoId().updateChildValues(value)
-    }
-    
-    //This method does not appear to be used anywhere else.
-    //11/29 Remove and test
-    func observeNewPreferences(onSuccess: @escaping(PreferencesCompletion)) {
-        Ref().databaseRoot.child("preferences").child(Api.User.currentUserId).observeSingleEvent(of: .value) { (snapshot) in
-            guard let dict = snapshot.value as? [String: Bool] else { return }
-            print(dict)
-            dict.forEach({ (key, value) in
-                self.getUserPreferencesforSingleEvent(user: key, onSuccess: { (preference) in
-                    onSuccess(preference)
-                })
-            })
-        }
-    }
-    
-    
     //Maybe trying using the reference from User API.... might be worth testing.
-    //Used.... take notes
     func getUserPreferencesforSingleEvent(user: String, onSuccess: @escaping(PreferencesCompletion)) {
         //print("single event step 1")
         let ref = Ref().databasePreferencesUser(user: user)
@@ -53,6 +30,31 @@ class PreferencesApi {
     
     //This method does not appear to be used anywhere else.
     //11/29 Remove and test
+    /*
+    func uploadPreferences(user: String, value: Dictionary<String, Any>) {
+        let ref = Ref().databasePreferencesUser(user: user)
+        ref.childByAutoId().updateChildValues(value)
+    }
+     */
+    
+    //This method does not appear to be used anywhere else.
+    //11/29 Remove and test
+    /*
+    func observeNewPreferences(onSuccess: @escaping(PreferencesCompletion)) {
+        Ref().databaseRoot.child("preferences").child(Api.User.currentUserId).observeSingleEvent(of: .value) { (snapshot) in
+            guard let dict = snapshot.value as? [String: Bool] else { return }
+            print(dict)
+            dict.forEach({ (key, value) in
+                self.getUserPreferencesforSingleEvent(user: key, onSuccess: { (preference) in
+                    onSuccess(preference)
+                })
+            })
+        }
+    } */
+    
+    //This method does not appear to be used anywhere else.
+    //11/29 Remove and test
+    /*
     func observePreferences(onSuccess: @escaping(PreferencesCompletion)) {
         //returns a snapshot of each user. We can also listed for children added, this way it can be added to the snapshot, so we don't have to reload it all the time
         Ref().databaseUsers.observe(.childAdded) { (snapshot) in
@@ -65,8 +67,11 @@ class PreferencesApi {
                 }
             }
         }
-    }
+    } */
+    
 
+    //I think these are just copies from the audio
+    /*
     //Pulling within all of the audio files.
     func observeAudio(onSuccess: @escaping(Audio) -> Void) {
         //returns a snapshot of each user. We can also listed for children added, this way it can be added to the snapshot, so we don't have to reload it all the time
@@ -120,6 +125,7 @@ class PreferencesApi {
             }
         }
     }
+     */
 }
 
 typealias PreferencesCompletion = (Preferences) -> Void

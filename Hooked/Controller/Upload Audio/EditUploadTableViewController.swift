@@ -16,8 +16,6 @@ import Foundation
 import Firebase
 import FirebaseDatabase
 
-
-
 class EditUploadTableViewController: UITableViewController {
     
     var audio: Audio!
@@ -26,9 +24,9 @@ class EditUploadTableViewController: UITableViewController {
     public var StartTime: Double = 0.0
     public var StopTime: Double = 0.0
     
-
     var validationStatus: String = ""
     var previewValidationStatus: String = ""
+    var popupContentController: DemoMusicPlayerController!
     
     let genre = ["Alternative Rock", /*"Ambient",*/ "Classical", "Country", "Dance & EDM", /*"Dancehall", "Deep House",*/ "Disco", /*"Drum & Bass", "Dubstep", "Electronic",*/ "Folk", "Hip-hop & Rap",/* "House",*/ "Indie", "Jazz & Blues", "Latin", "Metal", "Piano", "Pop", "R&B & Soul", "Reggae", "Reggaeton", "Rock", /*"Techno", "Trance", "Trap", "Triphop",*/ "World"]
     
@@ -40,7 +38,6 @@ class EditUploadTableViewController: UITableViewController {
     @IBOutlet weak var startTimeLbl: UILabel!
     @IBOutlet weak var stopTimeLbl: UILabel!
     
-    
     @IBOutlet weak var startTimeMinTextField: UITextField!
     @IBOutlet weak var startTimeSecTextField: UITextField!
     
@@ -50,12 +47,7 @@ class EditUploadTableViewController: UITableViewController {
     @IBOutlet weak var timeRequirementsLbl: UILabel!
     @IBOutlet weak var saveBtn: UIBarButtonItem!
     @IBOutlet weak var previewBtn: UIButton!
-    
-    
-    var popupContentController: DemoMusicPlayerController!
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -121,9 +113,7 @@ class EditUploadTableViewController: UITableViewController {
         if previewValidationStatus != "Fail" {
             print("Success")
             print("Going with preview")
-            
-            
-            
+
             let startTimeMinString = startTimeMinTextField.text ?? "0"
             let startTimeSecString = startTimeSecTextField.text ?? "0"
 
@@ -168,8 +158,6 @@ class EditUploadTableViewController: UITableViewController {
                 //tabBarController?.popupBar.tintColor = UIColor(white: 38.0 / 255.0, alpha: 1.0)
                 tabBarController?.popupBar.tintColor = UIColor(red: 160, green: 160, blue: 160, alpha: 1)
             }
-            
-            
             
         } else {
             print("Update failed")

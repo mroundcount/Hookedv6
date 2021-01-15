@@ -11,8 +11,6 @@ import LNPopupController
 import AVFoundation
 import FirebaseDatabase
 
-
-
 class LikesTableViewController: UITableViewController, UISearchResultsUpdating, ProfileNavigationDelegate {
     
     var audio: [Audio] = []
@@ -61,7 +59,6 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
     func setupSearchBarController() {
         //front end characterists of the searchbar
         searchController.searchResultsUpdater = self
-        //searchController.dimsBackgroundDuringPresentation = true
         searchController.searchBar.placeholder = "Search playlist..."
         searchController.searchBar.barTintColor = UIColor.white
         searchController.obscuresBackgroundDuringPresentation = false
@@ -96,7 +93,6 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
         Api.Audio.observeNewLike { (audio) in
             self.audio.append(audio)
             self.tableView.reloadData()
-            print("Big test of audio... \(audio.title)")
             self.sortAudio()
         }
     }
@@ -134,7 +130,6 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
         } else {
             return self.audio.count
         }
-        
         //return searchController.isActive ? searchResults.count : self.users.count
         //return searchController.isActive ? searchResults.count : self.audio.count
     }
@@ -165,8 +160,7 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
         Api.User.getUserInforSingleEvent(uid: cell.audio.artist) { (user) in
             self.popupContentController.artistName = user.username
 
-            //This works
-            //self.popupContentController.albumArt = UIImage(named: "icon-gender")!
+            //Sets the default picture if the profile picture is null
             if user.profileImageUrl != "" {
                 let url = URL(string: user.profileImageUrl)
                 let data = try? Data(contentsOf: url!)
@@ -174,11 +168,6 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
             } else {
                 self.popupContentController.albumArt = UIImage(named: "default_profile")!
             }
-
-            //let url = URL(string: user.profileImageUrl)
-            //let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
-            //self.popupContentController.albumArt = UIImage(data: data!)!
-
         }
         
         popupContentController.downloadFile(audio: audio[indexPath.row])
@@ -209,13 +198,6 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
         let delete = UITableViewRowAction(style: .normal, title: "      Delete     ") { action, index in
             let cell = tableView.cellForRow(at: editActionsForRowAt) as? LikesAudioTableViewCell
             print("Removing \(cell?.audio.id) which is titled \(cell?.audio.title)")
-            
-            //FirebaseManager.shared.removePost(withID: (cell?.audio.id)!)
-            //Trying to remove the reference of firebase.... it keeps failing
-            //let shared = FirebaseManager()
-            //let reference = Database.database().reference()
-            
-            
             
             //Testing if this works.
             let selection = cell?.audio.id

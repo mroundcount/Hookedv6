@@ -45,20 +45,19 @@ class Audio {
             let stopTime = dict["stopTime"] as? Double else
             {
                 return nil
-        }
-        let storageID = (dict["storageID"] as? String) == nil ? "" : (dict["storageID"]! as! String)
-        let source = (dict["source"] as? String) == nil ? "" : (dict["source"]! as! String)
-        let title = (dict["title"] as? String) == nil ? "" : (dict["title"]! as! String)
-        let genre = (dict["genre"] as? String) == nil ? "" : (dict["genre"]! as! String)
-        let explicit = dict["explicit"] as? Bool == nil ? false : (dict["explicit"]! as! Bool)
-        
-        let audioUrl = (dict["audioUrl"] as? String) == nil ? "" : (dict["audioUrl"]! as! String)
-               
+            }
+            let storageID = (dict["storageID"] as? String) == nil ? "" : (dict["storageID"]! as! String)
+            let source = (dict["source"] as? String) == nil ? "" : (dict["source"]! as! String)
+            let title = (dict["title"] as? String) == nil ? "" : (dict["title"]! as! String)
+            let genre = (dict["genre"] as? String) == nil ? "" : (dict["genre"]! as! String)
+            let explicit = dict["explicit"] as? Bool == nil ? false : (dict["explicit"]! as! Bool)
+            let audioUrl = (dict["audioUrl"] as? String) == nil ? "" : (dict["audioUrl"]! as! String)
+                   
     let audio = Audio(id: keyId, storageID: storageID, source: source, artist: artist, date: date, title: title, genre: genre, explicit: explicit, audioUrl: audioUrl, startTime: startTime, stopTime: stopTime)
-        
         return audio
     }
     
+    //Review the context of this function
     static func hash(forMembers members: [String]) -> String {
         let hash = members[0].hashString ^ members[1].hashString
         let memberHash = String(hash)

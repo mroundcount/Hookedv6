@@ -46,6 +46,7 @@ class PreferenceTableViewController: UITableViewController {
         return genre.count
     }
     
+    //Loading the view with the current preferences
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = genre[indexPath.row]

@@ -113,7 +113,7 @@
         <!--Audio Radar View Controller-->
         <scene sceneID="8LZ-LA-LeV">
             <objects>
-                <viewController storyboardIdentifier="RadarViewController" id="E2o-2K-2yf" customClass="AudioRadarViewController" customModule="Hooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AudioRadarViewController" id="E2o-2K-2yf" customClass="AudioRadarViewController" customModule="Hooked" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Dh4-YE-ya0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -142,16 +142,25 @@
                                     <constraint firstAttribute="height" constant="100" id="iWd-8q-ZJX"/>
                                 </constraints>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="CCa-uu-6Mw">
+                                <rect key="frame" x="0.0" y="429.5" width="414" height="37"/>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <color key="color" systemColor="systemPurpleColor"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Hyu-aq-fhR"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="gUZ-Xs-4KN" firstAttribute="bottom" secondItem="Hyu-aq-fhR" secondAttribute="bottom" id="0cF-wH-qYX"/>
+                            <constraint firstItem="CCa-uu-6Mw" firstAttribute="leading" secondItem="Hyu-aq-fhR" secondAttribute="leading" id="6W2-XQ-mao"/>
                             <constraint firstItem="Zbf-OT-jJM" firstAttribute="top" secondItem="Hyu-aq-fhR" secondAttribute="top" constant="40" id="70y-Xx-Hwq"/>
+                            <constraint firstItem="CCa-uu-6Mw" firstAttribute="centerY" secondItem="Dh4-YE-ya0" secondAttribute="centerY" id="FKo-fL-k2H"/>
                             <constraint firstItem="Hyu-aq-fhR" firstAttribute="trailing" secondItem="gUZ-Xs-4KN" secondAttribute="trailing" id="FTC-s0-DsH"/>
                             <constraint firstItem="Zbf-OT-jJM" firstAttribute="leading" secondItem="Hyu-aq-fhR" secondAttribute="leading" constant="35" id="Ly0-kf-8kh"/>
+                            <constraint firstItem="CCa-uu-6Mw" firstAttribute="trailing" secondItem="Hyu-aq-fhR" secondAttribute="trailing" id="Xrr-JU-cWh"/>
                             <constraint firstItem="gUZ-Xs-4KN" firstAttribute="top" secondItem="Zbf-OT-jJM" secondAttribute="bottom" constant="20" id="YZ6-2g-sNP"/>
                             <constraint firstItem="Hyu-aq-fhR" firstAttribute="trailing" secondItem="Zbf-OT-jJM" secondAttribute="trailing" constant="35" id="mKy-uS-Kyk"/>
+                            <constraint firstItem="CCa-uu-6Mw" firstAttribute="centerX" secondItem="Dh4-YE-ya0" secondAttribute="centerX" id="sLI-CD-Jd6"/>
                             <constraint firstItem="gUZ-Xs-4KN" firstAttribute="leading" secondItem="Hyu-aq-fhR" secondAttribute="leading" id="ub0-ps-qLz"/>
                         </constraints>
                     </view>
@@ -159,6 +168,7 @@
                     <connections>
                         <outlet property="cardStack" destination="Zbf-OT-jJM" id="DkG-An-9XU"/>
                         <outlet property="likeImg" destination="ukr-Pz-93m" id="gBV-8p-lgf"/>
+                        <outlet property="loadingInidcator" destination="CCa-uu-6Mw" id="MTq-qz-nwW"/>
                         <outlet property="nopeImg" destination="kLR-ri-1Dg" id="bQa-J6-Wdw"/>
                         <outlet property="playImg" destination="pSh-lo-RdD" id="oZx-82-8cJ"/>
                         <outlet property="stopImg" destination="Rcj-Mz-0pc" id="2gh-LJ-4FK"/>
@@ -1988,6 +1998,9 @@
         </systemColor>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="opaqueSeparatorColor">
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -146,34 +146,6 @@ class UserApi {
             }
         }
     }
-    
-    //Returns all users that the current user has liked..... We are not using this at the user level anymore. There is an observeNewLike function at the Audio API
-    /*
-    func observeNewLike(onSuccess: @escaping(UserCompletion)) {
-        Ref().databaseRoot.child("likes").child(Api.User.currentUserId).observeSingleEvent(of: .value) { (snapshot) in
-            guard let dict = snapshot.value as? [String: Bool] else { return }
-            dict.forEach({ (key, value) in
-                self.getUserInforSingleEvent(uid: key, onSuccess: { (user) in
-                    onSuccess(user)
-                })
-            })
-        }
-    } */
-    
-    //Returns all users that the current user has liked
-    //'action' record whether or not the user was liked (Boolean)
-    //We are not using this at the user level anymore. There is an observeNewLike function at the Audio API
-    /*
-    func observeAction(onSuccess: @escaping(UserCompletion)) {
-        Ref().databaseRoot.child("action").child(Api.User.currentUserId).observeSingleEvent(of: .value) { (snapshot) in
-            guard let dict = snapshot.value as? [String: Bool] else { return }
-            dict.forEach({ (key, value) in
-                self.getUserInforSingleEvent(uid: key, onSuccess: { (user) in
-                    onSuccess(user)
-                })
-            })
-        }
-    } */
 
     //For data that only needs to be changed one or infrequently (ie profile photos)
     //prevents cetrain loadings from happening multiple times like when we changed the profile photo in video 50
@@ -237,6 +209,7 @@ class UserApi {
     
     //This observation method is used on to observe the match table
     //This is probably not being used.... might want to consider removing it later
+    /*
     func observeNewMatch(onSuccess: @escaping(UserCompletion)) {    Ref().databaseRoot.child("newMatch").child(Api.User.currentUserId).observeSingleEvent(of: .value) { (snapshot) in
         guard let dict = snapshot.value as? [String: Bool] else { return }
         dict.forEach({ (key, value) in
@@ -245,7 +218,7 @@ class UserApi {
             })
         })
         }
-    }
+    } */
 }
 
 //in the api call the observeUsers functions can accept multiple closure arements. Be declaring typealias the alias name can be used anywhere in the app instead of the type. THe name reffers to an already existing type

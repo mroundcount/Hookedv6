@@ -13,5 +13,4 @@ struct Api {
     static var User = UserApi()
     static var Audio = AudioApi()    
     static var Preferences = PreferencesApi()
-
 }
