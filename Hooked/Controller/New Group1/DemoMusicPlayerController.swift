@@ -16,13 +16,10 @@ import Firebase
 
 class DemoMusicPlayerController: UIViewController, AVAudioPlayerDelegate {
     
-    //Roundcount Added
     var audio: Audio!
     var audioPlayer: AVAudioPlayer!
     var audioPath: URL!
-    
     var length : Float?
-    //End
     
     @IBOutlet weak var songNameLabel: UILabel!
     @IBOutlet weak var artistNameLabel: UILabel!
@@ -174,78 +171,7 @@ class DemoMusicPlayerController: UIViewController, AVAudioPlayerDelegate {
         popupPresentationContainer?.dismissPopupBar(animated: true, completion: nil)
     }
     
-    func getLengthOfAudio() -> TimeInterval {
-        print("Made it here")
-          if audioPlayer != nil {
-              if audioPlayer.isPlaying {
-                print("audio duration: \(audioPlayer.duration)")
-                  return audioPlayer.duration
-              }
-          }
-      return 0.0
-      }
-    
-    func gotAudioLength() {
-        self.length = Float(getLengthOfAudio())
-        print("length from gotAudio\(String(describing: length))")
-        DispatchQueue.main.async {
-            self.slider.maximumValue = self.length!
-            self.startTimer()
-        }
-    }
-    
-    @objc func updateSlider() {
-        //print("In Slider")
-        let prog = Float(getCurrentTime())
-        if previewStatus == "Preview" {
-            if prog > Float(stopTime) {
-                audioPlayer?.stop()
-                recordStatus = "Finished"
-                controlBtn.setImage(UIImage(systemName: "arrow.counterclockwise"), for: .normal)
-                stopTimer()
-                popupItem.rightBarButtonItems = [ playBtn , closeBtn ] as? [UIBarButtonItem]
-                print("Status: \(recordStatus)")
-            }
-        }
-        
-        //let prog = Float(getCurrentTime()) / self.length!
-        self.popupItem.progress = prog
-        slider.value = Float(getCurrentTime())
-    }
-    
-    func stopTimer() {
-        if timer != nil {
-            timer!.invalidate()
-            timer = nil
-        }
-    }
-    
-    func startTimer() {
-        DispatchQueue.main.async { [self] in
-            print("in timer")
-            if(timer == nil) {
-                timer = Timer.scheduledTimer(
-                timeInterval: 0.1,
-                target: self,
-                selector: #selector(updateSlider),
-                userInfo: nil,
-                repeats: true)
-            }
-        }
-    }
-    
-    
-    func getCurrentTime() -> TimeInterval {
-        if audioPlayer != nil {
-            if audioPlayer.isPlaying {
-                //here
-                //print(audioPlayer.currentTime)
-            return audioPlayer.currentTime
-            }
-        }
-    return 0.0
-    }
-    
+
     @IBAction func changeAudioTime(_ sender: Any) {
         print("grabbing slider")
         audioPlayer.stop()

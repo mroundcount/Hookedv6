@@ -139,22 +139,26 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         }
         //Think about adding this to the main thread and not async... review later
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.shuffleAudio ()
+            self.shuffleAudio(completion: (_ success: Bool) -> Void)
         }
     }
     
-    func shuffleAudio () {
+    func shuffleAudio(completion: (_ success: Bool) -> Void) {
         //Drew&Lucas... trying to add a completion handler for this method. This method shuffles the collection of audio files and then removes certain files from the array depending on the users preferences. The problem is the playTopCard() function can be called too early the first card will play an audio file that should not be played
-        let group = DispatchGroup()
-        group.enter()
+        
+        //let group = DispatchGroup()
+        //group.enter()
         
         audioCollection.shuffle()
         for audio in audioCollection {
             self.setupCard(audio: audio)
         }
         
-        group.leave()
+        completion(true)
         
+                
+        /*
+        group.leave()
         group.notify(queue: DispatchQueue.main, execute: {
             print("Finished all requests.")
             
@@ -164,6 +168,7 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
                 self.playTopCard()
             }
         })
+        */
         //Just playing around with this attempt
         /*
         group.notify(queue: DispatchQueue.main) {
@@ -174,19 +179,21 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
                 print("Error")
             }
         } */
+        shuffleAudio { (success) -> Void in
+                if success {
+                     playTopCard()
+                }
+        }
     }
     
+
+
+
+
     
-    //saving the true or false to the current user logged in
-    //I don't know think we are actually using this.
-    /*
-    func saveToFirebase(like: Bool, card: AudioCard) {
-        Ref().databaseActionForUser(uid: Api.User.currentUserId)
-            .updateChildValues([card.audio.id: like]) { (error, ref) in
-                if error == nil, like == true {
-                }
-            }
-    } */
+    
+
+
     
     //saving only true like values to the firebase so can can just view them in a liked page.
     func saveLikesToFirebase(like: Bool, card: AudioCard) {
@@ -449,6 +456,17 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
             card.transform = transform
         }
     }
+    
+    //saving the true or false to the current user logged in
+    //I don't know think we are actually using this.
+    /*
+    func saveToFirebase(like: Bool, card: AudioCard) {
+        Ref().databaseActionForUser(uid: Api.User.currentUserId)
+            .updateChildValues([card.audio.id: like]) { (error, ref) in
+                if error == nil, like == true {
+                }
+            }
+    } */
 }
 
 
