@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 
 //each instance of this call holds an instance of a user from the database
+//Commented out on 1/22
+
+/*
 class Likes {
     var uid: String
     var like: Bool?
@@ -21,3 +24,4 @@ class Likes {
         self.like = like
     }
 }
+*/

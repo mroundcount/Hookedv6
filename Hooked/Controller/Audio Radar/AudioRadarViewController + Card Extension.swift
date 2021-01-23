@@ -12,8 +12,6 @@ import UIKit
 
 extension AudioRadarViewController {
 
-    
-    
     //confifure the card frame and pass in the user parameter and append it to the card array
     func setupCard(audio: Audio) {
         
@@ -35,8 +33,10 @@ extension AudioRadarViewController {
         Api.Audio.observeNewLike { (likedAudio) in
             self.likesCollection.append(likedAudio)
             if card.audio.id == likedAudio.id {
+                print("preparing to remove liked audio: \(likedAudio.title)")
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                //self.updateCards(card: card)
+                self.removeCards(card: card)
             }
         }
         //Removes audio published by the artist that is logged in.
@@ -44,9 +44,10 @@ extension AudioRadarViewController {
             //creates an array called "audioCollection" which containts all the audio files
             self.userCollection.append(userAudio)
             if card.audio.artist == userAudio.artist {
-                //print("preparing to remove audio at 2: \(userAudio.title)")
+                print("preparing to remove atrist audio: \(userAudio.title)")
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                //self.updateCards(card: card)
+                self.removeCards(card: card)
             }
         }
         
@@ -55,119 +56,119 @@ extension AudioRadarViewController {
             if card.audio.genre == "Alternative Rock" && preference.alternativeRock == false {
                 print("removing for genre conflight \(audio.title)")
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Ambient" && preference.ambient == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Classical" && preference.classical == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Country" && preference.country == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Dance & EDM" && preference.danceEDM == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Dancehall" && preference.dancehall == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Deep House" && preference.deepHouse == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Disco" && preference.disco == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Drum & Bass" && preference.drumBass == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Dubstep" && preference.dubstep == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Electronic" && preference.electronic == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Folk" && preference.folk == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Hip-hop & Rap" && preference.hipHopRap == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "House" && preference.house == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Indie" && preference.indie == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Jazz & Blues" && preference.jazzBlues == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Latin" && preference.latin == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Metal" && preference.metal == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Piano" && preference.piano == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Pop" && preference.pop == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "R&B & Soul" && preference.RBSoul == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Reggae" && preference.raggae == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Reggaeton" && preference.reggaeton == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Rock" && preference.rock == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Techno" && preference.techno == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Trance" && preference.trance == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Trap" && preference.trap == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "Triphop" && preference.triphop == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
             if card.audio.genre == "World" && preference.world == false {
                 card.removeFromSuperview()
-                self.updateCards(card: card)
+                self.removeCards(card: card)
             }
         }
                 

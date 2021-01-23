@@ -18,9 +18,7 @@ import AVKit
 
 //I don't need this now, but may need it later if we decide to add in geo aids.
 //import CoreLocation
-
 class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
-    
     //Will use for geo mappin in a later version
     //var myQuery: GFQuery!
     //var queryHandle: DatabaseHandle?
@@ -49,14 +47,10 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     
     //Keeping track of the playing status
     var recordStatus: String = ""
-    var setupStatus: String = ""
     //For dismissing the popup bar if music is playing
-    var popupContentController: DemoMusicPlayerController!
     
-    //Monitoring function
-    //used in DispatchQueue... might modify or delete if I do not use
+    //Monitoring function used in DispatchQueue.
     var returned = true // assume success for all
-    
     
     @IBOutlet weak var cardStack: UIView!
     @IBOutlet weak var nopeImg: UIImageView!
@@ -66,11 +60,10 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     @IBOutlet weak var loadingInidcator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
-        print("Testing 1/14/2021")
+        super.viewDidLoad()
+        print("ViewDidLoad")
         loadingInidcator.stopAnimating()
         loadingInidcator.hidesWhenStopped = true
-        
-        super.viewDidLoad()
         
         audioCollection.removeAll()
         cards.removeAll()
@@ -102,7 +95,7 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         playImg.isHidden = false
         stopImg.isHidden = false
         
-        AVAudioSession.sharedInstance()
+        //AVAudioSession.sharedInstance()
     }
     
     //diabling the title area and the navigation bar the bottom
@@ -112,9 +105,10 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("Testing 1/14/2021")
+        print("ViewDidAppear")
+        loadingInidcator.stopAnimating()
+        loadingInidcator.hidesWhenStopped = true
         //stopAudio()
-        setupStatus = ""
         testStopAudio()
         //Reset the audio collection for shuffling.
         reloadViewFromNib()
@@ -139,61 +133,26 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         }
         //Think about adding this to the main thread and not async... review later
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.shuffleAudio(completion: (_ success: Bool) -> Void)
+            self.shuffleAudio { (success) -> Void in
+                if success {
+                    print("shuffle complete")
+                    //Sometime there is still not enough time for the card set up to complete, so adding this as a temporary measure
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.playTopCard()
+                    }
+                }
+            }
         }
     }
     
     func shuffleAudio(completion: (_ success: Bool) -> Void) {
-        //Drew&Lucas... trying to add a completion handler for this method. This method shuffles the collection of audio files and then removes certain files from the array depending on the users preferences. The problem is the playTopCard() function can be called too early the first card will play an audio file that should not be played
-        
-        //let group = DispatchGroup()
-        //group.enter()
-        
         audioCollection.shuffle()
         for audio in audioCollection {
             self.setupCard(audio: audio)
         }
-        
         completion(true)
-        
-                
-        /*
-        group.leave()
-        group.notify(queue: DispatchQueue.main, execute: {
-            print("Finished all requests.")
-            
-            self.loadingInidcator.startAnimating()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                //This is the function I need to call AFTER the self.setupCard(audio: audio) is completed
-                self.playTopCard()
-            }
-        })
-        */
-        //Just playing around with this attempt
-        /*
-        group.notify(queue: DispatchQueue.main) {
-            if self.returned {
-                print("set 2")
-                self.playTopCard()
-            } else {
-                print("Error")
-            }
-        } */
-        shuffleAudio { (success) -> Void in
-                if success {
-                     playTopCard()
-                }
-        }
     }
     
-
-
-
-
-    
-    
-
-
     
     //saving only true like values to the firebase so can can just view them in a liked page.
     func saveLikesToFirebase(like: Bool, card: AudioCard) {
@@ -208,32 +167,43 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
                 if error == nil, like == true {
                 }
             }
-        
     }
     
     //move to the next card in the array
     func updateCards(card: AudioCard) {
         //use enumderated method to this
-        let group = DispatchGroup()
-        group.enter()
         for (index, c) in self.cards.enumerated() {
             if c.audio.id == card.audio.id {
                 self.cards.remove(at: index)
             }
         }
-        group.leave()
-        group.notify(queue: DispatchQueue.main) {
-            if self.returned {
-                self.setupStatus = "Done"
-            } else {
-                print("Error")
-            }
-        }
         setupGestures()
         //Resetting the cards to show songs a user didn't like the last time around.
         checkCardCount()
-        
     }
+    
+    //removing cards from the array based on preference and likes
+    func removeCards(card: AudioCard) {
+        //use enumderated method to this
+        for (index, c) in self.cards.enumerated() {
+            if c.audio.id == card.audio.id {
+                self.cards.remove(at: index)
+            }
+        }
+        //Resetting the cards to show songs a user didn't like the last time around.
+        checkCardCount()
+        //Adding in the setupGestures attributes that do not require it to play
+        for card in cards {
+            let gestures = card.gestureRecognizers ?? []
+            for g in gestures {
+                card.removeGestureRecognizer(g)
+            }
+        }
+        if let firstCard = cards.first {
+            firstCard.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(pan(gesture:))))
+        }
+    }
+    
     
     //Looking to see if we have run out of cards
     func checkCardCount() {
@@ -256,7 +226,7 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         }
     }
     
-
+    
     
     //adding the pan gesture to the next card in the array
     func setupGestures() {
@@ -270,17 +240,14 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         if let firstCard = cards.first {
             firstCard.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(pan(gesture:))))
             //print("Playing the first card: \(String(describing: cards.first?.audio.title))")
-            
             //downloadFile(audio: (cards.first?.audio)!)
-            if setupStatus == "Done" {
-                print("set 1")
-                resetAudio()
-                playTopCard()
-            }
+            resetAudio()
+            playTopCard()
         }
     }
     
     func playTopCard() {
+        print("in top card function")
         testDownloadFile(audio: (cards.first?.audio)!)
     }
     
@@ -296,7 +263,6 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
             return
         }
         //save it to the firstbase
-        //saveToFirebase(like: false, card: firstCard)
         swipeAnimation(translation: -750, angle: -15)
         checkCardCount()
     }
@@ -307,7 +273,6 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
             return
         }
         //save it to the firstbase
-        //saveToFirebase(like: true, card: firstCard)
         //only saving likes to the liked table
         saveLikesToFirebase(like: true, card: firstCard)
         swipeAnimation(translation: 750, angle: 15)
@@ -338,10 +303,9 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
                 self.audioCollection.remove(at: index)
             }
         }
-                
+        
         //sets up the pan gesture if you use the button instead of the swipe gesture
         self.setupGestures()
-        
         
         CATransaction.setCompletionBlock {
             
@@ -426,8 +390,8 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         }
     }
     
-
-
+    
+    
     //tilting the card while swiping
     func transform(view: UIView, for translation: CGPoint) -> CGAffineTransform {
         let moveBy = CGAffineTransform(translationX: translation.x, y: translation.y)
@@ -460,17 +424,14 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     //saving the true or false to the current user logged in
     //I don't know think we are actually using this.
     /*
-    func saveToFirebase(like: Bool, card: AudioCard) {
-        Ref().databaseActionForUser(uid: Api.User.currentUserId)
-            .updateChildValues([card.audio.id: like]) { (error, ref) in
-                if error == nil, like == true {
-                }
-            }
-    } */
+     func saveToFirebase(like: Bool, card: AudioCard) {
+     Ref().databaseActionForUser(uid: Api.User.currentUserId)
+     .updateChildValues([card.audio.id: like]) { (error, ref) in
+     if error == nil, like == true {
+     }
+     }
+     } */
 }
-
-
-
 
 extension UIViewController {
     func reloadViewFromNib() {

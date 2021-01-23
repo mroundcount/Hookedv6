@@ -39,7 +39,6 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
     }
     
    //This is a temporary measure until I cn figure out how to only stop this player when the discover view controller is up.
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if popupContentController.audioPlayer != nil {

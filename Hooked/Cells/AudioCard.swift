@@ -77,16 +77,6 @@ class AudioCard: UIView {
 
         gradient = CAGradientLayer()
         gradient.frame = photo.bounds
-        
-        
-        //This looks okay use as a base and move from here
-        /*
-        gradient.colors = [UIColor.clear.cgColor, UIColor.black.cgColor, UIColor.black.cgColor, UIColor.clear.cgColor]
-        gradient.locations = [0.5, 0]
-        //gradient.colors = [UIColor.clear.cgColor, UIColor.gray.cgColor, UIColor.black.cgColor]
-        //gradient.locations = [0.5, 0.3, 0.1]
-        photo.layer.addSublayer(gradient)
-        */
  
         photo.layer.cornerRadius = 10
         photo.clipsToBounds = true

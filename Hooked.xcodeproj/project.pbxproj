@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6781833668953A5F42DA7510 /* Pods_Hooked.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13BE71BB1766BE71AA9C82DA /* Pods_Hooked.framework */; };
+		1B039068BAB45692579AD864 /* Pods_Hooked.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45DB5F23F3C9EE09A41D20AD /* Pods_Hooked.framework */; };
 		BF04F42A254F2DD800DFC625 /* UploadTableViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF04F429254F2DD800DFC625 /* UploadTableViewController + Extension.swift */; };
 		BF186A7C259A946500C38121 /* EditUploadTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF186A7B259A946500C38121 /* EditUploadTableViewController.swift */; };
 		BF186A7F259A95EA00C38121 /* EditUploadTableViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF186A7E259A95EA00C38121 /* EditUploadTableViewController + Extension.swift */; };
@@ -86,8 +86,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		13BE71BB1766BE71AA9C82DA /* Pods_Hooked.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hooked.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B9B842E72484E982920EDFD7 /* Pods-Hooked.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hooked.release.xcconfig"; path = "Target Support Files/Pods-Hooked/Pods-Hooked.release.xcconfig"; sourceTree = "<group>"; };
+		07E7008C232747658DFF74DE /* Pods-Hooked.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hooked.release.xcconfig"; path = "Target Support Files/Pods-Hooked/Pods-Hooked.release.xcconfig"; sourceTree = "<group>"; };
+		45DB5F23F3C9EE09A41D20AD /* Pods_Hooked.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hooked.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		86D4ED56ABF5362E2793D245 /* Pods-Hooked.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hooked.debug.xcconfig"; path = "Target Support Files/Pods-Hooked/Pods-Hooked.debug.xcconfig"; sourceTree = "<group>"; };
 		BF04F429254F2DD800DFC625 /* UploadTableViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UploadTableViewController + Extension.swift"; sourceTree = "<group>"; };
 		BF186A7B259A946500C38121 /* EditUploadTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUploadTableViewController.swift; sourceTree = "<group>"; };
 		BF186A7E259A95EA00C38121 /* EditUploadTableViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditUploadTableViewController + Extension.swift"; sourceTree = "<group>"; };
@@ -140,7 +141,6 @@
 		BFF1C3C92449546800E99A46 /* PreferenceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceTableViewController.swift; sourceTree = "<group>"; };
 		BFF1C3CD244CBE4C00E99A46 /* Likes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Likes.swift; sourceTree = "<group>"; };
 		BFF276AE2432FB1000E66930 /* Card.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Card.xib; sourceTree = "<group>"; };
-		FDA113153AF59888A6084AB9 /* Pods-Hooked.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hooked.debug.xcconfig"; path = "Target Support Files/Pods-Hooked/Pods-Hooked.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,13 +149,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF6B25F1249DB04B0076B069 /* LNPopupController.framework in Frameworks */,
-				6781833668953A5F42DA7510 /* Pods_Hooked.framework in Frameworks */,
+				1B039068BAB45692579AD864 /* Pods_Hooked.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3800030E36DE61B8DFEA4FEB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				45DB5F23F3C9EE09A41D20AD /* Pods_Hooked.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BF186A80259A964400C38121 /* Audio Radar */ = {
 			isa = PBXGroup;
 			children = (
@@ -238,7 +246,7 @@
 				BF9C636E240A160100DA740D /* Hooked */,
 				BF9C636D240A160100DA740D /* Products */,
 				DDE3FC04C314C6E6311349FC /* Pods */,
-				D43ED5D3DB45A4D78AF70169 /* Frameworks */,
+				3800030E36DE61B8DFEA4FEB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -320,19 +328,11 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		D43ED5D3DB45A4D78AF70169 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				13BE71BB1766BE71AA9C82DA /* Pods_Hooked.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		DDE3FC04C314C6E6311349FC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FDA113153AF59888A6084AB9 /* Pods-Hooked.debug.xcconfig */,
-				B9B842E72484E982920EDFD7 /* Pods-Hooked.release.xcconfig */,
+				86D4ED56ABF5362E2793D245 /* Pods-Hooked.debug.xcconfig */,
+				07E7008C232747658DFF74DE /* Pods-Hooked.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -344,12 +344,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BF9C6383240A160200DA740D /* Build configuration list for PBXNativeTarget "Hooked" */;
 			buildPhases = (
-				C2EC273018F4A7543E6EF265 /* [CP] Check Pods Manifest.lock */,
+				9A21D62FB95CCFDF67F35730 /* [CP] Check Pods Manifest.lock */,
 				BF9C6368240A160100DA740D /* Sources */,
 				BF9C6369240A160100DA740D /* Frameworks */,
 				BF9C636A240A160100DA740D /* Resources */,
 				BFE9C383246FB0C6005686BC /* Embed Frameworks */,
-				071E21C14FD2A3E487E6FDEB /* [CP] Embed Pods Frameworks */,
+				8616CC86C767A8AC21C994AB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -427,7 +427,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		071E21C14FD2A3E487E6FDEB /* [CP] Embed Pods Frameworks */ = {
+		8616CC86C767A8AC21C994AB /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -444,7 +444,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hooked/Pods-Hooked-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C2EC273018F4A7543E6EF265 /* [CP] Check Pods Manifest.lock */ = {
+		9A21D62FB95CCFDF67F35730 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -659,7 +659,7 @@
 		};
 		BF9C6384240A160200DA740D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FDA113153AF59888A6084AB9 /* Pods-Hooked.debug.xcconfig */;
+			baseConfigurationReference = 86D4ED56ABF5362E2793D245 /* Pods-Hooked.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -671,7 +671,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.011;
+				MARKETING_VERSION = 1.013;
 				PRODUCT_BUNDLE_IDENTIFIER = Something.Hooked;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Hooked/Controller/Demo Testing/Hooked-Bridging-Header.h";
@@ -683,7 +683,7 @@
 		};
 		BF9C6385240A160200DA740D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B9B842E72484E982920EDFD7 /* Pods-Hooked.release.xcconfig */;
+			baseConfigurationReference = 07E7008C232747658DFF74DE /* Pods-Hooked.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -695,7 +695,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.011;
+				MARKETING_VERSION = 1.013;
 				PRODUCT_BUNDLE_IDENTIFIER = Something.Hooked;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Hooked/Controller/Demo Testing/Hooked-Bridging-Header.h";

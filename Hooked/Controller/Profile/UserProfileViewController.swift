@@ -26,7 +26,6 @@ class UserProfileViewController: UIViewController, AVAudioPlayerDelegate {
     //Roundcount added 12/18 for popup
     //https://github.com/sdowless/PopUpWindow
     //https://www.youtube.com/watch?v=GIELUwI3qio
-    //var success = true
     lazy var popUpWindow: PopUpWindow = {
         let view = PopUpWindow()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -34,15 +33,13 @@ class UserProfileViewController: UIViewController, AVAudioPlayerDelegate {
         view.delegate = self
         return view
     }()
-    
     let visualEffectView: UIVisualEffectView = {
         let blurEffect = UIBlurEffect(style: .light)
         let view = UIVisualEffectView(effect: blurEffect)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    //End
-    
+        
     var user: User?
     var users: [User] = []
     var audio = [Audio]()
@@ -157,7 +154,6 @@ class UserProfileViewController: UIViewController, AVAudioPlayerDelegate {
                 self.avatar.loadImage("https://firebasestorage.googleapis.com/v0/b/hooked-217d3.appspot.com/o/profile%2FBwfxgQ9mmzNk7jRjO0hzjC9qyBs1?alt=media&token=b5bfe675-8aa8-4ecd-ac20-8ada0b223969")
             }
             
-            print("Image URL: \(user.profileImageUrl)")
             print("Observe complete")
         }
     }

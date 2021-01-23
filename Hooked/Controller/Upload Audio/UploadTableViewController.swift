@@ -18,9 +18,10 @@ class UploadTableViewController: UITableViewController {
     var storageID: String?
     var username: String?
     var users: [User] = []
+    //Commented 1/22
     //If testing works, remove this
-    var startingTime: Double = 0.0
-    var stoppingTime: Double = 0.0
+    //var startingTime: Double = 0.0
+    //var stoppingTime: Double = 0.0
     //End
     var startTime: Double = 0.0
     var stopTime: Double = 0.0
@@ -28,9 +29,7 @@ class UploadTableViewController: UITableViewController {
     var validationStatus: String = ""
     
     let genre = ["Alternative Rock", /*"Ambient",*/ "Classical", "Country", "Dance & EDM", /*"Dancehall", "Deep House",*/ "Disco", /*"Drum & Bass", "Dubstep", "Electronic",*/ "Folk", "Hip-hop & Rap",/* "House",*/ "Indie", "Jazz & Blues", "Latin", "Metal", "Piano", "Pop", "R&B & Soul", "Reggae", "Reggaeton", "Rock", /*"Techno", "Trance", "Trap", "Triphop",*/ "World"]
-    
-    let buh = ["Alternative Rock"]
-    
+        
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var fileNameLbl: UILabel!
     @IBOutlet weak var genrePickerDidSelect: UIPickerView!
@@ -71,14 +70,6 @@ class UploadTableViewController: UITableViewController {
         checkForAudioFile()
         //setUpSlider()        
     }
-    
-    
-    //highlighting the corresponding segement selection
-    /*
-    if let isMale = user.isMale {
-        self.genderSegment.selectedSegmentIndex = (isMale == true) ? 0 : 1
-    }
-    */
     
     func checkForAudioFile() {
         if fileNameLbl.text == "Select MP3 File" {
@@ -267,7 +258,7 @@ extension UploadTableViewController: UIDocumentPickerDelegate {
         }
         
         //Dismiss view controller here.
-        //I added a delay because for some reason the obser audio function is being called multiple times for the new upload.... figure this out another time.
+        //I added a delay because for some reason the observe audio function is being called multiple times for the new upload.... figure this out another time.
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
             self.navigationController?.popViewController(animated: true)
         })
@@ -285,10 +276,8 @@ extension UploadTableViewController: UIDocumentPickerDelegate {
     }
     
     func sendToFirebase(dict: Dictionary<String, Any>) {
-
         //Converting the start and stop time to a Double
         //See extension at the bottom
-        
         /*
         Old Method
         let stopTimeString = stopTimeTextField.text

@@ -25,7 +25,7 @@ class User {
     
     //teaching the class to create a new instance
     //We create an initializer. Assign each parameter to an instance variable
-    init(uid: String, username: String, email: String, profileImageUrl: String, status: String /*, website: String*/) {
+    init(uid: String, username: String, email: String, profileImageUrl: String, status: String) {
         self.uid = uid
         self.username = username
         self.email = email
@@ -66,6 +66,7 @@ class User {
         }
         return user
     }
+    
     //might not use this function
     func updateData(key: String, value: String) {
         switch key {

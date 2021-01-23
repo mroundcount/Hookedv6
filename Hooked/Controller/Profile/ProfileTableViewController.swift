@@ -29,8 +29,6 @@ class ProfileTableViewController: UITableViewController {
     @IBOutlet weak var termsOfServiceLbl: UILabel!
     @IBOutlet weak var myPreferencesLbl: UILabel!
     
-    //header name give in selection atributes
-    //@IBOutlet weak var genderSegment: UISegmentedControl!
     var image: UIImage?
     var credential: AuthCredential?
 
@@ -309,16 +307,7 @@ class ProfileTableViewController: UITableViewController {
         if let website = websiteTextField.text, !website.isEmpty {
             dict["website"] = website
         }
-        
-        //Just hanging on this incase I even decide to add a switch segment back.
-        /*
-         if genderSegment.selectedSegmentIndex == 0 {
-         dict["isMale"] = true
-         }
-         if genderSegment.selectedSegmentIndex == 1 {
-         dict["isMale"] = false
-         }
-         */
+
         
         //Calling a method in user to save the dictonary above to the database
         Api.User.saveUserProfile(dict: dict, onSuccess: {

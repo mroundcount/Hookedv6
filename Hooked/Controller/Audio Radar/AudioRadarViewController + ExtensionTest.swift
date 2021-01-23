@@ -17,7 +17,6 @@ import FirebaseDatabase
 
 extension AudioRadarViewController {
 
-
     func testDownloadFile(audio: Audio) {
         loadingInidcator.startAnimating()
                         
@@ -25,7 +24,7 @@ extension AudioRadarViewController {
         
         let url = NSURL(string: audio.audioUrl)
         
-        print("getting url for \(String(describing: url))")
+        //print("getting url for \(String(describing: url))")
         
         playerItem = AVPlayerItem(url: url! as URL)
         player = AVPlayer(playerItem: playerItem!)
@@ -57,7 +56,6 @@ extension AudioRadarViewController {
     
     
     func testPlayAudioFromBeginning() {
-        //print("In testPlayAudioFromBeginning")
         audioSettings()
         //loadingInidcator.stopAnimating()
         player?.play()
@@ -70,7 +68,6 @@ extension AudioRadarViewController {
     }
     
     func testPlayAudio() {
-        //print("In testPlayAudio")
         player?.play()
         recordStatus = "Playing"
         playImg.image = UIImage(systemName: "pause.circle")
@@ -78,14 +75,12 @@ extension AudioRadarViewController {
     }
     
     func testPauseAudio() {
-        //print("In testPauseAudio")
         player?.pause()
         recordStatus = "Paused"
         playImg.image = UIImage(systemName: "play.circle")
     }
 
     func testStopAudio() {
-        //print("In testStopAudio")
         player?.pause()
         player?.seek(to: .zero)
         recordStatus = "Stopped"
@@ -95,7 +90,6 @@ extension AudioRadarViewController {
     }
     
     func testReplayAudio() {
-        //print("In testReplayAudio")
         testDownloadFile(audio: (cards.first?.audio)!)
         recordStatus = "Playing"
         playImg.isHidden = false
@@ -104,7 +98,6 @@ extension AudioRadarViewController {
     }
     
     func testTotalReplayAudio() {
-        //print("testTotalReplayAudio tapped")
         player?.pause()
         player?.seek(to: .zero)
         
@@ -117,7 +110,6 @@ extension AudioRadarViewController {
   
     
     func testAudioPlayerDidFinishPlaying(note: NSNotification) {
-        //print("testAudioPlayerDidFinishPlaying")
         player?.pause()
         player?.seek(to: .zero)
         recordStatus = "Finished"
@@ -192,28 +184,6 @@ extension AudioRadarViewController {
             print(error)
         } */
     }
-    
-    
-    //I don' think these were every actually used anywhere. Haning on to for reference right now.
-    /*
-    func testGetLengthOfAudio() -> TimeInterval {
-          if audioPlayer != nil {
-              if audioPlayer.isPlaying {
-                  return audioPlayer.duration
-              }
-          }
-      return 0.0
-      }
-    
-    func testGotAudioLength() {
-        self.length = Float(getLengthOfAudio())
-        //print("length from gotAudio\(String(describing: length))")
-        DispatchQueue.main.async {
-            //self.slider.maximumValue = self.length!
-            self.startTimer()
-        }
-    } */
-    
     
 }
 
