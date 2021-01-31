@@ -327,6 +327,25 @@ class ProfileTableViewController: UITableViewController {
             ProgressHUD.showError(errorMessage)
         }
         
+        //updating email in the authentication storage
+        //https://stackoverflow.com/questions/54958026/how-to-update-email-address-in-firebase-authentication-in-swift-4
+        let user = Auth.auth().currentUser
+        var credential: AuthCredential = EmailAuthProvider.credential(withEmail: "email", password: "pass")
+        // Prompt the user to re-provide their sign-in credentials
+        //We need to reauthenticate in order to delete the facebook account
+        //https://stackoverflow.com/questions/52159866/updated-approach-to-reauthenticate-a-user
+        user?.reauthenticateAndRetrieveData(with: credential, completion: {(authResult, error) in
+                    if let error = error {
+                        // An error happened.
+                    }else{
+                        let user = Auth.auth().currentUser
+                        user?.updateEmail(to: self.emailTextField.text ?? "email") { (error) in
+                            // email updated
+                        }
+                    }
+                })
+
+        
         //Dismiss view controller here. There is a delay so the changes have time to go up to firebase
         //Two seconds might be cuttin it close
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {

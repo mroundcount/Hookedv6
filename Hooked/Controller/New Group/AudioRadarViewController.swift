@@ -420,17 +420,6 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
             card.transform = transform
         }
     }
-    
-    //saving the true or false to the current user logged in
-    //I don't know think we are actually using this.
-    /*
-     func saveToFirebase(like: Bool, card: AudioCard) {
-     Ref().databaseActionForUser(uid: Api.User.currentUserId)
-     .updateChildValues([card.audio.id: like]) { (error, ref) in
-     if error == nil, like == true {
-     }
-     }
-     } */
 }
 
 extension UIViewController {

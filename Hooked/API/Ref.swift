@@ -38,7 +38,7 @@ let ERROR_EMPTY_USERNAME = "Please enter a username"
 let ERROR_EMPTY_PASSWORD = "Please enter a password"
 let ERROR_EMPTY_EMAIL_RESET = "Please enter an email address to reset your password"
 //Success message for passsword resent
-let SUCCESS_EMAIL_RESET = "We have just resent you a password reset email. Please check your inbox"
+let SUCCESS_EMAIL_RESET = "We have just resent you a password. Please check your inbox"
 
 //App info for landing page
 let IDENTIFIER_TABBAR = "TabBarVC"
