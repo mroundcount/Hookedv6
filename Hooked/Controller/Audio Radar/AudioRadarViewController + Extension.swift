@@ -17,15 +17,13 @@ import FirebaseDatabase
 
 extension AudioRadarViewController {
 
-    func testDownloadFile(audio: Audio) {
+    func downloadFile(audio: Audio) {
         loadingInidcator.startAnimating()
                         
         print("The title is \(audio.title)")
         
         let url = NSURL(string: audio.audioUrl)
-        
-        //print("getting url for \(String(describing: url))")
-        
+                
         playerItem = AVPlayerItem(url: url! as URL)
         player = AVPlayer(playerItem: playerItem!)
         let playerLayer = AVPlayerLayer(player: player!)
@@ -35,73 +33,73 @@ extension AudioRadarViewController {
         startTime = Int(audio.startTime)
         stopTime = Int(audio.stopTime)
 
-        testPlayAudioFromBeginning()
+        playAudioFromBeginning()
     }
     
     
     @objc func playImgDidTap() {
         if recordStatus == "Playing" {
-            testPauseAudio()
+            pauseAudio()
         } else if recordStatus == "Paused" {
-            testPlayAudio()
+            playAudio()
         } else if recordStatus == "Finished" {
-            testReplayAudio()
+            replayAudio()
         } else {
         }
     }
     
     @objc func stopImgDidTap() {
-        testTotalReplayAudio()
+        totalReplayAudio()
     }
     
     
-    func testPlayAudioFromBeginning() {
+    func playAudioFromBeginning() {
         audioSettings()
         //loadingInidcator.stopAnimating()
         player?.play()
         player?.seek(to:CMTimeMakeWithSeconds(Float64(startTime),preferredTimescale: 1))
-        testStartTimer()
+        startTimer()
         recordStatus = "Playing"
         playImg.isHidden = false
         playImg.image = UIImage(systemName: "pause.circle")
         stopImg.image = UIImage(named: "refresh_circle")
     }
     
-    func testPlayAudio() {
+    func playAudio() {
         player?.play()
         recordStatus = "Playing"
         playImg.image = UIImage(systemName: "pause.circle")
         stopImg.image = UIImage(named: "refresh_circle")
     }
     
-    func testPauseAudio() {
+    func pauseAudio() {
         player?.pause()
         recordStatus = "Paused"
         playImg.image = UIImage(systemName: "play.circle")
     }
 
-    func testStopAudio() {
+    func stopAudio() {
         player?.pause()
         player?.seek(to: .zero)
         recordStatus = "Stopped"
-        testStopTimer()
+        stopTimer()
         playImg.isHidden = true
         stopImg.image = UIImage(named: "refresh_circle")
     }
     
-    func testReplayAudio() {
-        testDownloadFile(audio: (cards.first?.audio)!)
+    func replayAudio() {
+        downloadFile(audio: (cards.first?.audio)!)
         recordStatus = "Playing"
         playImg.isHidden = false
         playImg.image = UIImage(systemName: "pause.circle")
         stopImg.image = UIImage(named: "refresh_circle")
     }
     
-    func testTotalReplayAudio() {
+    func totalReplayAudio() {
         player?.pause()
         player?.seek(to: .zero)
         
-        testDownloadFile(audio: (cards.first?.audio)!)
+        downloadFile(audio: (cards.first?.audio)!)
         recordStatus = "Playing"
         //playImg.isHidden = false
         playImg.isHidden = false
@@ -109,7 +107,7 @@ extension AudioRadarViewController {
     }
   
     
-    func testAudioPlayerDidFinishPlaying(note: NSNotification) {
+    func audioPlayerDidFinishPlaying(note: NSNotification) {
         player?.pause()
         player?.seek(to: .zero)
         recordStatus = "Finished"
@@ -120,36 +118,36 @@ extension AudioRadarViewController {
     }
 
     
-    func testStartTimer() {
+    func startTimer() {
         print("in timer")
         DispatchQueue.main.async { [self] in
             if(timer == nil) {
                 timer = Timer.scheduledTimer(
                 timeInterval: 0.1,
                 target: self,
-                selector: #selector(testUpdateSlider),
+                selector: #selector(updateSlider),
                 userInfo: nil,
                 repeats: true)
             }
         }
     }
     
-    func testStopTimer() {
+    func stopTimer() {
         if timer != nil {
             timer!.invalidate()
             timer = nil
         }
     }
     
-    func testGetCurrentTime() -> TimeInterval {
+    func getCurrentTime() -> TimeInterval {
         if player != nil {
             return (player?.currentItem?.currentTime().seconds) as! TimeInterval
         }
     return 0.0
     }
     
-    @objc func testUpdateSlider() {
-        let prog = Float(testGetCurrentTime())
+    @objc func updateSlider() {
+        let prog = Float(getCurrentTime())
         
         if prog > Float(startTime) {
             loadingInidcator.stopAnimating()
@@ -157,7 +155,7 @@ extension AudioRadarViewController {
         }
         
         if prog > Float(stopTime) {
-            testStopAudio()
+            stopAudio()
         }
     }
     
@@ -184,7 +182,6 @@ extension AudioRadarViewController {
             print(error)
         } */
     }
-    
 }
 
 

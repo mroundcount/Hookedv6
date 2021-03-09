@@ -15,7 +15,7 @@ import Firebase
 import FirebaseStorage
 import FirebaseDatabase
 
-
+/*
 extension UserProfileViewController {
     func downloadFile(audio: Audio) {
         
@@ -192,4 +192,4 @@ extension UserProfileViewController {
         } */
     }
 }
-
+*/
