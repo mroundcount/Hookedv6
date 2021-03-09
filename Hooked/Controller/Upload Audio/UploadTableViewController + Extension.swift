@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import AVFoundation
+import AVKit
 
 extension UploadTableViewController {
 
-    func performChecks() {
+    func performChecks(url: URL) {
         
         validationStatus = "Good"
         
@@ -84,5 +86,27 @@ extension UploadTableViewController {
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil))
             print("No genre")
         }
+        
+        
+        //Checking to make sure that the start time is not longer than the completion time
+        let asset = AVURLAsset(url: url as! URL, options: nil)
+        let audioDuration = asset.duration
+        let audioDurationSeconds = CMTimeGetSeconds(audioDuration)
+        
+        if Int(startTime) > Int(audioDurationSeconds) {
+            validationStatus = "Fail"
+            
+            print("Nicht Gut start time: \(Int(startTime)) and duration \(audioDurationSeconds)")
+            
+            let alert = UIAlertController(title: "Whoa there cowboy!", message: "The start time you selected is after the song has completed", preferredStyle: .alert)
+            
+            self.present(alert, animated: true)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+                print("Whatever dude!")
+            }))
+        }
+        
+        
     }
+        
 }

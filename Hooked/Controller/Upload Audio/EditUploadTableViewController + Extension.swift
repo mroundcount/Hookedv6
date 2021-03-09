@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AVFoundation
+import AVKit
 
 extension EditUploadTableViewController {
 
@@ -84,6 +86,22 @@ extension EditUploadTableViewController {
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil))
             print("No genre")
         }
+        //https://stackoverflow.com/questions/5219379/how-to-get-the-duration-of-an-audio-file-in-ios
+        let url = NSURL(string: audio.audioUrl)
+        let asset = AVURLAsset(url: url as! URL, options: nil)
+        let audioDuration = asset.duration
+        let audioDurationSeconds = CMTimeGetSeconds(audioDuration)
+        if Int(startTime) > Int(audioDurationSeconds) {
+            validationStatus = "Fail"
+            print("Nicht Gut start time: \(Int(startTime)) and duration \(audioDurationSeconds)")
+            
+            let alert = UIAlertController(title: "Whoa there cowboy!", message: "The start time you selected is after the song has completed", preferredStyle: .alert)
+            
+            self.present(alert, animated: true)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+                print("Whatever dude!")
+            }))
+        }
     }
     
     
@@ -138,6 +156,22 @@ extension EditUploadTableViewController {
             self.present(alert, animated: true)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil))
             
+        }
+        
+        let url = NSURL(string: audio.audioUrl)
+        let asset = AVURLAsset(url: url as! URL, options: nil)
+        let audioDuration = asset.duration
+        let audioDurationSeconds = CMTimeGetSeconds(audioDuration)
+        if Int(startTime) > Int(audioDurationSeconds) {
+            previewValidationStatus = "Fail"
+            print("Nicht Gut start time: \(Int(startTime)) and duration \(audioDurationSeconds)")
+            
+            let alert = UIAlertController(title: "Whoa there cowboy!", message: "The start time you selected is after the song has completed", preferredStyle: .alert)
+            
+            self.present(alert, animated: true)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+                print("Whatever dude!")
+            }))
         }
     }
 }

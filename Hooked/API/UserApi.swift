@@ -132,6 +132,7 @@ class UserApi {
         (UIApplication.shared.delegate as! AppDelegate).configureInitialViewController()
     }
     
+
     //Used all over the place.
     func observeUsers(onSuccess: @escaping(UserCompletion)) {
         //returns a snapshot of each user. We can also listed for children added, this way it can be added to the snapshot, so we don't have to reload it all the time
@@ -144,6 +145,18 @@ class UserApi {
                     onSuccess(user)
                 }
             }
+        }
+    }
+    
+    //Looking for users blocked by the current user.
+    func observeBlockedUsers(onSuccess: @escaping(UserCompletion)) {
+        Ref().databaseRoot.child("blockedUser").child(Api.User.currentUserId).observeSingleEvent(of: .value) { (snapshot) in
+            guard let dict = snapshot.value as? [String: Bool] else { return }
+            dict.forEach({ (key, value) in
+                self.getUserInforSingleEvent(uid: key, onSuccess: { (user) in
+                    onSuccess(user)
+                })
+            })
         }
     }
 

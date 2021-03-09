@@ -29,6 +29,8 @@ class ProfileTableViewController: UITableViewController {
     @IBOutlet weak var termsOfServiceLbl: UILabel!
     @IBOutlet weak var myPreferencesLbl: UILabel!
     
+    @IBOutlet weak var explicitContentSegment: UISegmentedControl!
+    
     var image: UIImage?
     var credential: AuthCredential?
 
@@ -123,6 +125,12 @@ class ProfileTableViewController: UITableViewController {
             self.websiteTextField.text = user.website
             self.avatar.loadImage(user.profileImageUrl)
             //adding age and genedner to the user model. These are editable and push to the database
+            if user.explicitContent == true {
+                self.explicitContentSegment.selectedSegmentIndex = 0
+            } else {
+                self.explicitContentSegment.selectedSegmentIndex = 1
+            }
+            
         }
     }
     
@@ -306,6 +314,16 @@ class ProfileTableViewController: UITableViewController {
         
         if let website = websiteTextField.text, !website.isEmpty {
             dict["website"] = website
+        }
+        
+        
+        
+        //explicitContent
+        if explicitContentSegment.selectedSegmentIndex == 0 {
+            dict["explicitContent"] = true
+        }
+        if explicitContentSegment.selectedSegmentIndex == 1 {
+            dict["explicitContent"] = false
         }
 
         

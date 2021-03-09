@@ -74,6 +74,7 @@ class UploadTableViewController: UITableViewController {
     func checkForAudioFile() {
         if fileNameLbl.text == "Select MP3 File" {
             saveBtn.isEnabled = false
+
         } else {
             saveBtn.isEnabled = true
         }
@@ -109,7 +110,7 @@ class UploadTableViewController: UITableViewController {
     
     @IBAction func saveBtnDidTap(_ sender: Any) {
         //ProgressHUD.show("Saving...")
-        performChecks()
+        performChecks(url: audioUrl!)
         
         if validationStatus != "Fail" {
             print("Success")
@@ -226,16 +227,49 @@ extension UploadTableViewController: UIDocumentPickerDelegate {
                 return
         }
         
-        self.audioUrl = url
-        print("import result (not yet saved): \(url)")
-        //Compressing the text so it concatinates out the middle
-        self.fileNameLbl.numberOfLines = 1
-        self.fileNameLbl.lineBreakMode = .byTruncatingMiddle
-        self.fileNameLbl.adjustsFontSizeToFitWidth = false
-        self.fileNameLbl.text = "\(url)"
+        //Checking the file size
+        let asset = AVURLAsset(url: url as! URL, options: nil)
+        let audioDuration = asset.duration
+        let audioDurationSeconds = CMTimeGetSeconds(audioDuration)
+        
+        var fileSize: Double = 0.0
+        var fileSizeValue = 0.0
+        try? fileSizeValue = (url.resourceValues(forKeys: [URLResourceKey.fileSizeKey]).allValues.first?.value as! Double?)!
+        if fileSizeValue > 0.0 {
+            fileSize = (Double(fileSizeValue) / (1024 * 1024))
+        }
+        print("The file size raw is: \(fileSizeValue/1000000)")
+        let MB = (fileSizeValue/1000000)
+        print("The file size in MB: \(MB)")
         
         //Checking to make sure there is a file to be uploaded
-        checkForAudioFile()
+        if MB > 10 {
+            let alert = UIAlertController(title: "Whoa there", message: "Your file sizing is over 10MB. Please compress or select a shorter song for now", preferredStyle: .alert)
+            self.present(alert, animated: true)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil))
+        }
+        
+        
+        //Doing a file size check based on duration.
+        if Int(audioDurationSeconds) > 360 {
+            let alert = UIAlertController(title: "Whoa there", message: "Your song is over 6 minutes long. Please compress or select a shorter song for now", preferredStyle: .alert)
+            self.present(alert, animated: true)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil))
+        }
+        
+
+        else {
+            print("File sizing checks out")
+            self.audioUrl = url
+            print("import result (not yet saved): \(url)")
+            //Compressing the text so it concatinates out the middle
+            self.fileNameLbl.numberOfLines = 1
+            self.fileNameLbl.lineBreakMode = .byTruncatingMiddle
+            self.fileNameLbl.adjustsFontSizeToFitWidth = false
+            self.fileNameLbl.text = "\(url)"
+
+            checkForAudioFile()
+        }
     }
     
     func uploadDocument() {
@@ -333,6 +367,7 @@ extension UploadTableViewController: UIDocumentPickerDelegate {
         //Api.Audio.uploadAudio(artist: Api.User.currentUserId, value: value)
         
         //New method that only writes to 'audioFile'
+        
         Api.Audio.uploadAudioFile(value: value)
     }
 }
@@ -343,4 +378,26 @@ extension String {
         return NumberFormatter().number(from: self)?.doubleValue
     }
 }
+
+
+//Reference for checking the size of a file
+//This was placed in the uploadDocument function
+/*
+var fileSize: Double = 0.0
+var fileSizeValue = 0.0
+try? fileSizeValue = (url.resourceValues(forKeys: [URLResourceKey.fileSizeKey]).allValues.first?.value as! Double?)!
+if fileSizeValue > 0.0 {
+    fileSize = (Double(fileSizeValue) / (1024 * 1024))
+}
+print("The file size raw is: \(fileSizeValue/1000000)")
+let MB = (fileSizeValue/1000000)
+print("The file size in MB: \(MB)")
+
+//Checking to make sure there is a file to be uploaded
+if MB > 3 {
+    let alert = UIAlertController(title: "Whoa there", message: "Your file sizing is over 10MB. Please compress or select a shorter song for now", preferredStyle: .alert)
+    self.present(alert, animated: true)
+    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil))
+}
+*/
 

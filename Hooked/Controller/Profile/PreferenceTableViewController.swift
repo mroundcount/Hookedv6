@@ -26,7 +26,7 @@ class PreferenceTableViewController: UITableViewController {
         let back = UIBarButtonItem(title: "Back", style: UIBarButtonItem.Style.plain, target: self, action: #selector(backBtnTapped))
         navigationItem.leftBarButtonItem = back
         
-        let save = UIBarButtonItem(title: "Reset", style: UIBarButtonItem.Style.plain, target: self, action: #selector(saveBtnDidTap))
+        let save = UIBarButtonItem(title: "Reset", style: UIBarButtonItem.Style.plain, target: self, action: #selector(resetBtnDidTap))
         navigationItem.rightBarButtonItem = save
     }
     
@@ -35,7 +35,7 @@ class PreferenceTableViewController: UITableViewController {
         print("back")
         navigationController?.popViewController(animated: true)
     }
-    @objc func saveBtnDidTap(_ sender: UIBarButtonItem) {
+    @objc func resetBtnDidTap(_ sender: UIBarButtonItem) {
         print("saved")
         //navigationController?.popViewController(animated: true)
         resetPreferences()

@@ -16,85 +16,70 @@ import FirebaseStorage
 import FirebaseDatabase
 
 extension DemoMusicPlayerController {
-    //This is the one we'll be using
-    //https://mobikul.com/play-audio-file-save-document-directory-ios-swift/
+    
+    
     func downloadFilePreview(audio: Audio) {
+        print("In new method")
+        print("The title is \(audio.title)")
+        let url = NSURL(string: audio.audioUrl)
+                
+        playerItem = AVPlayerItem(url: url! as URL)
+        player = AVPlayer(playerItem: playerItem!)
+        let playerLayer = AVPlayerLayer(player: player!)
+        playerLayer.frame=CGRect(x: 0, y: 0, width: 300, height: 50)
+        self.view.layer.addSublayer(playerLayer)
         
-        let audioUrl = audio.audioUrl
-        if audioUrl.isEmpty {
-            return
+        
+        startTime = Int(audio.startTime)
+        stopTime = Int(audio.stopTime)
+        
+        previewStatus = "Preview"
+        
+        if previewStatus == "Preview" {
+            player?.seek(to:CMTimeMakeWithSeconds(Float64(startTime),preferredTimescale: 1))
         }
         
-        if let audioUrl = URL(string: audioUrl) {
-            // then lets create your document folder url
-            let documentsDirectoryURL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-            // lets create your destination file url
-            let destinationUrl = documentsDirectoryURL.appendingPathComponent(audioUrl.lastPathComponent)
-            print(destinationUrl)
-            // to check if it exists before downloading it
-            if FileManager.default.fileExists(atPath: destinationUrl.path) {
-                print("The file already exists at path")
-                do {
-                    audioPlayer = try AVAudioPlayer(contentsOf: destinationUrl)
-                    audioPlayer.prepareToPlay()
-                    startTime = Int(audio.startTime)
-                    stopTime = Int(audio.stopTime)
-                    
-                    previewStatus = "Preview"
-                    if previewStatus == "Preview" {
-                        audioPlayer.currentTime = TimeInterval(startTime)
-                    }
-                    audioPlayer?.play()
-                    startTimer()
-                    gotAudioLength()
-                    audioPlayer.delegate = self
-                    recordStatus = "Playing"
-                                        
-                } catch let error {
-                    print(error.localizedDescription)
-                }
-                // if the file doesn't exist
-            } else {
-                // you can use NSURLSession.sharedSession to download the data asynchronously
-                print("Have to download the URL")
-                URLSession.shared.downloadTask(with: audioUrl, completionHandler: { [self] (location, response, error) -> Void in
-                    guard let location = location, error == nil else { return }
-                    do {
-                        // after downloading your file you need to move it to your destination url
-                        try FileManager.default.moveItem(at: location, to: destinationUrl)
-                        print("File moved to documents folder")
-                        do {
-                            self.audioPlayer = try AVAudioPlayer(contentsOf: destinationUrl)
-                            self.audioPlayer.prepareToPlay()
-                            self.startTime = Int(audio.startTime)
-                            self.stopTime = Int(audio.stopTime)
-                            
-                            previewStatus = "Preview"
-                            if previewStatus == "Preview" {
-                                audioPlayer.currentTime = TimeInterval(startTime)
-                            }
-                            audioPlayer?.play()
-                            startTimer()
-                            gotAudioLength()
-                            audioPlayer.delegate = self
-                            recordStatus = "Playing"
-                            
-                            
-                        } catch let error {
-                            print(error.localizedDescription)
-                        }
-                        
-                    } catch let error as NSError {
-                        print(error.localizedDescription)
-                    }
-                }).resume()
-            }
-        }
+        self.audioSettings()
+        self.playAudio()
+        self.startTimer()
+        self.gotAudioLength()
+        self.recordStatus = "Playing"
     }
     
     
-    func downloadFilePreviewEdit(audio: Audio, startTime: Double, stopTime: Double) {
+    
         
+    func downloadFilePreviewEdit(audio: Audio, startTime: Double, stopTime: Double) {
+        print("In new method")
+        print("The title is \(audio.title)")
+        let url = NSURL(string: audio.audioUrl)
+                
+        playerItem = AVPlayerItem(url: url! as URL)
+        player = AVPlayer(playerItem: playerItem!)
+        let playerLayer = AVPlayerLayer(player: player!)
+        playerLayer.frame=CGRect(x: 0, y: 0, width: 300, height: 50)
+        self.view.layer.addSublayer(playerLayer)
+        
+        self.startTime = Int(startTime)
+        self.stopTime = Int(stopTime)
+
+        previewStatus = "Preview"
+        
+        if previewStatus == "Preview" {
+            player?.seek(to:CMTimeMakeWithSeconds(Float64(startTime),preferredTimescale: 1))
+        }
+        
+        self.audioSettings()
+        self.playAudio()
+        self.startTimer()
+        self.gotAudioLength()
+        self.recordStatus = "Playing"
+    }
+    
+    
+    
+    /*
+    func downloadFilePreviewEdit(audio: Audio, startTime: Double, stopTime: Double) {
         let startTime = startTime
         let stopTime = stopTime
         
@@ -174,7 +159,12 @@ extension DemoMusicPlayerController {
             }
         }
     }
+    */
     
+    
+    
+    
+    /*
     func previewStopAudio() {
         audioPlayer?.stop()
         audioPlayer = nil
@@ -274,6 +264,7 @@ extension DemoMusicPlayerController {
             previewStopTimer()
         }
     }
+    */
 }
 
 

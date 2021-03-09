@@ -51,8 +51,31 @@ extension AudioRadarViewController {
             }
         }
         
+        //removing explicit content if the user does not want to hear it.
+        Api.User.getUserInforSingleEvent(uid: Api.User.currentUserId) { (user) in
+            if card.audio.explicit == true && user.explicitContent == false {
+                card.removeFromSuperview()
+                print("Removing song: \(card.audio.title) because of explicit content")
+                self.removeCards(card: card)
+            }
+        }
+        
+        
+        //removing blocked artists from feed
+        Api.User.observeBlockedUsers { (blockedUsed) in
+            self.blockedCollection.append(blockedUsed)
+            if card.audio.artist == blockedUsed.uid {
+                print("preparing to remove BLOCKED audio from artist: \(blockedUsed.username)")
+                card.removeFromSuperview()
+                //self.updateCards(card: card)
+                self.removeCards(card: card)
+            }
+        }
+    
+        
         //Checking user preferences and removing cards accordingly
         Api.Preferences.getUserPreferencesforSingleEvent(user: Api.User.currentUserId) { (preference) in
+                        
             if card.audio.genre == "Alternative Rock" && preference.alternativeRock == false {
                 print("removing for genre conflight \(audio.title)")
                 card.removeFromSuperview()

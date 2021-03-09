@@ -23,6 +23,8 @@ class AudioCard: UIView {
     @IBOutlet weak var likeLbl: UILabel!
     @IBOutlet weak var nopeView: UIView!
     @IBOutlet weak var nopeLbl: UILabel!
+    @IBOutlet weak var infoBtn: UIButton!
+    
     
     private var gradient: CAGradientLayer!
     
@@ -31,6 +33,13 @@ class AudioCard: UIView {
     
     var audioPlayer: AVAudioPlayer!
     var audioPath: URL!
+    
+    
+    
+    //for testing
+    var user: User!
+    
+    var block: Bool = false
     
     //My modifications to it.
     var audio: Audio! {
@@ -114,6 +123,74 @@ class AudioCard: UIView {
         
         titleLbl.sizeToFit()
         usernameLbl.sizeToFit()
+    }
+    
+    @IBAction func infoBtnDidTap(_ sender: UIButton) {
+        print("Button tapped")
+        
+        var alert = UIAlertController(title: "Feed Options",message:"Choose options below: ",
+                                      preferredStyle: UIAlertController.Style.alert)
+            
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: "Report", style: UIAlertAction.Style.default, handler: { action in
+            
+            print ("Make it here")
+            print("from the viewcontroller: \(self.audio.artist)")
+           /*
+            Api.User.getUserInforSingleEvent(uid: self.audio.artist) { (user) in
+                print("user: \(user.username)")
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let reportVC = storyboard.instantiateViewController(withIdentifier: IDENTIFIER_AUDIO_REPORT) as! AudioReportViewController
+                reportVC.user = user
+                
+                //self.presentViewController(reportVC, animated: true, completion: nil)
+                (self.superview?.next as? UIViewController)?.navigationController?.pushViewController(reportVC, animated: false)
+
+            }
+            */
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let reportVC = storyboard.instantiateViewController(withIdentifier: IDENTIFIER_AUDIO_REPORT) as! AudioReportViewController
+            reportVC.audio = self.audio
+
+            
+            self.controller.navigationController?.pushViewController(reportVC, animated: true)
+             
+            
+
+            
+        }))
+        
+        //Beginning of blocking options
+        alert.addAction(UIAlertAction(title: "Block User", style: UIAlertAction.Style.default, handler: { action in
+            //First layer of alerts
+            let alert = UIAlertController(title: "Are you sure?", message: "You are about to block all content from this artist forever", preferredStyle: .alert)
+            self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+            //Once there is confirmation
+            alert.addAction(UIAlertAction(title: "Yes, Block This Artist", style: .default, handler: { action in
+                print("You clicked yes")
+                self.saveBlocksToFirebase()
+            }))
+            //End Confirmation
+        }))
+        //End blocking options
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.destructive, handler: nil))
+
+        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func saveBlocksToFirebase() {
+        self.block = true
+        print("Blocking user: \(self.audio.artist)")
+        Ref().databaseBlockUserForUser(uid: Api.User.currentUserId)
+            .updateChildValues([self.audio.artist: block]) { (error, ref) in
+                if error == nil, self.block == true {
+                }
+            }
+        let alert = UIAlertController(title: "", message: "This artist is blocked from your feed once you refresh this page. Continue swiping", preferredStyle: .alert)
+        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.cancel, handler: nil))
     }
 
 }

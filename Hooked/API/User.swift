@@ -21,6 +21,8 @@ class User {
     var latitude = ""
     var longitude = ""
     var website: String?
+    var explicitContent: Bool?
+    
     
     
     //teaching the class to create a new instance
@@ -64,6 +66,12 @@ class User {
         if let website = dict["website"] as? String {
             user.website = website
         }
+        //let explicitContent = dict["explicitContent"] as? Bool == nil ? false : (dict["explicitContent"]! as! Bool)
+        
+        if let explicitContent = dict["explicitContent"] as? Bool {
+            user.explicitContent = explicitContent
+        }
+        
         return user
     }
     

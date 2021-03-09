@@ -29,10 +29,7 @@ extension AudioRadarViewController {
         let playerLayer = AVPlayerLayer(player: player!)
         playerLayer.frame=CGRect(x: 0, y: 0, width: 300, height: 50)
         self.view.layer.addSublayer(playerLayer)
-
-        startTime = Int(audio.startTime)
-        stopTime = Int(audio.stopTime)
-
+        
         playAudioFromBeginning()
     }
     
@@ -54,6 +51,7 @@ extension AudioRadarViewController {
     
     
     func playAudioFromBeginning() {
+
         audioSettings()
         //loadingInidcator.stopAnimating()
         player?.play()

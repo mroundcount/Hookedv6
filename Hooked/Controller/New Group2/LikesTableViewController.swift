@@ -19,7 +19,7 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
     
     var searchController: UISearchController = UISearchController(searchResultsController: nil)
     
-    var audioPlayer: AVAudioPlayer!
+    //var audioPlayer: AVAudioPlayer!
     var popupContentController: DemoMusicPlayerController!
     
     override func viewDidLoad() {
@@ -41,11 +41,11 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
    //This is a temporary measure until I cn figure out how to only stop this player when the discover view controller is up.
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if popupContentController.audioPlayer != nil {
+        if popupContentController.player != nil {
             print("audio is playing")
             popupContentController.closeAction()
         } else {
-            print("AudioPlayer is null")
+            print("audio is null")
             return
         }
     }
@@ -167,6 +167,12 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
             } else {
                 self.popupContentController.albumArt = UIImage(named: "default_profile")!
             }
+        }
+        
+        if popupContentController.player != nil {
+            print("audio is playing... stopping it")
+            popupContentController.player?.pause()
+            popupContentController.player?.seek(to: .zero)
         }
         
         popupContentController.downloadFile(audio: audio[indexPath.row])

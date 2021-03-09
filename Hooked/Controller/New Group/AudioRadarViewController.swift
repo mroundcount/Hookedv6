@@ -26,6 +26,7 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     var audioCollection: [Audio] = []
     var likesCollection: [Audio] = []
     var userCollection: [Audio] = []
+    var blockedCollection: [User] = []
     var cards: [AudioCard] = []
     
     //detecting the position of the card at it's inital position
@@ -62,13 +63,14 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("ViewDidLoad")
+        //AVAudioSession.sharedInstance()
         loadingInidcator.stopAnimating()
         loadingInidcator.hidesWhenStopped = true
         
         audioCollection.removeAll()
         cards.removeAll()
         
-        title = "Hooked"
+        title = "Discover"
         nopeImg.isUserInteractionEnabled = true
         let tapNopeImg = UITapGestureRecognizer(target: self, action: #selector(nopeImgDidTap))
         nopeImg.addGestureRecognizer(tapNopeImg)
@@ -94,8 +96,6 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         nopeImg.isHidden = false
         playImg.isHidden = false
         stopImg.isHidden = false
-        
-        //AVAudioSession.sharedInstance()
     }
     
     //diabling the title area and the navigation bar the bottom
@@ -108,8 +108,7 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         print("ViewDidAppear")
         loadingInidcator.stopAnimating()
         loadingInidcator.hidesWhenStopped = true
-        //stopAudio()
-        testStopAudio()
+        stopAudio()
         //Reset the audio collection for shuffling.
         reloadViewFromNib()
         findAudioFiles()
@@ -123,7 +122,7 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.prefersLargeTitles = true
-        testStopAudio()
+        stopAudio()
     }
     
     //Returning all of the audio files available
@@ -209,10 +208,8 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     func checkCardCount() {
         let card: AudioCard = UIView.fromNib()
         if cards.count == 0 {
-            //stopAudio()
             //audioPlayer = nil
-            testStopAudio()
-            
+            stopAudio()
             likeImg.isHidden = true
             nopeImg.isHidden = true
             playImg.isHidden = true
@@ -248,7 +245,7 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     
     func playTopCard() {
         print("in top card function")
-        testDownloadFile(audio: (cards.first?.audio)!)
+        downloadFile(audio: (cards.first?.audio)!)
     }
     
     func resetAudio() {

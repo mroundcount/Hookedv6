@@ -17,9 +17,11 @@ let URL_STORAGE_ROOT = "gs://hooked-217d3.appspot.com"
 //Storage and database references
 let REF_AUDIO = "audio"
 let REF_AUDIO_FILE = "audioFiles"
+let REF_BLOCK_USER = "blockedUser"
 let REF_LIKES = "likes"
 let REF_LIKE_COUNT = "likesCount"
 let REF_PREFERENCES = "preferences"
+let REF_REPORT_FLAG = "reportFlag"
 let REF_USER = "users"
 let STORAGE_PROFILE = "profile"
 
@@ -52,6 +54,7 @@ let IDENTIFIER_PREFERENCES = "PreferenceTableViewController"
 let IDENTIFIER_DETAIL = "DetailViewController"
 let IDENTIFIER_AUDIO_RADAR = "AudioRadarViewController"
 let IDENTIFIER_LIKES = "LikesTableViewController"
+let IDENTIFIER_AUDIO_REPORT = "AudioReportViewController"
 
 
 
@@ -109,8 +112,23 @@ class Ref {
     }
     
     
+    //adding in the table for blocking users.
+    var databaseBlockUser: DatabaseReference {
+         return databaseRoot.child(REF_BLOCK_USER)
+     }
+     //adding in the new tables for blocking
+     func databaseBlockUserForUser(uid: String) -> DatabaseReference {
+           return databaseBlockUser.child(uid)
+    }
     
-    //Uploading audio in preferences heiarchy
+    //Reporting flagged conent
+    func databaseAudioFileOnly() -> DatabaseReference {
+        return databaseRoot.child(REF_AUDIO_FILE)
+    }
+    
+    
+    
+    //Uploading preferences heiarchy
     var databasePreferences: DatabaseReference {
         return databaseRoot.child(REF_PREFERENCES)
     }
@@ -131,8 +149,8 @@ class Ref {
  
     
     //Uploading JUST audio files
-    func databaseAudioFileOnly() -> DatabaseReference {
-        return databaseRoot.child(REF_AUDIO_FILE)
+    func databaseReportFlag() -> DatabaseReference {
+        return databaseRoot.child(REF_REPORT_FLAG)
     }
     
     //In an attempt to remove records from audioFile

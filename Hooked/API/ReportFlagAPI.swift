@@ -7,3 +7,11 @@
 //
 
 import Foundation
+
+class ReportFlagApi {
+    //Method to load reports to the "AudioFile" table.
+    func uploadReportFlag(value: Dictionary<String, Any>) {
+        let ref = Ref().databaseReportFlag()
+        ref.childByAutoId().updateChildValues(value)
+    }
+}

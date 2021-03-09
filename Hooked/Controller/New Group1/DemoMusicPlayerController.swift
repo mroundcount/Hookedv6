@@ -39,12 +39,16 @@ class DemoMusicPlayerController: UIViewController, AVAudioPlayerDelegate {
     var pauseBtn : UIBarButtonItem!
     var playBtn : UIBarButtonItem!
     var closeBtn : UIBarButtonItem!
+    var replayBtn: UIBarButtonItem!
     var recordStatus: String = ""
     
     var previewStatus: String = ""
     
     var startTime : Int = 0
     var stopTime : Int = 0
+    
+    var playerItem: AVPlayerItem?
+    var player: AVPlayer?
     
     var songTitle: String = "" {
         didSet {
@@ -101,6 +105,7 @@ class DemoMusicPlayerController: UIViewController, AVAudioPlayerDelegate {
         pauseBtn = UIBarButtonItem(image: UIImage(named: "pause"), style: .plain, target: self, action: #selector(pauseAction))
         playBtn = UIBarButtonItem(image: UIImage(named: "play"), style: .plain, target: self, action: #selector(playAction))
         closeBtn = UIBarButtonItem(image: UIImage(named: "close-1"), style: .plain, target: self, action: #selector(closeAction))
+        replayBtn = UIBarButtonItem(image: UIImage(named: "play"), style: .plain, target: self, action: #selector(replayAction))
         popupItem.rightBarButtonItems = [ pauseBtn, closeBtn ]
         //Trying to get the progress bar to appear
         
@@ -115,15 +120,16 @@ class DemoMusicPlayerController: UIViewController, AVAudioPlayerDelegate {
     @IBAction func controlBtn(_ sender: UIButton) {
         print(recordStatus)
         if recordStatus == "Playing" {
-            controlBtn.setImage(UIImage(systemName: "pause.circle"), for: .normal)
-            print("Pausing the player")
+            controlBtn.setImage(UIImage(systemName: "pause.fill"), for: .normal)
             pauseAudio()
             
         } else if recordStatus == "Paused" {
+            controlBtn.setImage(UIImage(systemName: "play.fill"), for: .normal)
             print("Starting the player again")
             playAudio()
             
         } else if recordStatus == "Finished" {
+            
             print("Starting over")
             replayAudio()
             
@@ -132,7 +138,6 @@ class DemoMusicPlayerController: UIViewController, AVAudioPlayerDelegate {
         }
     }
     
-
     
     func updateProgressBar(progress: Float) {
         print("Calling update bar")
@@ -141,29 +146,44 @@ class DemoMusicPlayerController: UIViewController, AVAudioPlayerDelegate {
     }
     
     @objc func pauseAction() {
-        print("pause action")
-        audioPlayer!.pause()
+        recordStatus = "Paused"
+        //audioPlayer!.pause()
+        pauseAudio()
         popupItem.rightBarButtonItems = [ playBtn , closeBtn ] as? [UIBarButtonItem]
         self.popupBar.progressViewStyle = LNPopupBarProgressViewStyle.bottom
         stopTimer()
     }
     
     @objc func playAction() {
-        print("play action")
-        if previewStatus == "Preview" {
-            audioPlayer.currentTime = TimeInterval(startTime)
-        }
-        audioPlayer!.play()
+        recordStatus = "Playing"
+        player?.play()
         self.popupBar.progressViewStyle = LNPopupBarProgressViewStyle.bottom
         popupItem.rightBarButtonItems = [ pauseBtn , closeBtn ] as? [UIBarButtonItem]
+        controlBtn.setImage(UIImage(systemName: "pause.fill"), for: .normal)
+        startTimer()
+    }
+    
+    @objc func replayAction() {
+        recordStatus = "Playing"
+        player?.seek(to:CMTimeMakeWithSeconds(Float64(0),preferredTimescale: 1))
+        print("play action")
+        if previewStatus == "Preview" {
+            player?.seek(to:CMTimeMakeWithSeconds(Float64(startTime),preferredTimescale: 1))
+        }
+        playAudio()
+        self.popupBar.progressViewStyle = LNPopupBarProgressViewStyle.bottom
+        popupItem.rightBarButtonItems = [ pauseBtn , closeBtn ] as? [UIBarButtonItem]
+        controlBtn.setImage(UIImage(systemName: "pause.fill"), for: .normal)
         startTimer()
     }
     
     @objc func closeAction() {
         print("close action")
-        audioPlayer?.stop()
+        //audioPlayer?.stop()
         self.dismissPopup()
         stopTimer()
+        player?.pause()
+        player?.seek(to: .zero)
     }
     
     func dismissPopup() {
@@ -174,13 +194,22 @@ class DemoMusicPlayerController: UIViewController, AVAudioPlayerDelegate {
 
     @IBAction func changeAudioTime(_ sender: Any) {
         print("grabbing slider")
-        audioPlayer.stop()
-        audioPlayer.currentTime = TimeInterval(slider.value)
-   
-        //player.currentTime = TimeInterval(progressView.value)
+        //audioPlayer.stop()
+        //audioPlayer.currentTime = TimeInterval(slider.value)
         //after the time is changed we want it to start playing again
-        audioPlayer.prepareToPlay()
-        audioPlayer.play()
+        //audioPlayer.prepareToPlay()
+        //audioPlayer.play()
+        //https://medium.com/@santoshkumarjm/how-to-design-a-custom-avplayer-to-play-audio-using-url-in-ios-swift-439f0dbf2ff2
+        
+        player?.pause()
+        stopTimer()
+        
+        let seconds : Int64 = Int64(slider.value)
+        let targetTime:CMTime = CMTimeMake(value: seconds, timescale: 1)
+        player!.seek(to: targetTime)
+        if player!.rate == 0 {
+            player?.play()
+            startTimer()
+        }
     }
-
 }

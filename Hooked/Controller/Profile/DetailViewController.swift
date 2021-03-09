@@ -24,7 +24,7 @@ class DetailViewController: UIViewController {
     var user: User!
     var users: [User] = []
     var audio = [Audio]()
-    var audioPlayer: AVAudioPlayer!
+    //var audioPlayer: AVAudioPlayer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,7 +77,7 @@ class DetailViewController: UIViewController {
         navigationController?.navigationBar.isHidden = false
         
         //This is a temporary measure until I cn figure out how to only stop this player when the discover view controller is up.
-        if popupContentController.audioPlayer != nil {
+        if popupContentController.player != nil {
             print("audio is playing")
             popupContentController.closeAction()
         }
@@ -147,6 +147,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         return 85
     }
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! AudioTableViewCell
         print(cell.audio.title)
@@ -154,7 +155,6 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         Api.User.getUserInforSingleEvent(uid: cell.audio.artist) { (user) in
             self.popupContentController.artistName = user.username
             self.popupContentController.albumArt = user.profileImage
-            
             //This works
             let url = URL(string: user.profileImageUrl)
             let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
@@ -166,7 +166,13 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
         self.popupContentController.albumArt = UIImage(data: data!)!
 
-
+        //Stopping the audio if it is already playing
+        if popupContentController.player != nil {
+            print("audio is playing... stopping it")
+            popupContentController.player?.pause()
+            popupContentController.player?.seek(to: .zero)
+        }
+        
         popupContentController.downloadFile(audio: audio[indexPath.row])
 
         popupContentController.popupItem.accessibilityHint = NSLocalizedString("Double Tap to Expand the Mini Player", comment: "")

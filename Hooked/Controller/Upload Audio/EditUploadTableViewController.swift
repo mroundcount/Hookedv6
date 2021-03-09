@@ -69,6 +69,14 @@ class EditUploadTableViewController: UITableViewController {
         popupContentController = storyboard?.instantiateViewController(withIdentifier: "DemoMusicPlayerController") as! DemoMusicPlayerController
 
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = true
+        popupContentController.closeAction()
+    }
+    
+    
        
     func setupView() {
         //dismiss they keyboard with a tap gesture
@@ -142,6 +150,15 @@ class EditUploadTableViewController: UITableViewController {
                     self.popupContentController.albumArt = UIImage(named: "default_profile")!
                 }
             }
+            
+            
+            //Stopping the audio if it is already playing
+            if popupContentController.player != nil {
+                print("audio is playing... stopping it")
+                popupContentController.player?.pause()
+                popupContentController.player?.seek(to: .zero)
+            }
+
             popupContentController.downloadFilePreviewEdit(audio: audio, startTime: StartTime, stopTime: StopTime)
             popupContentController.popupItem.accessibilityHint = NSLocalizedString("Double Tap to Expand the Mini Player", comment: "")
             tabBarController?.popupContentView.popupCloseButton.accessibilityLabel = NSLocalizedString("Dismiss Now Playing Screen", comment: "")

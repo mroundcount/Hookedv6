@@ -44,8 +44,7 @@ class UserProfileViewController: UIViewController, AVAudioPlayerDelegate {
     var users: [User] = []
     var audio = [Audio]()
 
-    
-    var audioPlayer: AVAudioPlayer!
+    //var audioPlayer: AVAudioPlayer!
     
     var timer : Timer?
     var length : Float?
@@ -113,7 +112,7 @@ class UserProfileViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.isHidden = false
-        if popupContentController.audioPlayer != nil {
+        if popupContentController.player != nil {
             print("audio is playing")
             popupContentController.closeAction()
         }
@@ -205,6 +204,14 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate 
             //let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
             //self.popupContentController.albumArt = UIImage(data: data!)!
         }
+        
+        //Stopping the audio if it is already playing
+        if popupContentController.player != nil {
+            print("audio is playing... stopping it")
+            popupContentController.player?.pause()
+            popupContentController.player?.seek(to: .zero)
+        }
+        
         popupContentController.downloadFile(audio: audio[indexPath.row])
         popupContentController.popupItem.accessibilityHint = NSLocalizedString("Double Tap to Expand the Mini Player", comment: "")
         tabBarController?.popupContentView.popupCloseButton.accessibilityLabel = NSLocalizedString("Dismiss Now Playing Screen", comment: "")
@@ -221,7 +228,6 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
-        
         
         let preview = UITableViewRowAction(style: .normal, title: "      Preview     ") { [self] action, index in
             print("Preview")
@@ -240,6 +246,14 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     self.popupContentController.albumArt = UIImage(named: "default_profile")!
                 }
             }
+            
+            //Stopping the audio if it is already playing
+            if popupContentController.player != nil {
+                print("audio is playing... stopping it")
+                popupContentController.player?.pause()
+                popupContentController.player?.seek(to: .zero)
+            }
+            
             popupContentController.downloadFilePreview(audio: (cell?.audio)!)
             self.popupContentController.popupItem.accessibilityHint = NSLocalizedString("Double Tap to Expand the Mini Player", comment: "")
             tabBarController?.popupContentView.popupCloseButton.accessibilityLabel = NSLocalizedString("Dismiss Now Playing Screen", comment: "")
