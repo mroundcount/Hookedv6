@@ -70,13 +70,16 @@
                         <constraint firstAttribute="bottom" secondItem="siw-co-8Hq" secondAttribute="bottom" id="kSM-63-YbM"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="04r-Sd-yrh">
-                    <rect key="frame" x="372" y="788" width="32" height="32"/>
+                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="04r-Sd-yrh">
+                    <rect key="frame" x="377" y="842" width="32" height="32"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="32" id="6qH-ie-PSe"/>
                         <constraint firstAttribute="height" constant="32" id="uZE-9x-NfZ"/>
                     </constraints>
-                    <state key="normal" image="info_icon"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" image="flag.circle" catalog="system">
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                    </state>
                     <connections>
                         <action selector="infoBtnDidTap:" destination="J2f-iM-IB6" eventType="touchUpInside" id="D5Y-L5-sBJ"/>
                     </connections>
@@ -85,13 +88,13 @@
             <viewLayoutGuide key="safeArea" id="AiK-do-Ycy"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="AiK-do-Ycy" firstAttribute="trailing" secondItem="04r-Sd-yrh" secondAttribute="trailing" constant="10" id="3Nc-D0-ESC"/>
+                <constraint firstItem="AiK-do-Ycy" firstAttribute="trailing" secondItem="04r-Sd-yrh" secondAttribute="trailing" constant="5" id="3Nc-D0-ESC"/>
                 <constraint firstItem="yV8-Rz-HPA" firstAttribute="top" secondItem="5lS-43-sYs" secondAttribute="bottom" id="Bzl-mX-caJ"/>
                 <constraint firstItem="WlS-pn-1rb" firstAttribute="leading" secondItem="AiK-do-Ycy" secondAttribute="leading" constant="10" id="C3t-cG-i30"/>
                 <constraint firstItem="kMM-aX-fkr" firstAttribute="leading" secondItem="AiK-do-Ycy" secondAttribute="leading" id="Eti-tR-M13"/>
                 <constraint firstItem="XZF-ld-K4m" firstAttribute="top" secondItem="AiK-do-Ycy" secondAttribute="top" constant="20" id="Mhd-OK-RMy"/>
                 <constraint firstItem="WlS-pn-1rb" firstAttribute="top" secondItem="AiK-do-Ycy" secondAttribute="top" constant="20" id="NQQ-7C-66B"/>
-                <constraint firstItem="5lS-43-sYs" firstAttribute="top" secondItem="04r-Sd-yrh" secondAttribute="bottom" constant="8" symbolic="YES" id="QjU-m6-T8y"/>
+                <constraint firstAttribute="bottom" secondItem="04r-Sd-yrh" secondAttribute="bottom" constant="22" id="Uui-rn-KHy"/>
                 <constraint firstItem="5lS-43-sYs" firstAttribute="leading" secondItem="AiK-do-Ycy" secondAttribute="leading" id="Uun-6H-uXv"/>
                 <constraint firstItem="kMM-aX-fkr" firstAttribute="top" secondItem="J2f-iM-IB6" secondAttribute="top" id="WBK-vE-1tI"/>
                 <constraint firstItem="AiK-do-Ycy" firstAttribute="trailing" secondItem="yV8-Rz-HPA" secondAttribute="trailing" id="bFV-xv-bw1"/>
@@ -116,7 +119,7 @@
         </view>
     </objects>
     <resources>
-        <image name="info_icon" width="100" height="100"/>
+        <image name="flag.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

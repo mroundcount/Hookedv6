@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		08CA1DC26EF4299A9120401C /* Pods_Hooked.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 520DF90EACA65AFBBD4F5EF2 /* Pods_Hooked.framework */; };
+		B8EE266C431AC4A6738CE6DF /* Pods_Hooked.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F612CC63DF368DAFC7F301E6 /* Pods_Hooked.framework */; };
 		BF04F42A254F2DD800DFC625 /* UploadTableViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF04F429254F2DD800DFC625 /* UploadTableViewController + Extension.swift */; };
 		BF186A7C259A946500C38121 /* EditUploadTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF186A7B259A946500C38121 /* EditUploadTableViewController.swift */; };
 		BF186A7F259A95EA00C38121 /* EditUploadTableViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF186A7E259A95EA00C38121 /* EditUploadTableViewController + Extension.swift */; };
@@ -56,6 +56,7 @@
 		BF9C63A92426A7C200DA740D /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9C63A82426A7C200DA740D /* ProfileTableViewController.swift */; };
 		BFC9EF5424AC30AD004FFF1E /* AudioRadarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9EF5324AC30AD004FFF1E /* AudioRadarViewController.swift */; };
 		BFC9EF5624AC3403004FFF1E /* AudioCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9EF5524AC3403004FFF1E /* AudioCard.swift */; };
+		BFE331F325F9CECC00FCAD89 /* OnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE331F225F9CECC00FCAD89 /* OnboardViewController.swift */; };
 		BFE9C374246B9ED1005686BC /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE9C373246B9ED1005686BC /* UserProfileViewController.swift */; };
 		BFE9C376246E202D005686BC /* AudioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE9C375246E202D005686BC /* AudioTableViewCell.swift */; };
 		BFE9C38F246FC791005686BC /* DemoMusicPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE9C38E246FC791005686BC /* DemoMusicPlayerController.swift */; };
@@ -91,8 +92,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		520DF90EACA65AFBBD4F5EF2 /* Pods_Hooked.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hooked.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		60979D4047107FA13AD84BE0 /* Pods-Hooked.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hooked.debug.xcconfig"; path = "Target Support Files/Pods-Hooked/Pods-Hooked.debug.xcconfig"; sourceTree = "<group>"; };
+		2A838784014FE17E54F8A56A /* Pods-Hooked.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hooked.debug.xcconfig"; path = "Target Support Files/Pods-Hooked/Pods-Hooked.debug.xcconfig"; sourceTree = "<group>"; };
+		AA124D1A0CC7C90155511F7A /* Pods-Hooked.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hooked.release.xcconfig"; path = "Target Support Files/Pods-Hooked/Pods-Hooked.release.xcconfig"; sourceTree = "<group>"; };
 		BF04F429254F2DD800DFC625 /* UploadTableViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UploadTableViewController + Extension.swift"; sourceTree = "<group>"; };
 		BF186A7B259A946500C38121 /* EditUploadTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUploadTableViewController.swift; sourceTree = "<group>"; };
 		BF186A7E259A95EA00C38121 /* EditUploadTableViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditUploadTableViewController + Extension.swift"; sourceTree = "<group>"; };
@@ -142,6 +143,7 @@
 		BF9C63A82426A7C200DA740D /* ProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
 		BFC9EF5324AC30AD004FFF1E /* AudioRadarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AudioRadarViewController.swift; path = "../New Group/AudioRadarViewController.swift"; sourceTree = "<group>"; };
 		BFC9EF5524AC3403004FFF1E /* AudioCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCard.swift; sourceTree = "<group>"; };
+		BFE331F225F9CECC00FCAD89 /* OnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardViewController.swift; sourceTree = "<group>"; };
 		BFE9C373246B9ED1005686BC /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		BFE9C375246E202D005686BC /* AudioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTableViewCell.swift; sourceTree = "<group>"; };
 		BFE9C38E246FC791005686BC /* DemoMusicPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DemoMusicPlayerController.swift; path = "../New Group1/DemoMusicPlayerController.swift"; sourceTree = "<group>"; };
@@ -150,7 +152,7 @@
 		BFF1C3C92449546800E99A46 /* PreferenceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceTableViewController.swift; sourceTree = "<group>"; };
 		BFF1C3CD244CBE4C00E99A46 /* Likes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Likes.swift; sourceTree = "<group>"; };
 		BFF276AE2432FB1000E66930 /* Card.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Card.xib; sourceTree = "<group>"; };
-		E256A1352BF14859D2653896 /* Pods-Hooked.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hooked.release.xcconfig"; path = "Target Support Files/Pods-Hooked/Pods-Hooked.release.xcconfig"; sourceTree = "<group>"; };
+		F612CC63DF368DAFC7F301E6 /* Pods_Hooked.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hooked.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,17 +161,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF6B25F1249DB04B0076B069 /* LNPopupController.framework in Frameworks */,
-				08CA1DC26EF4299A9120401C /* Pods_Hooked.framework in Frameworks */,
+				B8EE266C431AC4A6738CE6DF /* Pods_Hooked.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1B0F6A84C68E6D186B7C4022 /* Frameworks */ = {
+		1B922DFBC809C8AB2C4A4AFA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				520DF90EACA65AFBBD4F5EF2 /* Pods_Hooked.framework */,
+				F612CC63DF368DAFC7F301E6 /* Pods_Hooked.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -207,6 +209,7 @@
 				BF9C6386240AD8C300DA740D /* ViewController+UI.swift */,
 				BF9C6390240AFA9600DA740D /* ForgotPasswordViewController.swift */,
 				BF9C6392240AFAAE00DA740D /* ForgotPasswordViewController+UI.swift */,
+				BFE331F225F9CECC00FCAD89 /* OnboardViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -256,7 +259,7 @@
 				BF9C636E240A160100DA740D /* Hooked */,
 				BF9C636D240A160100DA740D /* Products */,
 				DDE3FC04C314C6E6311349FC /* Pods */,
-				1B0F6A84C68E6D186B7C4022 /* Frameworks */,
+				1B922DFBC809C8AB2C4A4AFA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -346,8 +349,8 @@
 		DDE3FC04C314C6E6311349FC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				60979D4047107FA13AD84BE0 /* Pods-Hooked.debug.xcconfig */,
-				E256A1352BF14859D2653896 /* Pods-Hooked.release.xcconfig */,
+				2A838784014FE17E54F8A56A /* Pods-Hooked.debug.xcconfig */,
+				AA124D1A0CC7C90155511F7A /* Pods-Hooked.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -359,12 +362,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BF9C6383240A160200DA740D /* Build configuration list for PBXNativeTarget "Hooked" */;
 			buildPhases = (
-				E7672BE2FD0235FC31033BA0 /* [CP] Check Pods Manifest.lock */,
+				32650C6A759A82D6C01FD0A2 /* [CP] Check Pods Manifest.lock */,
 				BF9C6368240A160100DA740D /* Sources */,
 				BF9C6369240A160100DA740D /* Frameworks */,
 				BF9C636A240A160100DA740D /* Resources */,
 				BFE9C383246FB0C6005686BC /* Embed Frameworks */,
-				99A97A781258E275D9E10477 /* [CP] Embed Pods Frameworks */,
+				DA9001D367689416E74F3C42 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -442,24 +445,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		99A97A781258E275D9E10477 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hooked/Pods-Hooked-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hooked/Pods-Hooked-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hooked/Pods-Hooked-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E7672BE2FD0235FC31033BA0 /* [CP] Check Pods Manifest.lock */ = {
+		32650C6A759A82D6C01FD0A2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -479,6 +465,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DA9001D367689416E74F3C42 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Hooked/Pods-Hooked-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Hooked/Pods-Hooked-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hooked/Pods-Hooked-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -517,6 +520,7 @@
 				BF68912C246665DA00690BDF /* UploadTableViewController.swift in Sources */,
 				BF9C6370240A160100DA740D /* AppDelegate.swift in Sources */,
 				BF82D24E242FF4ED00C90CDA /* DetailViewController.swift in Sources */,
+				BFE331F325F9CECC00FCAD89 /* OnboardViewController.swift in Sources */,
 				BF9C6393240AFAAE00DA740D /* ForgotPasswordViewController+UI.swift in Sources */,
 				BF78D54A2559DEA400D0F9A5 /* AudioRadarViewController + Card Extension.swift in Sources */,
 				BF6B25DF2478C6690076B069 /* DemoMusicPlayerController+Extension.swift in Sources */,
@@ -679,7 +683,7 @@
 		};
 		BF9C6384240A160200DA740D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 60979D4047107FA13AD84BE0 /* Pods-Hooked.debug.xcconfig */;
+			baseConfigurationReference = 2A838784014FE17E54F8A56A /* Pods-Hooked.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -691,7 +695,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.013;
+				MARKETING_VERSION = 1.014;
 				PRODUCT_BUNDLE_IDENTIFIER = Something.Hooked;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Hooked/Controller/Demo Testing/Hooked-Bridging-Header.h";
@@ -703,7 +707,7 @@
 		};
 		BF9C6385240A160200DA740D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E256A1352BF14859D2653896 /* Pods-Hooked.release.xcconfig */;
+			baseConfigurationReference = AA124D1A0CC7C90155511F7A /* Pods-Hooked.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -715,7 +719,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.013;
+				MARKETING_VERSION = 1.014;
 				PRODUCT_BUNDLE_IDENTIFIER = Something.Hooked;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Hooked/Controller/Demo Testing/Hooked-Bridging-Header.h";

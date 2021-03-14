@@ -128,7 +128,7 @@ class AudioCard: UIView {
     @IBAction func infoBtnDidTap(_ sender: UIButton) {
         print("Button tapped")
         
-        var alert = UIAlertController(title: "Feed Options",message:"Choose options below: ",
+        var alert = UIAlertController(title: "Flagging Options",message:"Choose below: ",
                                       preferredStyle: UIAlertController.Style.alert)
             
         // add the actions (buttons)

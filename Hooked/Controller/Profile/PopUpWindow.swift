@@ -23,7 +23,7 @@ class PopUpWindow: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "Avenir", size: 16)
-        label.text = "Hooked now has a website to upload music from your computer. Visit our website on your desktop or continue to upload it from your phone \n\nhttps://hooked-217d3.web.app/"
+        label.text = "Hooked now has a website to upload music from your computer. Visit our website on your desktop or continue to upload it from your phone \n\nhttps://hookedmusic.app/"
         return label
     }()
 

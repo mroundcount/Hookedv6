@@ -421,7 +421,7 @@ extension UserProfileViewController: PopUpDelegate {
     }
     
     func navigateToWebsite() {
-        if let url = NSURL(string: "https://hooked-217d3.web.app/") {
+        if let url = NSURL(string: "https://hookedmusic.app/upload.html") {
             UIApplication.shared.open(url as URL, options:[:], completionHandler:nil)
         }
         handleDismissal()

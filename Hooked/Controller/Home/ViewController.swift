@@ -22,6 +22,19 @@ class ViewController: UIViewController {
         setUpUI()
     }
     
+    //Onboarding
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let vc = storyboard?.instantiateViewController(identifier: "onboard") as! OnboardViewController
+        //Comment the if statement this for testing and modifying the onboarding so it comes up every time.
+        if Core.shared.isNewUser(){
+            //show onboarding
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
+        }
+    }
+    
     func setUpUI() {
         //remeber to right click and "jump to definition"
         //Find all methods in the ViewController+UI.swift file
@@ -42,6 +55,21 @@ class ViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
             print("Whatever dude!")
         }))
+    }
+}
+
+class Core {
+    static let shared = Core()
+    
+    //first time user
+    func isNewUser() -> Bool{
+        //returning the inverse since this will default to false
+        return !UserDefaults.standard.bool(forKey: "isNewUser")
+    }
+    //User is not new and onboarding will not be displayed
+    //Call this once the person has dismissed the welcome, so it is not shown again
+    func setIsNotNewUser() {
+        UserDefaults.standard.set(true, forKey: "isNewUser")
     }
 }
 

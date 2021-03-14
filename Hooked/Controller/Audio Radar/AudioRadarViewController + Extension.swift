@@ -19,7 +19,6 @@ extension AudioRadarViewController {
 
     func downloadFile(audio: Audio) {
         loadingInidcator.startAnimating()
-                        
         print("The title is \(audio.title)")
         
         let url = NSURL(string: audio.audioUrl)
@@ -29,6 +28,10 @@ extension AudioRadarViewController {
         let playerLayer = AVPlayerLayer(player: player!)
         playerLayer.frame=CGRect(x: 0, y: 0, width: 300, height: 50)
         self.view.layer.addSublayer(playerLayer)
+        
+        
+        startTime = Int(audio.startTime)
+        stopTime = Int(audio.stopTime)
         
         playAudioFromBeginning()
     }
@@ -51,7 +54,6 @@ extension AudioRadarViewController {
     
     
     func playAudioFromBeginning() {
-
         audioSettings()
         //loadingInidcator.stopAnimating()
         player?.play()

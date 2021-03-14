@@ -9,6 +9,36 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Onboard View Controller-->
+        <scene sceneID="oxB-Zr-ufq">
+            <objects>
+                <viewController storyboardIdentifier="onboard" id="0PA-uF-DxV" customClass="OnboardViewController" customModule="Hooked" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8yO-r1-4c4">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mOW-Sq-Jc1">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="m2u-Ig-VVu"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="mOW-Sq-Jc1" firstAttribute="top" secondItem="m2u-Ig-VVu" secondAttribute="top" id="2sW-UA-ZVI"/>
+                            <constraint firstItem="m2u-Ig-VVu" firstAttribute="bottom" secondItem="mOW-Sq-Jc1" secondAttribute="bottom" id="W50-v0-zcr"/>
+                            <constraint firstItem="mOW-Sq-Jc1" firstAttribute="leading" secondItem="m2u-Ig-VVu" secondAttribute="leading" id="nfB-kE-LU6"/>
+                            <constraint firstItem="m2u-Ig-VVu" firstAttribute="trailing" secondItem="mOW-Sq-Jc1" secondAttribute="trailing" id="wVk-Wh-2id"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="holderView" destination="mOW-Sq-Jc1" id="w63-Lq-Ove"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c4Z-la-tfJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="861" y="-589"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -566,6 +596,14 @@
                                     <segue destination="lJX-id-Gis" kind="show" id="70k-p0-7dq"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Q21-Gm-v3v">
+                                <rect key="frame" x="20" y="44" width="15.5" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="close-1"/>
+                                <connections>
+                                    <action selector="dismissionAction:" destination="lJX-id-Gis" eventType="touchUpInside" id="hp9-g6-2kF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="0V2-S9-Jds"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -591,6 +629,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="fTs-SK-yr5"/>
                     <connections>
+                        <outlet property="closeBtn" destination="Q21-Gm-v3v" id="1wY-E1-J1t"/>
                         <outlet property="emailContainerView" destination="u2E-dR-dak" id="Vw9-vz-f8X"/>
                         <outlet property="emailTextField" destination="AjY-yX-vsU" id="58A-4A-Wlf"/>
                         <outlet property="forgotPasswordBtn" destination="0zs-Lz-hqN" id="fax-fv-PzU"/>
@@ -603,7 +642,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yB1-Be-0jo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2314" y="116"/>
+            <point key="canvasLocation" x="2313.04347826087" y="115.84821428571428"/>
         </scene>
         <!--Forgot Password View Controller-->
         <scene sceneID="8TA-Bz-2TY">
@@ -674,7 +713,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ad6-OG-EYb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3045" y="116"/>
+            <point key="canvasLocation" x="3044.9275362318845" y="115.84821428571428"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="NUT-fB-MgE">

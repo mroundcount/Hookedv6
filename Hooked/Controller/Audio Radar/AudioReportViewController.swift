@@ -32,9 +32,19 @@ class AudioReportViewController: UIViewController, UITableViewDataSource, UITabl
         setupNavigationBar()
         setLabels()
         
+        //Adjusting the keyboard when selecting a text field is selected
+        //https://stackoverflow.com/questions/25693130/move-textfield-when-keyboard-appears-swift
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil);
+
         self.tableView.dataSource = self;
         self.tableView.delegate = self;
         tableView.tableFooterView = UIView()
+        
+        //Hiding these fields for now... they don't have use right now.
+        userEmailLbl.isHidden = true
+        updateEmailTxt.isHidden = true
+        policyLbl.isHidden = true
     }
     
     func setupNavigationBar() {
@@ -58,13 +68,18 @@ class AudioReportViewController: UIViewController, UITableViewDataSource, UITabl
         navigationController?.popViewController(animated: true)
     }
     
+    //Dismissing the keyboard. Looks for the repsonder to the text field to give up the startis
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     func setLabels() {
         Api.User.getUserInforSingleEvent(uid: audio.artist) { (user) in
             self.audioTitleLbl.text = "You are filing a report against the song: '\(self.audio.title)' "
             self.artistLbl.text = "by: \(user.username)"
         }
         Api.User.getUserInforSingleEvent(uid: Api.User.currentUserId) { (user) in
-            self.userEmailLbl.text = "We have you email address as: '\(user.email)' if that is not the best way to contact you add an email address below: "
+            self.userEmailLbl.text = "We have your email address as: '\(user.email)' if that is not the best way to contact you add an email address below: "
         }
 
         self.commentLbl.text = "Please add additional details:"
@@ -75,6 +90,18 @@ class AudioReportViewController: UIViewController, UITableViewDataSource, UITabl
         self.policyLbl.text = "We reviee each report. We will contact you at the email address provided"
     }
     
+    //Moving up the keyboard
+    @objc func keyboardWillShow(sender: NSNotification) {
+        //self.view.frame.origin.y += 350+100 // Move view y points upward
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    @objc func keyboardWillHide(sender: NSNotification) {
+        self.view.frame.origin.y = 0 // Move view to original position
+        self.navigationController?.isNavigationBarHidden = false
+    }
+
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return report.count
     }
