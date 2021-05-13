@@ -29,6 +29,23 @@ extension AudioRadarViewController {
         //allows us to see the full stack of the cards.
         //setupTransforms()
         
+        
+        //Removes corrupted audio files.
+        print("Checking for corruption")
+        if card.audio.artist == "" || card.audio.audioUrl == "" || card.audio.title == "" || card.audio.id == ""
+        {
+            print("Corruption found at \(card.audio.id)")
+            card.removeFromSuperview()
+            //self.updateCards(card: card)
+            self.removeCards(card: card)
+        }
+        
+        
+        
+        
+        
+        
+        
         //Removes audio that the logged in user already likes.
         Api.Audio.observeNewLike { (likedAudio) in
             self.likesCollection.append(likedAudio)

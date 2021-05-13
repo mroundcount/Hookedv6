@@ -13,10 +13,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var signInFacebookBtn: UIButton!
     @IBOutlet weak var signInGoogleBtn: UIButton!
+    @IBOutlet weak var signInAppleBtn: UIButton!
+    
     @IBOutlet weak var createAccountBtn: UIButton!
     @IBOutlet weak var orLbl: UILabel!
     @IBOutlet weak var termsOfServiceLbl: UILabel!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
@@ -40,8 +42,11 @@ class ViewController: UIViewController {
         //Find all methods in the ViewController+UI.swift file
         setUpHeaderTitle()
         setUpOrLabel()
-        setUpFacebookBtn()
+        //setUpFacebookBtn()
+        signInFacebookBtn.isHidden = true
         setUpGoogleBtn()
+        //setUpAppleBtn()
+        signInAppleBtn.isHidden = true
         setUpCreateAccountBtn()
         setUpTermsLabel()
     }
@@ -49,13 +54,13 @@ class ViewController: UIViewController {
     @objc func labelTapped(_ sender: UITapGestureRecognizer) {
         print("labelTapped")
         
-        let alert = UIAlertController(title: "Whoa there cowboy!", message: "Yeah, I didn't write any terms yet", preferredStyle: .alert)
+        print("Terms of Servie label tapped")
         
-        self.present(alert, animated: true)
-        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
-            print("Whatever dude!")
-        }))
+        if let url = NSURL(string: "https://hookedmusic.app/Terms.pdf") {
+            UIApplication.shared.open(url as URL, options:[:], completionHandler:nil)
+        }        
     }
+    
 }
 
 class Core {
@@ -72,4 +77,5 @@ class Core {
         UserDefaults.standard.set(true, forKey: "isNewUser")
     }
 }
+
 

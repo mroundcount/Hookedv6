@@ -14,7 +14,6 @@ import ProgressHUD
 
 class SignUpViewController: UIViewController {
     
-    
     @IBOutlet weak var closeBtn: UIButton!
     @IBOutlet weak var titleTextLbl: UILabel!
     @IBOutlet weak var avatar: UIImageView!
@@ -30,6 +29,20 @@ class SignUpViewController: UIViewController {
     //getting the users current location. Store these locally 
     var image: UIImage? = nil
     
+    lazy var popUpWindow: Terms = {
+        let view = Terms()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 5
+        view.delegate = self
+        return view
+    }()
+    let visualEffectView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .light)
+        let view = UIVisualEffectView(effect: blurEffect)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
@@ -40,6 +53,7 @@ class SignUpViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil);
         
         closeBtn.setImage(UIImage(named: "close-1"), for: .normal)
+        setUpEffects()
     }
 
     func setUpUI() {
@@ -51,9 +65,17 @@ class SignUpViewController: UIViewController {
         setUpPasswordTxt()
         setUpSignUpBtn()
         setUpSignInBtn()
-        
-        
     }
+    
+    func setUpEffects(){
+        view.addSubview(visualEffectView)
+        visualEffectView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        visualEffectView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        visualEffectView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        visualEffectView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        visualEffectView.alpha = 0
+    }
+    
     //Dismissing the view and navigate back to the welcome in scene
     //Remember the action is "show"
     @IBAction func dismissionAction(_ sender: UIButton) {
@@ -63,12 +85,15 @@ class SignUpViewController: UIViewController {
     
     @IBAction func signUpBtnDidTap(_ sender: Any) {
         self.view.endEditing(true)
-        self.validateFields()
+        
+        handleShowPopUp()
+        //self.validateFields()
+        /*
         self.signUp(onSuccess: {
              (UIApplication.shared.delegate as! AppDelegate).configureInitialViewController()
         }) { (errorMessage) in
             ProgressHUD.showError(errorMessage)
-        }
+        } */
     }
     
     //Moving up the keyboard
@@ -88,4 +113,63 @@ class SignUpViewController: UIViewController {
             signUpBtn.isEnabled = true
         }
     }
+    
+    //Roundcount added 3/30 for pop up window
+    @objc func handleShowPopUp() {
+        view.addSubview(popUpWindow)
+        popUpWindow.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -20).isActive = true
+        popUpWindow.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        popUpWindow.heightAnchor.constraint(equalToConstant: view.frame.height - 60).isActive = true
+        popUpWindow.widthAnchor.constraint(equalToConstant: view.frame.width - 64).isActive = true        
+        popUpWindow.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        popUpWindow.alpha = 0
+        
+        UIView.animate(withDuration: 0.5) {
+            self.visualEffectView.alpha = 1
+            self.popUpWindow.alpha = 1
+            self.popUpWindow.transform = CGAffineTransform.identity
+        }
+    }
+    //End
+}
+
+
+extension SignUpViewController: termsPopUpDelegate {
+
+    func handleDismissal() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.visualEffectView.alpha = 0
+            self.popUpWindow.alpha = 0
+            self.popUpWindow.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        }) { (_) in
+            self.popUpWindow.removeFromSuperview()
+            print("Here here here")
+            print("Did remove pop up window..")
+        }
+    }
+    
+    func proceedToCreateAccount() {
+        print("Here here here")
+        print("Did press the accept button..")
+        
+        
+        self.validateFields()
+        
+        self.signUp(onSuccess: {
+             (UIApplication.shared.delegate as! AppDelegate).configureInitialViewController()
+        }) { (errorMessage) in
+            ProgressHUD.showError(errorMessage)
+        }
+
+        //handleDismissal()
+        
+    }
+    /*
+    func navigateToWebsite() {
+        if let url = NSURL(string: "https://hookedmusic.app/upload.html") {
+            UIApplication.shared.open(url as URL, options:[:], completionHandler:nil)
+        }
+        handleDismissal()
+    }
+    */
 }

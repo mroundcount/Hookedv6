@@ -10,6 +10,10 @@ import UIKit
 import FBSDKLoginKit
 import ProgressHUD
 import Firebase
+import FirebaseAuth
+import CryptoKit
+import AuthenticationServices
+
 
 extension ViewController {
     
@@ -75,35 +79,46 @@ extension ViewController {
         signInFacebookBtn.imageView?.contentMode = .scaleAspectFit
         signInFacebookBtn.tintColor = .white
         //size and reposition the rectangle where the image is drawn
-        signInFacebookBtn.imageEdgeInsets = UIEdgeInsets(top: 12, left: -15, bottom: 12, right: 0)
-        
+        signInFacebookBtn.imageEdgeInsets = UIEdgeInsets(top: 12, left: -15, bottom: 12, right: 0)        
         signInFacebookBtn.addTarget(self, action: #selector(fbButtonDidTap), for: UIControl.Event.touchUpInside)
     }
     
     //Logging in with Facebook
     @objc func fbButtonDidTap() {
+        
+        print("Getting token 1")
+        //pre-login
         let fbLoginManager = LoginManager()
         fbLoginManager.logIn(permissions: ["public_profile", "email"], from: self) { (results, error) in
             if let error = error {
+                print("Getting token 2")
                 ProgressHUD.showError(error.localizedDescription)
                 return
             }
             guard let accessToken = AccessToken.current else {
+                print("Getting token 3")
                 ProgressHUD.showError("Failed to get access token")
                 return
             }
+                
+            //hit
+            print("Getting token 4")
             let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
             Auth.auth().signIn(with: credential, completion: { (result, error) in
                     if let error = error {
+                        print("Getting token 5")
                         print("erroring here")
                         ProgressHUD.showError(error.localizedDescription)
                         return
                     }
                 if let authData = result {
+                    //hit
+                    print("Getting token 6")
                     print("authData")
                     print(authData.user.email)
                                         
                     let dict: Dictionary<String, Any> = [
+                        
                         UID: authData.user.uid,
                         EMAIL: authData.user.email,
                         USERNAME: authData.user.displayName,
@@ -114,15 +129,41 @@ extension ViewController {
                    Ref().databaseSpecificUser(uid: authData.user.uid).updateChildValues(dict, withCompletionBlock: {
                         (error, ref) in
                         if error == nil {
+                            //hit
+                            print("Getting token 7")
                             //This will route us back to the initial view controller. See details in appDelegate
                             (UIApplication.shared.delegate as! AppDelegate).configureInitialViewController()
                         } else {
                             ProgressHUD.showError(error!.localizedDescription)
+                            print("Getting token 8")
                         }
                     })
                 }
             })
         }
+    }
+    
+    
+    func setUpAppleBtn() {
+        //set the title for the button. Make sure to change the state from default to normal
+        signInAppleBtn.setTitle("Sign in with Apple", for: UIControl.State.normal)
+        signInAppleBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        //signInAppleBtn.backgroundColor = UIColor(red: 58/255, green: 85/255, blue: 159/255, alpha: 1)
+        //rounding off the corners
+        signInAppleBtn.layer.cornerRadius = 5
+        //The functional button is clipped to the rounded corners
+        signInAppleBtn.clipsToBounds = true
+        //signInAppleBtn.setImage(UIImage(named: "icon-facebook"), for: UIControl.State.normal)
+        //scale and fit the image here
+        //signInAppleBtn.imageView?.contentMode = .scaleAspectFit
+        //signInAppleBtn.tintColor = .white
+        //size and reposition the rectangle where the image is drawn
+        //signInAppleBtn.imageEdgeInsets = UIEdgeInsets(top: 12, left: -15, bottom: 12, right: 0)
+        signInAppleBtn.addTarget(self, action: #selector(appleButtonDidTap), for: UIControl.Event.touchUpInside)
+    }
+    
+    @objc func appleButtonDidTap() {
+        print("apple button tapped")
     }
     
     func setUpGoogleBtn() {
@@ -145,3 +186,7 @@ extension ViewController {
         createAccountBtn.clipsToBounds = true
     }
 }
+
+
+
+

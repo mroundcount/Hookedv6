@@ -66,22 +66,17 @@ class ProfileTableViewController: UITableViewController {
     
     @objc func privacyPolicyLblTap(_ sender: UITapGestureRecognizer) {
         print("Privacy label tapped")
-        let alert = UIAlertController(title: "Whoa there cowboy!", message: "Yeah, I didn't write any terms yet", preferredStyle: .alert)
-        
-        self.present(alert, animated: true)
-        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
-            print("Whatever dude!")
-        }))
+        if let url = NSURL(string: "https://hookedmusic.app/Terms.pdf") {
+            UIApplication.shared.open(url as URL, options:[:], completionHandler:nil)
+        }
     }
     
     @objc func termsOfServiceLblTap(_ sender: UITapGestureRecognizer) {
         print("Terms of Servie label tapped")
-        let alert = UIAlertController(title: "Whoa there cowboy!", message: "Yeah, I didn't write any terms yet", preferredStyle: .alert)
         
-        self.present(alert, animated: true)
-        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
-            print("Whatever dude!")
-        }))
+        if let url = NSURL(string: "https://hookedmusic.app/Terms.pdf") {
+            UIApplication.shared.open(url as URL, options:[:], completionHandler:nil)
+        }
     }
     
     @objc func myPreferencesLblTap(_ sender: UITapGestureRecognizer) {
