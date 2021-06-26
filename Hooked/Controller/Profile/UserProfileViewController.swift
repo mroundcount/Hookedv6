@@ -119,7 +119,19 @@ class UserProfileViewController: UIViewController, AVAudioPlayerDelegate {
     }
 
     @IBAction func uploadBtnDidPress(_ sender: UIButton) {
-        handleShowPopUp()
+        //This function counts how many audio files have already been uploaded by a user. If it is more than 8 they are directed out.
+        let ref = Database.database().reference().child("audioFiles")
+        ref.queryOrdered(byChild: "artist").queryEqual(toValue: Api.User.currentUserId).observe(.value, with: { (snapshot: DataSnapshot!) in
+            let count = snapshot.childrenCount
+            print("uploads: \(count)")
+            if count >= 8 {
+                let alert = UIAlertController(title: "You are at your upload limit", message: "Sorry, but we are a small company with limited server space. As we grow you will be allowed to add more music.", preferredStyle: .alert)
+                self.present(alert, animated: true)
+                alert.addAction(UIAlertAction(title: "Got it", style: UIAlertAction.Style.cancel, handler: nil))
+            } else {
+                self.handleShowPopUp()
+            }
+        })
     }
     
     @IBAction func optionsBtnDidPress(_ sender: UIButton) {

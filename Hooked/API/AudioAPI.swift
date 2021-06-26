@@ -30,6 +30,7 @@ class AudioApi {
         })
     }
     
+    
     //Looking for which audio file is liked by a given user.
     func observeNewLike(onSuccess: @escaping(AudioCompletion)) {
         Ref().databaseRoot.child("likes").child(Api.User.currentUserId).observeSingleEvent(of: .value) { (snapshot) in
