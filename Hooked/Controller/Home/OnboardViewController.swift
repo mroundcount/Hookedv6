@@ -59,7 +59,7 @@ class OnboardViewController: UIViewController {
             
             button.setTitleColor(.white, for: .normal)
             button.backgroundColor = .purple
-            button.setTitle("Contune", for: .normal)
+            button.setTitle("Continue", for: .normal)
             if x == 3 {
                 button.setTitle("Get Started", for: .normal)
             }
