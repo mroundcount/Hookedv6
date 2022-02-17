@@ -30,6 +30,15 @@ class EditUploadTableViewController: UITableViewController {
     
     let genre = ["Alternative Rock", /*"Ambient",*/ "Classical", "Country", "Dance & EDM", /*"Dancehall", "Deep House",*/ "Disco", /*"Drum & Bass", "Dubstep", "Electronic",*/ "Folk", "Hip-hop & Rap",/* "House",*/ "Indie", "Jazz & Blues", "Latin", "Metal", "Piano", "Pop", "R&B & Soul", "Reggae", "Reggaeton", "Rock", /*"Techno", "Trance", "Trap", "Triphop",*/ "World"]
     
+    
+    
+    
+    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var saveBtn: UIButton!
+    @IBOutlet weak var pageLbl: UILabel!
+    @IBOutlet weak var lblBackground: UIView!
+    
+    
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var fileNameLbl: UILabel!
     @IBOutlet weak var genrePickerDidSelect: UIPickerView!
@@ -45,7 +54,6 @@ class EditUploadTableViewController: UITableViewController {
     @IBOutlet weak var stopTimeSecTextField: UITextField!
     
     @IBOutlet weak var timeRequirementsLbl: UILabel!
-    @IBOutlet weak var saveBtn: UIBarButtonItem!
     @IBOutlet weak var previewBtn: UIButton!
 
     override func viewDidLoad() {
@@ -54,20 +62,18 @@ class EditUploadTableViewController: UITableViewController {
         observeData()
         
         setupView()
-        //Need to be able to modify this
-        enterAudioName()
-        enterStartMinTime()
-        enterStartSecTime()
-        enterStopMinTime()
-        enterStopSecTime()
-        enterGenre()
+        setUpUI()
         
-        setUpRequirementsLbl()
-        setUpStartTimeLbl()
-        setUpStopTimeLbl()
+        //Need to be able to modify this
+
         
         popupContentController = storyboard?.instantiateViewController(withIdentifier: "DemoMusicPlayerController") as! DemoMusicPlayerController
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -188,76 +194,7 @@ class EditUploadTableViewController: UITableViewController {
         }
     }
     
-    func enterAudioName() {
-        let placeholderAttr = NSAttributedString(string: "\(audio.title)", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)])
-        //titleTextField.attributedPlaceholder = placeholderAttr
-        titleTextField.text = audio.title
-        titleTextField.textColor = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
-    }
-    
-    func enterGenre() {
-        let placeholderAttr = audio.genre
-        genreLbl.text = placeholderAttr
-        genreLbl.textColor = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
-    }
-    
-    func enterStartMinTime() {
-        let startMin : Int = Int(audio.startTime/60)
-        print("start min: \(startMin)")
-        
-        let placeholderAttr = NSAttributedString(string: "\(startMin)", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)])
-        
-        //startTimeMinTextField.attributedPlaceholder = placeholderAttr
-        startTimeMinTextField.text = String(startMin)
-        startTimeMinTextField.textColor = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
-    }
-    
-    func enterStartSecTime() {
-        let startMin : Int = Int(audio.startTime/60)
-        let startSec : Int = Int(audio.startTime - Double(startMin*60))
-        print("start sec: \(startSec)")
-        
-        let placeholderAttr = NSAttributedString(string: "\(startSec)", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)])
-        
-        //startTimeSecTextField.attributedPlaceholder = placeholderAttr
-        startTimeSecTextField.text = String(startSec)
-        startTimeSecTextField.textColor = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
-    }
-    
-    func enterStopMinTime() {
-        let stoptMin : Int = Int(audio.stopTime/60)
-        print("start min: \(stoptMin)")
-        
-        let placeholderAttr = NSAttributedString(string: "\(stoptMin)", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)])
-        
-        //stopTimeMinTextField.attributedPlaceholder = placeholderAttr
-        stopTimeMinTextField.text = String(stoptMin)
-        stopTimeMinTextField.textColor = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
-    }
-    
-    func enterStopSecTime() {
-        let stopMin : Int = Int(audio.stopTime/60)
-        let stopSec : Int = Int(audio.stopTime - Double(stopMin*60))
-        print("start sec: \(stopSec)")
-        
-        let placeholderAttr = NSAttributedString(string: "\(stopSec)", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)])
-        
-        //stopTimeSecTextField.attributedPlaceholder = placeholderAttr
-        stopTimeSecTextField.text = String(stopSec)
-        stopTimeSecTextField.textColor = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
-    }
-    
-    func setUpRequirementsLbl() {
-        timeRequirementsLbl.text = "Enter the start time and end time (seconds) for your song. Length must not be longer than 15 seconds"
-    }
-    
-    func setUpStartTimeLbl() {
-        startTimeLbl.text = "Starting Time: "
-    }
-    
-    func setUpStopTimeLbl() {
-        stopTimeLbl.text = "Stopping Time: "
-    }
+  
     
     
     func updateAudio() {

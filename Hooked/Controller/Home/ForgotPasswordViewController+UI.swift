@@ -9,29 +9,69 @@
 import UIKit
 
 extension ForgotPasswordViewController {
+    
+    func setUpCloseBtn() {
+        print("here")
+        self.closeBtn.backgroundColor = UIColor.gray
+        self.closeBtn.layer.cornerRadius = 15
+    }
+    
+    func setUpBackground() {
+        self.view.backgroundColor = UIColor.black
+    }
+    
+    func setUpTitleTextLbl() {
+        let color = getUIColor(hex: "#66CD5D")
+        let titleText = "Reset Password"
+        //copy over from ViewController+UI
+        let attributedText = NSMutableAttributedString(string: titleText, attributes: [NSAttributedString.Key.font : UIFont.init(name: "Arial Hebrew", size: 35)!, NSAttributedString.Key.foregroundColor : color])
+        self.titleText.attributedText = attributedText
+        self.titleText.textAlignment = .center
+    }
 
     func setUpEmailTxt() {
     //copy over from SignUpViewController+UI
-        emailContainerView.layer.borderWidth = 1
-        emailContainerView.layer.borderColor = UIColor(red: 210/255, green: 210/255, blue: 210/255, alpha: 1).cgColor
-        emailContainerView.layer.cornerRadius = 3
-        emailContainerView.clipsToBounds = true
+        let color = getUIColor(hex: "#66CD5D")
+        self.emailContainerView.layer.borderWidth = 2
+        self.emailContainerView.layer.borderColor = UIColor.green.cgColor
+        self.emailContainerView.layer.cornerRadius = 27.5
+        self.emailContainerView.clipsToBounds = true
+        self.emailContainerView.backgroundColor = UIColor.clear
+        self.emailTxt.borderStyle = .none
+        let placeholderAttr = NSAttributedString(string: "Email Address", attributes: [NSAttributedString.Key.foregroundColor : color])
         
-        emailTxt.borderStyle = .none
-        
-        let placeholderAttr = NSAttributedString(string: "Email Address", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)])
-        
-        emailTxt.attributedPlaceholder = placeholderAttr
-        emailTxt.textColor = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
-
+        self.emailTxt.attributedPlaceholder = placeholderAttr
+        self.emailTxt.textColor = color
     }
     func setUpResetBtn() {
-        resetBtn.setTitle("RESET MY PASSWORD", for: UIControl.State.normal)
-        resetBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        resetBtn.backgroundColor = UIColor.black
-        resetBtn.layer.cornerRadius = 5
+        let color = getUIColor(hex: "#66CD5D")
+        resetBtn.setTitle("Reset My Password", for: UIControl.State.normal)
+        resetBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        resetBtn.backgroundColor = UIColor.white
+        resetBtn.layer.cornerRadius = 27.5
         resetBtn.clipsToBounds = true
         resetBtn.setTitleColor(.white, for: UIControl.State.normal)
+        resetBtn.backgroundColor = color
+    }
+    
+    //Function for converting HEX to RGBA
+    //https://www.zerotoappstore.com/how-to-set-custom-colors-swift.html
+    func getUIColor(hex: String, alpha: Double = 1.0) -> UIColor? {
+        var cleanString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        if (cleanString.hasPrefix("#")) {
+            cleanString.remove(at: cleanString.startIndex)
+        }
+        if ((cleanString.count) != 6) {
+            return nil
+        }
+        var rgbValue: UInt32 = 0
+        Scanner(string: cleanString).scanHexInt32(&rgbValue)
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
     }
     
     //Dismissing the keyboard. Looks for the repsonder to the text field to give up the startis

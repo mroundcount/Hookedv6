@@ -17,6 +17,9 @@ import CoreLocation
 class AudioCard: UIView {
     
     @IBOutlet weak var photo: UIImageView!
+    
+    
+    @IBOutlet weak var textBackgroundView: UIView!
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var usernameLbl: UILabel!
     @IBOutlet weak var likeView: UIView!
@@ -56,7 +59,7 @@ class AudioCard: UIView {
                 }
 
                 //Customizing the text for the username label
-                let attributedArtistText = NSMutableAttributedString(string: "   \(user.username)", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 22), NSAttributedString.Key.foregroundColor : UIColor.white])
+                let attributedArtistText = NSMutableAttributedString(string: "   \(user.username)", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18), NSAttributedString.Key.foregroundColor : UIColor.white])
                 self.usernameLbl.attributedText = attributedArtistText
                 
                 self.usernameLbl.numberOfLines = 1
@@ -64,31 +67,54 @@ class AudioCard: UIView {
                 self.usernameLbl.adjustsFontSizeToFitWidth = false
             }
             //Customizing the text for the audio title label
-            let attributedTitleText = NSMutableAttributedString(string: "  \(audio.title)", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 30), NSAttributedString.Key.foregroundColor : UIColor.white])
+            let attributedTitleText = NSMutableAttributedString(string: "  \(audio.title)", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 22), NSAttributedString.Key.foregroundColor : UIColor.white])
             self.titleLbl.attributedText = attributedTitleText
-            
+            self.titleLbl.font = UIFont.systemFont(ofSize: 22, weight: .heavy)
             self.titleLbl.numberOfLines = 1
             self.titleLbl.lineBreakMode = .byTruncatingTail
             self.titleLbl.adjustsFontSizeToFitWidth = false
-            
         }
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        // Blurring effect on the title and artist.
+        //https://stackoverflow.com/questions/25529500/how-to-set-the-blurradius-of-uiblureffectstyle-light
+        //https://www.raywenderlich.com/16125723-uivisualeffectview-tutorial-getting-started#toc-anchor-001
+        textBackgroundView.backgroundColor = .clear
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        blurView.alpha = 0.75
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        textBackgroundView.insertSubview(blurView, at: 0)
         
+        NSLayoutConstraint.activate([
+          blurView.topAnchor.constraint(equalTo: textBackgroundView.topAnchor),
+          blurView.leadingAnchor.constraint(equalTo: textBackgroundView.leadingAnchor),
+          blurView.heightAnchor.constraint(equalTo: textBackgroundView.heightAnchor),
+          blurView.widthAnchor.constraint(equalTo: textBackgroundView.widthAnchor)
+        ])
+        
+        let color = getUIColor(hex: "#1A1A1A")
         //adding gradient to the avatar
         //backgroundColor = .clear
         let frameGradient = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: bounds.height)
         //rounding the corners
         photo.addBlackGradientLayer(frame: frameGradient, colors: [.clear, .black])
-        
+        backgroundColor = color
+
 
         gradient = CAGradientLayer()
         gradient.frame = photo.bounds
  
         photo.layer.cornerRadius = 10
         photo.clipsToBounds = true
+        
+        textBackgroundView.layer.cornerRadius = 10
+        textBackgroundView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner] // Top right corner, Top left corner respectively
+        textBackgroundView.clipsToBounds = true
+        
+        
         
         //styling the like and nope icons
         likeView.alpha = 0
@@ -177,7 +203,6 @@ class AudioCard: UIView {
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.destructive, handler: nil))
 
         self.window?.rootViewController?.present(alert, animated: true, completion: nil)
-        
     }
     
     func saveBlocksToFirebase() {
@@ -191,6 +216,25 @@ class AudioCard: UIView {
         let alert = UIAlertController(title: "", message: "This artist is blocked from your feed once you refresh this page. Continue swiping", preferredStyle: .alert)
         self.window?.rootViewController?.present(alert, animated: true, completion: nil)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.cancel, handler: nil))
+    }
+    
+    
+    func getUIColor(hex: String, alpha: Double = 1.0) -> UIColor? {
+        var cleanString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        if (cleanString.hasPrefix("#")) {
+            cleanString.remove(at: cleanString.startIndex)
+        }
+        if ((cleanString.count) != 6) {
+            return nil
+        }
+        var rgbValue: UInt32 = 0
+        Scanner(string: cleanString).scanHexInt32(&rgbValue)
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
     }
 
 }

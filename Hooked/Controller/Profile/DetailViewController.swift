@@ -28,32 +28,9 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
         observeData()
- 
-        let backImg = UIImage(named: "close-1")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        backBtn.setImage(backImg, for: UIControl.State.normal)
-        backBtn.tintColor = .white
+        setUpUI()
         
-        backBtn.layer.cornerRadius = 35/2
-        backBtn.clipsToBounds = true
-        
-        usernameLbl.numberOfLines = 0
-        usernameLbl.adjustsFontSizeToFitWidth = true
-        
-        //Adding logic for a default profile picture if null
-        if user.profileImageUrl != "" {
-            self.avatar.loadImage(user.profileImageUrl)
-        } else {
-            self.avatar.loadImage("https://firebasestorage.googleapis.com/v0/b/hooked-217d3.appspot.com/o/profile%2FBwfxgQ9mmzNk7jRjO0hzjC9qyBs1?alt=media&token=b5bfe675-8aa8-4ecd-ac20-8ada0b223969")
-        }
-        
-   
-        avatar.clipsToBounds = true
-        let frameGradient = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 350)
-        avatar.addBlackGradientLayer(frame: frameGradient, colors: [.clear, .black])
-        usernameLbl.text = "  \(user.username)"
-
         //removing the white menu at the top by hiding the same area.
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.dataSource = self
@@ -65,6 +42,7 @@ class DetailViewController: UIViewController {
         AVAudioSession.sharedInstance()
         tableView.tableFooterView = UIView(frame: .zero)
     }
+    
     
     //Hide the navigation bar
     override func viewWillAppear(_ animated: Bool) {
@@ -107,6 +85,7 @@ class DetailViewController: UIViewController {
             }
         }
     }
+    
     
     func observeData() {
         Api.Audio.loadAudioFile(artist: user.uid) { (audio) in
@@ -192,6 +171,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         }
                 
         tableView.deselectRow(at: indexPath, animated: true)
+
     }
 }
 

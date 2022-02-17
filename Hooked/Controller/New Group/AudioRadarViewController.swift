@@ -53,6 +53,8 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     //Monitoring function used in DispatchQueue.
     var returned = true // assume success for all
     
+    
+    
     @IBOutlet weak var cardStack: UIView!
     @IBOutlet weak var nopeImg: UIImageView!
     @IBOutlet weak var stopImg: UIImageView!
@@ -70,42 +72,24 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         audioCollection.removeAll()
         cards.removeAll()
         
-        title = "Discover"
-        nopeImg.isUserInteractionEnabled = true
-        let tapNopeImg = UITapGestureRecognizer(target: self, action: #selector(nopeImgDidTap))
-        nopeImg.addGestureRecognizer(tapNopeImg)
-        
-        likeImg.isUserInteractionEnabled = true
-        let tapLikeImg = UITapGestureRecognizer(target: self, action: #selector(likeImgDidTap))
-        likeImg.addGestureRecognizer(tapLikeImg)
-        
-        stopImg.isUserInteractionEnabled = true
-        let tapStopImg = UITapGestureRecognizer(target: self, action: #selector(stopImgDidTap))
-        stopImg.addGestureRecognizer(tapStopImg)
-        stopImg.image = UIImage(named: "refresh_circle")
-        //This is the way that you use the built in images.. just for reference
-        //stopImg.image = UIImage(systemName: "stop.circle")
-        
-        playImg.isUserInteractionEnabled = true
-        let tapPlayImg = UITapGestureRecognizer(target: self, action: #selector(playImgDidTap))
-        playImg.addGestureRecognizer(tapPlayImg)
-        playImg.image = UIImage(systemName: "pause.circle")
-        recordStatus = "Opening"
+        setUpUI()
         
         likeImg.isHidden = false
         nopeImg.isHidden = false
         playImg.isHidden = false
-        stopImg.isHidden = false
+        stopImg.isHidden = true
     }
     
     //diabling the title area and the navigation bar the bottom
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.prefersLargeTitles = false
+        //Commenting this out in order to center the title
+        //navigationController?.navigationBar.prefersLargeTitles = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
         print("ViewDidAppear")
+        self.centerTitle()
         loadingInidcator.stopAnimating()
         loadingInidcator.hidesWhenStopped = true
         stopAudio()
@@ -116,7 +100,8 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         likeImg.isHidden = false
         nopeImg.isHidden = false
         playImg.isHidden = false
-        stopImg.isHidden = false
+        //12/16/2021 update
+        stopImg.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -241,6 +226,7 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
             resetAudio()
             playTopCard()
         }
+        setupTransforms()
     }
     
     func playTopCard() {
@@ -262,6 +248,7 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         //save it to the firstbase
         swipeAnimation(translation: -750, angle: -15)
         checkCardCount()
+        setupTransforms()
     }
     
     //creating swipe animation
@@ -274,6 +261,7 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         saveLikesToFirebase(like: true, card: firstCard)
         swipeAnimation(translation: 750, angle: 15)
         checkCardCount()
+        setupTransforms()
     }
     
     
@@ -408,9 +396,11 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
             
             var transform = CGAffineTransform.identity
             if i % 2 == 0 {
+                //transform = transform.translatedBy(x: 0, y: 15)
                 transform = transform.translatedBy(x: CGFloat(i)*4, y: 0)
                 transform = transform.rotated(by: CGFloat(Double.pi)/150*CGFloat(i))
             } else {
+                //transform = transform.translatedBy(x: 0, y: -15)
                 transform = transform.translatedBy(x: -CGFloat(i)*4, y: 0)
                 transform = transform.rotated(by: -CGFloat(Double.pi)/150*CGFloat(i))
             }

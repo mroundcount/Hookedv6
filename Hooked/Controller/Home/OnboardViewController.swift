@@ -17,6 +17,7 @@ class OnboardViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -26,9 +27,9 @@ class OnboardViewController: UIViewController {
     
     private func configure() {
         //set up scrollview
+
         scrollView.frame = holderView.bounds
         holderView.addSubview(scrollView)
-        
         
         //Adding the array of titles
         let titles = ["Right swipe clips you like", "Listen to full songs on your playlist", "If you're an artist, upload and manage music", "Don't forget to adjust your music preferences"]
@@ -42,7 +43,8 @@ class OnboardViewController: UIViewController {
             //title image, button
             let label = UILabel(frame: CGRect(x: 10, y: 10, width: pageView.frame.size.width-20, height: 120))
             let imageView = UIImageView(frame: CGRect(x: 10, y: 10+120+10, width: pageView.frame.size.width-20, height: pageView.frame.size.height-200-120-15))
-            let button = UIButton(frame: CGRect(x: 10, y: pageView.frame.size.height-60, width: pageView.frame.size.width-20, height: 50))
+            
+            let button = UIButton(frame: CGRect(x: 50, y: pageView.frame.size.height-60, width: pageView.frame.size.width-100, height: 50))
             
             label.textAlignment = .center
             label.font = UIFont(name: "Helvetica-Bold", size: 26)
@@ -57,8 +59,18 @@ class OnboardViewController: UIViewController {
             imageView.image = UIImage(named: "Welcome_\(x+1)")
             pageView.addSubview(imageView)
             
+            
+            
+            
+            
+            
+            let color = getUIColor(hex: "#66CD5D")
+            button.backgroundColor = color
             button.setTitleColor(.white, for: .normal)
-            button.backgroundColor = .purple
+            button.layer.cornerRadius = 15
+            
+            //button.setTitleColor(.white, for: .normal)
+            //button.backgroundColor = .purple
             button.setTitle("Continue", for: .normal)
             if x == 3 {
                 button.setTitle("Get Started", for: .normal)
@@ -84,6 +96,24 @@ class OnboardViewController: UIViewController {
         }
         //scroll to next page
         scrollView.setContentOffset(CGPoint(x: holderView.frame.size.width * CGFloat(button.tag) ,y: 0), animated: true)
+    }
+    
+    func getUIColor(hex: String, alpha: Double = 1.0) -> UIColor? {
+        var cleanString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        if (cleanString.hasPrefix("#")) {
+            cleanString.remove(at: cleanString.startIndex)
+        }
+        if ((cleanString.count) != 6) {
+            return nil
+        }
+        var rgbValue: UInt32 = 0
+        Scanner(string: cleanString).scanHexInt32(&rgbValue)
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
     }
     
 

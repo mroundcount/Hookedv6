@@ -49,6 +49,15 @@ class LikesAudioTableViewCell: UITableViewCell {
         //let tapGesture = UITapGestureRecognizer (target: self, action: #selector(self.profilePictureTap))
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profilePictureTap(sender:)))
         avatar?.addGestureRecognizer(tapGesture)
+        
+        setUpCell()
+    }
+    
+    func setUpCell() {
+        let color = getUIColor(hex: "#1A1A1A")
+        self.backgroundColor = color
+        self.titleLbl.textColor = UIColor.white
+        self.artistLbl.textColor = UIColor.white
     }
 
     
@@ -88,5 +97,25 @@ class LikesAudioTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
+    }
+    
+    //Function for converting HEX to RGBA
+    //https://www.zerotoappstore.com/how-to-set-custom-colors-swift.html
+    func getUIColor(hex: String, alpha: Double = 1.0) -> UIColor? {
+        var cleanString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        if (cleanString.hasPrefix("#")) {
+            cleanString.remove(at: cleanString.startIndex)
+        }
+        if ((cleanString.count) != 6) {
+            return nil
+        }
+        var rgbValue: UInt32 = 0
+        Scanner(string: cleanString).scanHexInt32(&rgbValue)
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
     }
 }

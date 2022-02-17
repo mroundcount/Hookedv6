@@ -44,6 +44,7 @@ extension DemoMusicPlayerController {
         player?.play()
         recordStatus = "Playing"
         controlBtn.setImage(UIImage(systemName: "pause.fill"), for: .normal)
+        controlBtn.tintColor = UIColor.white
         popupItem.rightBarButtonItems = [ pauseBtn , closeBtn ] as? [UIBarButtonItem]
         startTimer()
         print("Status: \(recordStatus)")
@@ -55,6 +56,7 @@ extension DemoMusicPlayerController {
         player?.pause()
         recordStatus = "Paused"
         controlBtn.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        controlBtn.tintColor = UIColor.white
         popupItem.rightBarButtonItems = [ playBtn , closeBtn ] as? [UIBarButtonItem]
         stopTimer()
     }
@@ -64,6 +66,7 @@ extension DemoMusicPlayerController {
         player?.seek(to: .zero)
         recordStatus = "Stopped"
         controlBtn.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        controlBtn.tintColor = UIColor.white
         stopTimer()
     }
     
@@ -72,6 +75,7 @@ extension DemoMusicPlayerController {
         player?.pause()
         recordStatus = "Finished"
         controlBtn.setImage(UIImage(systemName: "arrow.counterclockwise"), for: .normal)
+        controlBtn.tintColor = UIColor.white
         stopTimer()
         popupItem.rightBarButtonItems = [ replayBtn , closeBtn ] as? [UIBarButtonItem]
         print("Status: \(recordStatus)")
@@ -87,6 +91,7 @@ extension DemoMusicPlayerController {
         playAudio()
         audioSettings()
         controlBtn.setImage(UIImage(systemName: "pause.fill"), for: .normal)
+        controlBtn.tintColor = UIColor.white
         popupItem.rightBarButtonItems = [ pauseBtn , closeBtn ] as? [UIBarButtonItem]
         print("Status: \(recordStatus)")
     }

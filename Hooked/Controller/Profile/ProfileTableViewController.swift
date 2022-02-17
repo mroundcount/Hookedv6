@@ -20,6 +20,11 @@ import FirebaseDatabase
 //The page where someone can edit the profile.
 class ProfileTableViewController: UITableViewController {
     
+    
+    @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var saveBtn: UIButton!
+    
     @IBOutlet weak var avatar: UIImageView!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
@@ -37,8 +42,12 @@ class ProfileTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         observeData()
+        setUpUI()
         setupView()
-        setUpAvatar()
+        
+        //Make it so we cannot edit field.
+        self.emailTextField.isUserInteractionEnabled = false
+        self.usernameTextField.isUserInteractionEnabled = false
         
         let privacyPolicyLblTap = UITapGestureRecognizer(target: self, action: #selector(self.privacyPolicyLblTap(_:)))
         self.privacyPolicyLbl.isUserInteractionEnabled = true
@@ -53,9 +62,13 @@ class ProfileTableViewController: UITableViewController {
         self.myPreferencesLbl.addGestureRecognizer(myPreferencesLblTap)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+    }
+    
     
     func setupView() {
-        //setUpAvatar()
         //dismiss they keyboard with a tap gesture
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
     }
@@ -87,15 +100,77 @@ class ProfileTableViewController: UITableViewController {
         
     }
     
-    func setUpAvatar() {
-        //making the UIImage circular note: height and width is 120
-        avatar.layer.cornerRadius = 60
-        avatar.clipsToBounds = true
-        //adding actions to respond to tap gesture
-        avatar.isUserInteractionEnabled = true
-        //use self becauase it it is on the signUpViewController itseld
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentPicker))
-        avatar.addGestureRecognizer(tapGesture)
+    @IBAction func backBtnDidTap(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func saveBtnDidTap(_ sender: Any) {
+        ProgressHUD.show("Loading...")
+        
+        //saving the updated text fields. We're going to be doing it the whole dictonary at a time
+        var dict = Dictionary<String, Any>()
+        
+        if let username = usernameTextField.text, !username.isEmpty {
+            dict["username"] = username
+        }
+        if let email = emailTextField.text, !email.isEmpty {
+            dict["email"] = email
+        }
+        
+        if let website = websiteTextField.text, !website.isEmpty {
+            dict["website"] = website
+        }
+        
+        //explicitContent
+        if explicitContentSegment.selectedSegmentIndex == 0 {
+            dict["explicitContent"] = true
+        }
+        if explicitContentSegment.selectedSegmentIndex == 1 {
+            dict["explicitContent"] = false
+        }
+
+        //Calling a method in user to save the dictonary above to the database
+        Api.User.saveUserProfile(dict: dict, onSuccess: {
+            //making sure the image variable is not nil. We need to get and process in it to upload to the database
+            if let img = self.image {
+                //call the methos in the storageServices to actually save the updated photo to the datebase
+                StorageService.savePhotoProfile(image: img, uid: Api.User.currentUserId, onSuccess: {
+                    ProgressHUD.showSuccess()
+                }) { (errorMessage) in
+                    ProgressHUD.showError(errorMessage)
+                }
+            } else {
+                ProgressHUD.showSuccess()
+            }
+            
+        }) { (errorMessage) in
+            ProgressHUD.showError(errorMessage)
+        }
+        
+        //updating email in the authentication storage
+        //https://stackoverflow.com/questions/54958026/how-to-update-email-address-in-firebase-authentication-in-swift-4
+        let user = Auth.auth().currentUser
+        var credential: AuthCredential = EmailAuthProvider.credential(withEmail: "email", password: "pass")
+        // Prompt the user to re-provide their sign-in credentials
+        //We need to reauthenticate in order to delete the facebook account
+        //https://stackoverflow.com/questions/52159866/updated-approach-to-reauthenticate-a-user
+        user?.reauthenticateAndRetrieveData(with: credential, completion: {(authResult, error) in
+                    if let error = error {
+                        // An error happened.
+                    }else{
+                        let user = Auth.auth().currentUser
+                        user?.updateEmail(to: self.emailTextField.text ?? "email") { (error) in
+                            // email updated
+                        }
+                    }
+                })
+
+        
+        //Dismiss view controller here. There is a delay so the changes have time to go up to firebase
+        //Two seconds might be cuttin it close
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
+            self.navigationController?.popViewController(animated: true)
+        })
     }
     
     //allowing users to select images from the library
@@ -108,7 +183,8 @@ class ProfileTableViewController: UITableViewController {
         //enable methods in the UIImage picker delegate
         picker.delegate = self
         //Making the image fill the entire UIIMage space
-        avatar.contentMode = . scaleAspectFill
+        avatar.contentMode = .scaleToFill
+        
         self.present(picker, animated: true, completion: nil)
     }
     
@@ -146,6 +222,9 @@ class ProfileTableViewController: UITableViewController {
  
             self.clearPhotoStorgage()
             
+            let reference = Ref().databaseSpecificUser(uid: Api.User.currentUserId)
+
+            //Calling the userID up here
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
 
                 self.clearAudio()
@@ -154,6 +233,9 @@ class ProfileTableViewController: UITableViewController {
                 self.clearLikeCount()
                 self.clearPreferences()
                 
+
+                //I think this was just for facebook
+                /*
                 let user = Auth.auth().currentUser
                 var credential: AuthCredential = EmailAuthProvider.credential(withEmail: "email", password: "pass")
                 // Prompt the user to re-provide their sign-in credentials
@@ -166,23 +248,40 @@ class ProfileTableViewController: UITableViewController {
                                 // User re-authenticated.
                             }
                         })
+                 */
 
-                user?.delete { error in
-                    if let error = error {
-                        print("error")
-                    } else {
-                        print("Account deleted")
+
+                
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    //This is the method that actually deletes a user from the authentication side of Firebase
+                    let user = Auth.auth().currentUser
+                    user?.delete { error in
+                        if let error = error {
+                            print("error")
+                        } else {
+                            print("Account deleted")
+                        }
                     }
-                }
-                let reference = Ref().databaseSpecificUser(uid: Api.User.currentUserId)
-                reference.removeValue { error, _ in
-                    print(error?.localizedDescription)
+                    print("Deleting account step 3")
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let preferencesVC = storyboard.instantiateViewController(withIdentifier: IDENTIFIER_USER_HOME_PAGE) as! ViewController
+                    self.navigationController?.pushViewController(preferencesVC, animated: true)
                     //(UIApplication.shared.delegate as! AppDelegate).configureInitialViewController()
-                    Api.User.logOut()
-                    print("Deleting account step 2")
+                    
+                    
+                    //Removing the user name at this point and referencing it above so we can pass the ID into the previous function
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        //let reference = Ref().databaseSpecificUser(uid: Api.User.currentUserId)
+                        reference.removeValue { error, _ in
+                            print(error?.localizedDescription)
+                            print("Deleting account step 2")
+                        }
+                    }
+                    
+                    
+                    
                 }
-                print("Deleting account step 3")
-                (UIApplication.shared.delegate as! AppDelegate).configureInitialViewController()
             })
         }))
     }
@@ -287,84 +386,6 @@ class ProfileTableViewController: UITableViewController {
             }
         }
     }
-    
-    
-    @IBAction func backBtnDidTap(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    
-    @IBAction func saveBtnDidTap(_ sender: Any) {
-        ProgressHUD.show("Loading...")
-        
-        //saving the updated text fields. We're going to be doing it the whole dictonary at a time
-        var dict = Dictionary<String, Any>()
-        
-        if let username = usernameTextField.text, !username.isEmpty {
-            dict["username"] = username
-        }
-        if let email = emailTextField.text, !email.isEmpty {
-            dict["email"] = email
-        }
-        
-        if let website = websiteTextField.text, !website.isEmpty {
-            dict["website"] = website
-        }
-        
-        
-        
-        //explicitContent
-        if explicitContentSegment.selectedSegmentIndex == 0 {
-            dict["explicitContent"] = true
-        }
-        if explicitContentSegment.selectedSegmentIndex == 1 {
-            dict["explicitContent"] = false
-        }
-
-        
-        //Calling a method in user to save the dictonary above to the database
-        Api.User.saveUserProfile(dict: dict, onSuccess: {
-            //making sure the image variable is not nil. We need to get and process in it to upload to the database
-            if let img = self.image {
-                //call the methos in the storageServices to actually save the updated photo to the datebase
-                StorageService.savePhotoProfile(image: img, uid: Api.User.currentUserId, onSuccess: {
-                    ProgressHUD.showSuccess()
-                }) { (errorMessage) in
-                    ProgressHUD.showError(errorMessage)
-                }
-            } else {
-                ProgressHUD.showSuccess()
-            }
-            
-        }) { (errorMessage) in
-            ProgressHUD.showError(errorMessage)
-        }
-        
-        //updating email in the authentication storage
-        //https://stackoverflow.com/questions/54958026/how-to-update-email-address-in-firebase-authentication-in-swift-4
-        let user = Auth.auth().currentUser
-        var credential: AuthCredential = EmailAuthProvider.credential(withEmail: "email", password: "pass")
-        // Prompt the user to re-provide their sign-in credentials
-        //We need to reauthenticate in order to delete the facebook account
-        //https://stackoverflow.com/questions/52159866/updated-approach-to-reauthenticate-a-user
-        user?.reauthenticateAndRetrieveData(with: credential, completion: {(authResult, error) in
-                    if let error = error {
-                        // An error happened.
-                    }else{
-                        let user = Auth.auth().currentUser
-                        user?.updateEmail(to: self.emailTextField.text ?? "email") { (error) in
-                            // email updated
-                        }
-                    }
-                })
-
-        
-        //Dismiss view controller here. There is a delay so the changes have time to go up to firebase
-        //Two seconds might be cuttin it close
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
-            self.navigationController?.popViewController(animated: true)
-        })
-    }
 }
 
 
@@ -372,6 +393,7 @@ class ProfileTableViewController: UITableViewController {
 extension ProfileTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     //updating the avatar any time a user picks up an image.
     //display the photo on the UIIMage view. Use editedImage so if the photo is edited this info will return on the edited photo.
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let imageSelected = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
         {
@@ -379,11 +401,14 @@ extension ProfileTableViewController: UIImagePickerControllerDelegate, UINavigat
             avatar.image = imageSelected
         }
         //If the user does not update their avatar. It will return to the default image
+        // 1/26/2022 I removed this code based on this video saying we only needed one or the other. We should test this. https://www.hackingwithswift.com/read/10/4/importing-photos-with-uiimagepickercontroller
+        /*
         if let imageOrigional = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
         {
             image = imageOrigional
             avatar.image = imageOrigional
         }
+         */
         picker.dismiss(animated: true, completion: nil)
     }
 }

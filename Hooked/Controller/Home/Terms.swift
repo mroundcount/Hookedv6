@@ -11,54 +11,88 @@ import UIKit
 protocol termsPopUpDelegate {
     func handleDismissal()
     func proceedToCreateAccount()
-    //func navigateToUpload()
-    //func navigateToWebsite()
 }
 
 class Terms: UIView {
     
     // MARK: - Properties
     var delegate: termsPopUpDelegate?
-    
-
 
     let acceptBtn: UIButton = {
+        func getUIColor(hex: String, alpha: Double = 1.0) -> UIColor? {
+            var cleanString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+            if (cleanString.hasPrefix("#")) {
+                cleanString.remove(at: cleanString.startIndex)
+            }
+            if ((cleanString.count) != 6) {
+                return nil
+            }
+            var rgbValue: UInt32 = 0
+            Scanner(string: cleanString).scanHexInt32(&rgbValue)
+            return UIColor(
+                red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+                green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+                blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+                alpha: CGFloat(1.0)
+            )
+        }
+        let color = getUIColor(hex: "#66CD5D")
         let acceptBtn = UIButton(type: .system)
-        acceptBtn.backgroundColor = UIColor.mainBlue()
+        acceptBtn.backgroundColor = color
         acceptBtn.setTitle("Accept Terms of Service", for: .normal)
         acceptBtn.setTitleColor(.white, for: .normal)
         acceptBtn.addTarget(self, action: #selector(proceedToCreateAccount), for: .touchUpInside)
         acceptBtn.translatesAutoresizingMaskIntoConstraints = false
-        acceptBtn.layer.cornerRadius = 5
+        acceptBtn.layer.cornerRadius = 15
         return acceptBtn
     }()
     
     let cancelBtn: UIButton = {
+        func getUIColor(hex: String, alpha: Double = 1.0) -> UIColor? {
+            var cleanString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+            if (cleanString.hasPrefix("#")) {
+                cleanString.remove(at: cleanString.startIndex)
+            }
+            if ((cleanString.count) != 6) {
+                return nil
+            }
+            var rgbValue: UInt32 = 0
+            Scanner(string: cleanString).scanHexInt32(&rgbValue)
+            return UIColor(
+                red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+                green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+                blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+                alpha: CGFloat(1.0)
+            )
+        }
+        let color = getUIColor(hex: "#66CD5D")
         let cancelBtn = UIButton(type: .system)
-        cancelBtn.backgroundColor = UIColor.mainBlue()
+        cancelBtn.backgroundColor = UIColor.clear
         cancelBtn.setTitle("Cancel", for: .normal)
         cancelBtn.setTitleColor(.white, for: .normal)
         cancelBtn.addTarget(self, action: #selector(handleDismissal), for: .touchUpInside)
         cancelBtn.translatesAutoresizingMaskIntoConstraints = false
-        cancelBtn.layer.cornerRadius = 5
+        cancelBtn.layer.borderWidth = 2
+        cancelBtn.layer.borderColor = UIColor.green.cgColor
+        cancelBtn.layer.cornerRadius = 15
         return cancelBtn
     }()
     
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
-        
+        //backgroundColor = .black
+ 
         addSubview(termsTxt)
         termsTxt.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        termsTxt.topAnchor.constraint(equalTo: topAnchor, constant: 25).isActive = true
+        //termsTxt.topAnchor.constraint(equalTo: topAnchor, constant: -50).isActive = true
         termsTxt.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
         termsTxt.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
         //notificationLabel.numberOfLines = 0
         
         addSubview(acceptBtn)
         acceptBtn.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        acceptBtn.topAnchor.constraint(equalTo: termsTxt.bottomAnchor, constant: 30).isActive = true
+        acceptBtn.topAnchor.constraint(equalTo: termsTxt.bottomAnchor, constant: 10).isActive = true
         //websiteBtn.topAnchor.constraint(equalTo: AppUploadBtn.bottomAnchor, constant: 10).isActive = true
         acceptBtn.heightAnchor.constraint(equalToConstant: 40).isActive = true
         acceptBtn.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
@@ -85,20 +119,18 @@ class Terms: UIView {
     @objc func proceedToCreateAccount() {
         delegate?.proceedToCreateAccount()
     }
-    /*
-    @objc func navigateToWebsite() {
-        delegate?.navigateToWebsite()
-    }*/
 
     
     let termsTxt: UITextView = {
-        let textView = UITextView(frame: CGRect(x: 30.0, y: 90.0, width: 250.0, height: 400.0))
+        let textView = UITextView(frame: CGRect(x: 30.0, y: 30.0, width: 250.0, height: 400.0))
         textView.centerXAnchor.constraint(equalTo: textView.centerXAnchor).isActive = true
         //textView.translatesAutoresizingMaskIntoConstraints = false
+
         textView.contentInsetAdjustmentBehavior = .automatic
         textView.textAlignment = NSTextAlignment.justified
         textView.isScrollEnabled = true
         textView.isEditable = false
+        textView.backgroundColor = .clear
 
         textView.text = """
         END USER LICENSE AGREEMENT
@@ -186,7 +218,6 @@ class Terms: UIView {
 
         return textView
     }()
-    
-    
+
 }
 

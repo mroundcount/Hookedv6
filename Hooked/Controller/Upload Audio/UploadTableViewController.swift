@@ -18,11 +18,6 @@ class UploadTableViewController: UITableViewController {
     var storageID: String?
     var username: String?
     var users: [User] = []
-    //Commented 1/22
-    //If testing works, remove this
-    //var startingTime: Double = 0.0
-    //var stoppingTime: Double = 0.0
-    //End
     var startTime: Double = 0.0
     var stopTime: Double = 0.0
         
@@ -30,6 +25,13 @@ class UploadTableViewController: UITableViewController {
     
     let genre = ["Alternative Rock", /*"Ambient",*/ "Classical", "Country", "Dance & EDM", /*"Dancehall", "Deep House",*/ "Disco", /*"Drum & Bass", "Dubstep", "Electronic",*/ "Folk", "Hip-hop & Rap",/* "House",*/ "Indie", "Jazz & Blues", "Latin", "Metal", "Piano", "Pop", "R&B & Soul", "Reggae", "Reggaeton", "Rock", /*"Techno", "Trance", "Trap", "Triphop",*/ "World"]
         
+    
+    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var pageLbl: UILabel!
+    @IBOutlet weak var lblBackground: UIView!
+    
+    @IBOutlet weak var browseBtn: UIButton!
+
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var fileNameLbl: UILabel!
     @IBOutlet weak var genrePickerDidSelect: UIPickerView!
@@ -46,30 +48,34 @@ class UploadTableViewController: UITableViewController {
     @IBOutlet weak var stopTimeSecTextField: UITextField!
     
     @IBOutlet weak var timeRequirementsLbl: UILabel!
-    @IBOutlet weak var saveBtn: UIBarButtonItem!
         
     @IBOutlet weak var explicitSegment: UISegmentedControl!
     
+    
+    @IBOutlet weak var saveBtn: UIButton!
 
     @IBOutlet weak var rangeSlider: RangeSlider!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpUI()
         setupView()
-        enterAudioName()
-        
-        enterStartMinTime()
-        enterStartSecTime()
-        
-        enterStopMinTime()
-        enterStopSecTime()
-        
-        setUpRequirementsLbl()
-        setUpStartTimeLbl()
-        setUpStopTimeLbl()
+
         checkForAudioFile()
         //setUpSlider()        
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+    }
+    //unhide the navigation bar
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = false
+    }
+    
+    
     
     func checkForAudioFile() {
         if fileNameLbl.text == "Select MP3 File" {
@@ -85,6 +91,12 @@ class UploadTableViewController: UITableViewController {
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
     }
     
+    @IBAction func backBtn(_ sender: Any) {
+        //dismiss scene
+        navigationController?.popViewController(animated: true)
+    }
+    
+    
     //Moving up the keyboard
     @objc func keyboardWillShow(sender: NSNotification) {
         self.view.frame.origin.y -= 300 // Move view x points upward
@@ -98,17 +110,13 @@ class UploadTableViewController: UITableViewController {
         view.endEditing(true)
     }
     
-    @IBAction func backBtnDidTap(_ sender: Any) {
-        print("cancel")
-        navigationController?.popViewController(animated: true)
-    }
-    
     @IBAction func uploadBtnDidTap(_ sender: Any) {
         print("opening browser")
         pickDocument()
     }
     
     @IBAction func saveBtnDidTap(_ sender: Any) {
+        print("pushed")
         //ProgressHUD.show("Saving...")
         performChecks(url: audioUrl!)
         
@@ -120,72 +128,6 @@ class UploadTableViewController: UITableViewController {
             print("Upload failed")
         }
     }
-
-    func enterAudioName() {
-        let placeholderAttr = NSAttributedString(string: "Song Title", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)])
-        titleTextField.attributedPlaceholder = placeholderAttr
-        titleTextField.textColor = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
-    }
-    
-    func enterStartMinTime() {
-        let placeholderAttr = NSAttributedString(string: "Min", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)])
-        startTimeMinTextField.attributedPlaceholder = placeholderAttr
-        startTimeMinTextField.textColor = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
-    }
-    
-    func enterStartSecTime() {
-        let placeholderAttr = NSAttributedString(string: "Sec", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)])
-        
-        startTimeSecTextField.attributedPlaceholder = placeholderAttr
-        startTimeSecTextField.textColor = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
-    }
-    
-    func enterStopMinTime() {
-        let placeholderAttr = NSAttributedString(string: "Min", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)])
-        stopTimeMinTextField.attributedPlaceholder = placeholderAttr
-        stopTimeMinTextField.textColor = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
-    }
-    
-    func enterStopSecTime() {
-        let placeholderAttr = NSAttributedString(string: "Sec", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)])
-        
-        stopTimeSecTextField.attributedPlaceholder = placeholderAttr
-        stopTimeSecTextField.textColor = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
-    }
-    
-    func setUpRequirementsLbl() {
-        timeRequirementsLbl.text = "Enter the start time and end time (seconds) for your song. Length must not be longer than 15 seconds"
-    }
-    
-    func setUpStartTimeLbl() {
-        startTimeLbl.text = "Starting Time: "
-    }
-    
-    func setUpStopTimeLbl() {
-        stopTimeLbl.text = "Stopping Time: "
-    }
-    
-    /*
-     // Inactive for now until I can figure out how to place the min and max values as the start and stop time as well as figure out a way to get the full audio length
-     
-     //https://github.com/nanjingboy/ZMSwiftRangeSlider
-     func setUpSlider() {
-     rangeSlider.setValueChangedCallback { (minValue, maxValue) in
-     print("rangeSlider1 min value:\(minValue)")
-     print("rangeSlider1 max value:\(maxValue)")
-     }
-     rangeSlider.setMinValueDisplayTextGetter { (minValue) -> String? in
-     self.startingTime = Double(minValue)
-     print(self.startingTime)
-     return "\(minValue)"
-     }
-     rangeSlider.setMaxValueDisplayTextGetter { (maxValue) -> String? in
-     self.stoppingTime = Double(maxValue)
-     print(self.stoppingTime)
-     return "\(maxValue)"
-     }
-     rangeSlider.setMinAndMaxRange(10, maxRange: 90)
-     } */
 
 }
 
@@ -209,6 +151,7 @@ extension UploadTableViewController: UIPickerViewDelegate, UIPickerViewDataSourc
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         genreLbl.text = genre[row]
     }
+    
 }
 
 extension UploadTableViewController: UIDocumentPickerDelegate {
@@ -294,7 +237,10 @@ extension UploadTableViewController: UIDocumentPickerDelegate {
         //Dismiss view controller here.
         //I added a delay because for some reason the observe audio function is being called multiple times for the new upload.... figure this out another time.
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-            self.navigationController?.popViewController(animated: true)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let profileVC = storyboard.instantiateViewController(withIdentifier: IDENTIFIER_USER_PROFILE) as! UserProfileViewController
+            self.navigationController?.pushViewController(profileVC, animated: true)
+            //self.navigationController?.popViewController(animated: true)
         })
     }
     

@@ -10,28 +10,38 @@ import UIKit
 
 class AudioReportViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var backBtn: UIButton!
+    
+    @IBOutlet weak var complaintLbl: UILabel!
     @IBOutlet weak var audioTitleLbl: UILabel!
     @IBOutlet weak var artistLbl: UILabel!
+    
+    @IBOutlet weak var reasonLbl: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var commentLbl: UILabel!
     @IBOutlet weak var commentField: UITextView!
     @IBOutlet weak var userEmailLbl: UILabel!
     @IBOutlet weak var updateEmailTxt: UITextField!
     @IBOutlet weak var policyLbl: UILabel!
+    @IBOutlet weak var submitBtn: UIButton!
+    
     
     var user: User!
     var users: [User] = []
     var audio: Audio!
     var inappropriateCheck: Bool = false
     var qualityCheck: Bool = false
+    var copyrightCheck: Bool = false
     
-    let report = ["This song is inappropriate (My filter is on)","This song's audio quality is very low"]
+    let report = ["This song is explicit. My filter is on.","This song’s audio quality is poor.","I believe this song infringes copyright."]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
-        setLabels()
         
+        setUpUI()
+        self.navigationController?.isNavigationBarHidden = true
+
         //Adjusting the keyboard when selecting a text field is selected
         //https://stackoverflow.com/questions/25693130/move-textfield-when-keyboard-appears-swift
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil);
@@ -41,28 +51,21 @@ class AudioReportViewController: UIViewController, UITableViewDataSource, UITabl
         self.tableView.delegate = self;
         tableView.tableFooterView = UIView()
         
-        //Hiding these fields for now... they don't have use right now.
-        userEmailLbl.isHidden = true
-        updateEmailTxt.isHidden = true
-        policyLbl.isHidden = true
+        print("Cell Count: \(report.count)")
     }
     
-    func setupNavigationBar() {
-        navigationItem.title = "File a report"
-        //navigationController?.navigationBar.prefersLargeTitles = true
-        
-        let back = UIBarButtonItem(title: "Back", style: UIBarButtonItem.Style.plain, target: self, action: #selector(backBtnTapped))
-        navigationItem.leftBarButtonItem = back
-        
-        let save = UIBarButtonItem(title: "Submit", style: UIBarButtonItem.Style.plain, target: self, action: #selector(submitBtnDidTap))
-        navigationItem.rightBarButtonItem = save
+    @IBAction func backBtnTapped(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
     }
     
+    /*
     @objc func backBtnTapped(_ sender: UIBarButtonItem) {
         print("back")
         navigationController?.popViewController(animated: true)
     }
-    @objc func submitBtnDidTap(_ sender: UIBarButtonItem) {
+     */
+    
+    @IBAction func submitBtnDidTap(_ sender: Any) {
         print("saved")
         sendToFirebase()
         navigationController?.popViewController(animated: true)
@@ -73,22 +76,6 @@ class AudioReportViewController: UIViewController, UITableViewDataSource, UITabl
         self.view.endEditing(true)
     }
     
-    func setLabels() {
-        Api.User.getUserInforSingleEvent(uid: audio.artist) { (user) in
-            self.audioTitleLbl.text = "You are filing a report against the song: '\(self.audio.title)' "
-            self.artistLbl.text = "by: \(user.username)"
-        }
-        Api.User.getUserInforSingleEvent(uid: Api.User.currentUserId) { (user) in
-            self.userEmailLbl.text = "We have your email address as: '\(user.email)' if that is not the best way to contact you add an email address below: "
-        }
-
-        self.commentLbl.text = "Please add additional details:"
-        self.commentField.layer.borderColor = UIColor.lightGray.cgColor
-        self.commentField.layer.borderWidth = 1
-        self.updateEmailTxt.layer.borderColor = UIColor.lightGray.cgColor
-        self.updateEmailTxt.layer.borderWidth = 1
-        self.policyLbl.text = "We reviee each report. We will contact you at the email address provided"
-    }
     
     //Moving up the keyboard
     @objc func keyboardWillShow(sender: NSNotification) {
@@ -120,24 +107,36 @@ class AudioReportViewController: UIViewController, UITableViewDataSource, UITabl
         //https://stackoverflow.com/questions/48845607/save-an-array-of-multiple-selected-uitableviewcell-values
         if let cell = tableView.cellForRow(at: indexPath as IndexPath) {
             
+            let color = getUIColor(hex: "#1A1A1A")
+            let checkColor = getUIColor(hex: "#66CD5D")
+            cell.backgroundColor = color
+            //making the checkmark green
+            cell.tintColor = checkColor
+            
             if cell.accessoryType == .checkmark {
                 cell.accessoryType = .none
-                if cell.textLabel?.text == "This song is inappropriate (My filter is on)" {
+                if cell.textLabel?.text == "This song is explicit. My filter is on." {
                     inappropriateCheck = false
                 }
-                if cell.textLabel?.text == "This song's audio quality is very low" {
+                if cell.textLabel?.text == "This song’s audio quality is poor." {
                     qualityCheck = false
+                }
+                if cell.textLabel?.text == "I believe this song infringes copyright." {
+                    copyrightCheck = false
                 }
  
             } else {
+                cell.tintColor = checkColor
                 cell.accessoryType = .checkmark
-                if cell.textLabel?.text == "This song is inappropriate (My filter is on)" {
+                if cell.textLabel?.text == "This song is explicit. My filter is on." {
                     inappropriateCheck = true
                 }
-                if cell.textLabel?.text == "This song's audio quality is very low" {
+                if cell.textLabel?.text == "This song’s audio quality is poor." {
                     qualityCheck = true
                 }
-
+                if cell.textLabel?.text == "I believe this song infringes copyright." {
+                    copyrightCheck = true
+                }
             }
         }
     }
@@ -163,6 +162,7 @@ class AudioReportViewController: UIViewController, UITableViewDataSource, UITabl
         
             value["inappropriate"] = self.inappropriateCheck
             value["quality"] = self.qualityCheck
+            value["copyright"] = self.copyrightCheck
         
             value["comment"] = self.commentField.text
             value["date"] = dateString

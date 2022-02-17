@@ -27,14 +27,21 @@ class UserProfileViewController: UIViewController, AVAudioPlayerDelegate {
     //https://github.com/sdowless/PopUpWindow
     //https://www.youtube.com/watch?v=GIELUwI3qio
     lazy var popUpWindow: PopUpWindow = {
+        
+        let color = getUIColor(hex: "#1A1A1A")
+        let borderColor = getUIColor(hex: "#66CD5D")
+        
         let view = PopUpWindow()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 15
         view.delegate = self
+        view.backgroundColor = color
+        view.layer.borderWidth = 2
+        view.layer.borderColor = UIColor.green.cgColor
         return view
     }()
     let visualEffectView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffect = UIBlurEffect(style: .dark)
         let view = UIVisualEffectView(effect: blurEffect)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -60,19 +67,7 @@ class UserProfileViewController: UIViewController, AVAudioPlayerDelegate {
         self.audio.removeAll()
 
         print("profile view did load")
-        uploadBtn.layer.cornerRadius = 5
-        uploadBtn.clipsToBounds = true
-        
-        optionsBtn.layer.cornerRadius = 5
-        optionsBtn.clipsToBounds = true
-        
-        //Experiment with these
-        usernameLbl.numberOfLines = 0
-        usernameLbl.adjustsFontSizeToFitWidth = true
-        
-        avatar.clipsToBounds = true
-        let frameGradient = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 350)
-        avatar.addBlackGradientLayer(frame: frameGradient, colors: [.clear, .black])
+        setUpUI()
             
         //removing the white menu at the top by hiding the same area.
         tableView.contentInsetAdjustmentBehavior = .never
@@ -153,22 +148,6 @@ class UserProfileViewController: UIViewController, AVAudioPlayerDelegate {
         }
     }
     
-    func observeProfileData() {
-        //fetching current user data
-        Api.User.getUserInforSingleEvent(uid: Api.User.currentUserId) { (user) in
-            self.usernameLbl.text = "  \(user.username)"
-            
-            //Testing to see if we can use a blank profile pic
-            if user.profileImageUrl != "" {
-                self.avatar.loadImage(user.profileImageUrl)
-            } else {
-                self.avatar.loadImage("https://firebasestorage.googleapis.com/v0/b/hooked-217d3.appspot.com/o/profile%2FBwfxgQ9mmzNk7jRjO0hzjC9qyBs1?alt=media&token=b5bfe675-8aa8-4ecd-ac20-8ada0b223969")
-            }
-            
-            print("Observe complete")
-        }
-    }
-
     func sortAudio() {
         audio = audio.sorted(by: { $0.date < $1.date })
         DispatchQueue.main.async {
@@ -387,7 +366,7 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate 
         view.addSubview(popUpWindow)
         popUpWindow.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -40).isActive = true
         popUpWindow.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        popUpWindow.heightAnchor.constraint(equalToConstant: view.frame.width - 64).isActive = true
+        popUpWindow.heightAnchor.constraint(equalToConstant: view.frame.width - 34).isActive = true
         popUpWindow.widthAnchor.constraint(equalToConstant: view.frame.width - 64).isActive = true
         
         popUpWindow.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
@@ -423,9 +402,11 @@ extension UserProfileViewController: PopUpDelegate {
             self.popUpWindow.removeFromSuperview()
             print("Did remove pop up window..")
         }
+
     }
     
     func navigateToUpload() {
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let uploadVC = storyboard.instantiateViewController(withIdentifier: IDENTIFIER_UPLOAD) as! UploadTableViewController
         self.navigationController?.pushViewController(uploadVC, animated: true)

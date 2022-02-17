@@ -17,15 +17,36 @@ import AuthenticationServices
 
 extension ViewController {
     
-    func setUpHeaderTitle() {
+    func setBackgroundImg() {
+        let randomInt = Int.random(in: 1..<4)
+        print("Background Img: \(randomInt)")
+        if randomInt == 1 {
+            backgroundImg.image=UIImage(named: "background_landing1")
+        } else if randomInt == 2 {
+            backgroundImg.image=UIImage(named: "background_landing2")
+        } else if randomInt == 3 {
+            backgroundImg.image=UIImage(named: "background_landing3")
+        }
         
-        let title = "Welcome to Hooked"
+        
+    //Adjusting the image
+        let coverLayer = CALayer()
+        coverLayer.frame = backgroundImg.bounds;
+        coverLayer.backgroundColor = UIColor.black.cgColor
+        coverLayer.opacity = 0.55
+        backgroundImg.layer.addSublayer(coverLayer)
+    }
+    
+    func setUpHeaderTitle() {
+        let color = getUIColor(hex: "#66CD5D")
+        let title = "Welcome to \n Hooked"
         let subTitle = "\n Guaranteed 15 seconds of fame"
         //creating in instance for the label. The attributes are defined as a dictionay.String.Key.Font as the key and the value is going to be an instance of UI font class.
         //We will add another key value for the text color
-        let attributedText = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.init(name: "Didot", size: 38)!, NSAttributedString.Key.foregroundColor : UIColor.black])
+        let attributedText = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.init(name: "Arial Hebrew", size: 25)!, NSAttributedString.Key.foregroundColor : UIColor.white])
         
-        let attributedSubTitle = NSMutableAttributedString(string: subTitle, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 26), NSAttributedString.Key.foregroundColor : UIColor(white: 0, alpha: 0.45)])
+        let attributedSubTitle = NSMutableAttributedString(string: subTitle, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 22), NSAttributedString.Key.foregroundColor : color])
+        
         //Appending the two strings
         attributedText.append(attributedSubTitle)
         //create an empty paragraph for line spacing
@@ -40,18 +61,55 @@ extension ViewController {
         titleLbl.textAlignment = .center
     }
     
+    func setUpSignInEmailBtn() {
+        let color = getUIColor(hex: "#66CD5D")
+        signInEmailBtn.setTitle("Sign in with email", for: UIControl.State.normal)
+        signInEmailBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        signInEmailBtn.setTitleColor(color, for: .normal)
+        signInEmailBtn.backgroundColor = UIColor.clear
+        signInEmailBtn.layer.borderWidth = 2
+        signInEmailBtn.layer.borderColor = UIColor.green.cgColor
+        signInEmailBtn.layer.cornerRadius = 27.5
+        signInEmailBtn.clipsToBounds = true
+    }
+    /*
+    // Green filled button for a demo.
+    func setUpSignInEmailBtn() {
+        let color = getUIColor(hex: "#66CD5D")
+        signInEmailBtn.setTitle("Sign in with email", for: UIControl.State.normal)
+        signInEmailBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        signInEmailBtn.titleLabel?.textColor = UIColor.white
+        signInEmailBtn.backgroundColor = color
+        signInEmailBtn.layer.cornerRadius = 27.5
+        signInEmailBtn.clipsToBounds = true
+    }
+    */
+    func setUpCreateAccountBtn() {
+        let color = getUIColor(hex: "#66CD5D")
+        createAccountBtn.setTitle("Create a new account", for: UIControl.State.normal)
+        createAccountBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        createAccountBtn.titleLabel?.textColor = UIColor.white
+        createAccountBtn.backgroundColor = color
+        createAccountBtn.layer.cornerRadius = 27.5
+        createAccountBtn.clipsToBounds = true
+    }
+    
+
+    
     //Just set up a font size, color, and centering
     func setUpOrLabel() {
-        orLbl.text = "Or"
+        orLbl.text = "OR"
         orLbl.font = UIFont.boldSystemFont(ofSize: 16)
-        orLbl.textColor = UIColor(white: 0, alpha: 0.45)
+        orLbl.textColor = UIColor.white
         orLbl.textAlignment = .center
     }
+    
     //copy over from the welcome text above
     func setUpTermsLabel() {
-        let attributedTermsText = NSMutableAttributedString(string: "By clicking 'Create a new account' you agree to our ", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor : UIColor(white: 0, alpha: 0.65)])
+        let color = getUIColor(hex: "#66CD5D")
+        let attributedTermsText = NSMutableAttributedString(string: "By clicking 'Create a new account' you agree to our ", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12), NSAttributedString.Key.foregroundColor : UIColor.white])
         
-        let attributedTermsSubTitle = NSMutableAttributedString(string: "Terms of Service", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 16), NSAttributedString.Key.foregroundColor : UIColor.black])
+        let attributedTermsSubTitle = NSMutableAttributedString(string: "Terms of Service", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12), NSAttributedString.Key.foregroundColor : color])
         
         //The combination of the two attributed texts
         attributedTermsText.append(attributedTermsSubTitle)
@@ -62,9 +120,30 @@ extension ViewController {
         let labelTap = UITapGestureRecognizer(target: self, action: #selector(self.labelTapped(_:)))
         self.termsOfServiceLbl.isUserInteractionEnabled = true
         self.termsOfServiceLbl.addGestureRecognizer(labelTap)
+        self.termsOfServiceLbl.textAlignment = .center
     }
     
+    //Function for converting HEX to RGBA
+    //https://www.zerotoappstore.com/how-to-set-custom-colors-swift.html
+    func getUIColor(hex: String, alpha: Double = 1.0) -> UIColor? {
+        var cleanString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        if (cleanString.hasPrefix("#")) {
+            cleanString.remove(at: cleanString.startIndex)
+        }
+        if ((cleanString.count) != 6) {
+            return nil
+        }
+        var rgbValue: UInt32 = 0
+        Scanner(string: cleanString).scanHexInt32(&rgbValue)
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
     
+    /*
     func setUpFacebookBtn() {
         //set the title for the button. Make sure to change the state from default to normal
         signInFacebookBtn.setTitle("Sign in with Facebook", for: UIControl.State.normal)
@@ -82,7 +161,8 @@ extension ViewController {
         signInFacebookBtn.imageEdgeInsets = UIEdgeInsets(top: 12, left: -15, bottom: 12, right: 0)        
         signInFacebookBtn.addTarget(self, action: #selector(fbButtonDidTap), for: UIControl.Event.touchUpInside)
     }
-    
+    */
+    /*
     //Logging in with Facebook
     @objc func fbButtonDidTap() {
         
@@ -142,8 +222,8 @@ extension ViewController {
             })
         }
     }
-    
-    
+    */
+    /*
     func setUpAppleBtn() {
         //set the title for the button. Make sure to change the state from default to normal
         signInAppleBtn.setTitle("Sign in with Apple", for: UIControl.State.normal)
@@ -161,11 +241,13 @@ extension ViewController {
         //signInAppleBtn.imageEdgeInsets = UIEdgeInsets(top: 12, left: -15, bottom: 12, right: 0)
         signInAppleBtn.addTarget(self, action: #selector(appleButtonDidTap), for: UIControl.Event.touchUpInside)
     }
-    
+    */
+    /*
     @objc func appleButtonDidTap() {
         print("apple button tapped")
     }
-    
+    */
+    /*
     func setUpGoogleBtn() {
         signInGoogleBtn.setTitle("Sign in with email", for: UIControl.State.normal)
         signInGoogleBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18)
@@ -177,14 +259,8 @@ extension ViewController {
         signInGoogleBtn.tintColor = .white
         signInGoogleBtn.imageEdgeInsets = UIEdgeInsets(top: 12, left: -35, bottom: 12, right: 0)
     }
-    
-    func setUpCreateAccountBtn() {
-        createAccountBtn.setTitle("Create a new account", for: UIControl.State.normal)
-        createAccountBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        createAccountBtn.backgroundColor = UIColor.black
-        createAccountBtn.layer.cornerRadius = 5
-        createAccountBtn.clipsToBounds = true
-    }
+    */
+
 }
 
 

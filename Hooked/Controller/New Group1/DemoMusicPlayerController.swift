@@ -89,31 +89,62 @@ class DemoMusicPlayerController: UIViewController, AVAudioPlayerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setUpUI()
+        let color = getUIColor(hex: "#66CD5D")
  
         songNameLabel.text = songTitle
         artistNameLabel.text = artistName
         albumNameLabel.text = albumTitle
         albumArtImageView.image = albumArt
-        
+            /*
         if #available(iOS 13.0, *) {
             albumArtImageView.layer.cornerCurve = .continuous
         }
         albumArtImageView.layer.cornerRadius = 16
-        
+            */
         //timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(DemoMusicPlayerController._timerTicked(_:)), userInfo: nil, repeats: true)
         
         pauseBtn = UIBarButtonItem(image: UIImage(named: "pause"), style: .plain, target: self, action: #selector(pauseAction))
+        pauseBtn.tintColor = color
+        //imageView.setImageColor(color: UIColor.purple)
         playBtn = UIBarButtonItem(image: UIImage(named: "play"), style: .plain, target: self, action: #selector(playAction))
+        playBtn.tintColor = color
         closeBtn = UIBarButtonItem(image: UIImage(named: "close-1"), style: .plain, target: self, action: #selector(closeAction))
+        closeBtn.tintColor = color
         replayBtn = UIBarButtonItem(image: UIImage(named: "play"), style: .plain, target: self, action: #selector(replayAction))
+        replayBtn.tintColor = color
         popupItem.rightBarButtonItems = [ pauseBtn, closeBtn ]
         //Trying to get the progress bar to appear
         
         self.popupBar.progressViewStyle = LNPopupBarProgressViewStyle.bottom
         
         controlBtn.setImage(UIImage(systemName: "pause.fill"), for: .normal)
-        
+        controlBtn.tintColor = UIColor.white
         AVAudioSession.sharedInstance()
+        
+        //https://github.com/LeoNatan/LNPopupController/issues/42
+        LNPopupBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : color]
+        LNPopupBar.appearance().subtitleTextAttributes = [NSAttributedString.Key.foregroundColor : color]
+        LNPopupBar.appearance().tintColor = UIColor.green
+    }
+    
+    func setUpUI() {
+        setUpBackground()
+        setUpText()
+        setUpLargeAlbumView()
+    }
+    
+    func setUpBackground() {
+        self.view.backgroundColor = UIColor.black
+    }
+    func setUpText() {
+        self.songNameLabel.textColor = UIColor.white
+        self.artistNameLabel.textColor = UIColor.white
+    }
+    func setUpLargeAlbumView() {
+        albumArtImageView.layer.cornerRadius = 16
+        albumArtImageView.clipsToBounds = true
     }
     
     
@@ -147,7 +178,6 @@ class DemoMusicPlayerController: UIViewController, AVAudioPlayerDelegate {
     
     @objc func pauseAction() {
         recordStatus = "Paused"
-        //audioPlayer!.pause()
         pauseAudio()
         popupItem.rightBarButtonItems = [ playBtn , closeBtn ] as? [UIBarButtonItem]
         self.popupBar.progressViewStyle = LNPopupBarProgressViewStyle.bottom
@@ -194,11 +224,7 @@ class DemoMusicPlayerController: UIViewController, AVAudioPlayerDelegate {
 
     @IBAction func changeAudioTime(_ sender: Any) {
         print("grabbing slider")
-        //audioPlayer.stop()
-        //audioPlayer.currentTime = TimeInterval(slider.value)
-        //after the time is changed we want it to start playing again
-        //audioPlayer.prepareToPlay()
-        //audioPlayer.play()
+
         //https://medium.com/@santoshkumarjm/how-to-design-a-custom-avplayer-to-play-audio-using-url-in-ios-swift-439f0dbf2ff2
         
         player?.pause()

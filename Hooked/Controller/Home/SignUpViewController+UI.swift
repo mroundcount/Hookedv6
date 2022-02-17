@@ -12,102 +12,116 @@ import CoreLocation
 
 extension SignUpViewController {
     
+    func setUpCloseBtn() {
+        closeBtn.setImage(UIImage(named: "close-1"), for: .normal)
+        closeBtn.backgroundColor = UIColor.gray
+        closeBtn.layer.cornerRadius = 15
+    }
+    
+    func setUpBackground() {
+        self.view.backgroundColor = UIColor.black
+    }
+    
     func setUpTitleTextLbl() {
+        let color = getUIColor(hex: "#66CD5D")
         let title = "Sign Up"
         //copy over from ViewController+UI
-        let attributedText = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.init(name: "Didot", size: 28)!, NSAttributedString.Key.foregroundColor : UIColor.black])
-        
+        let attributedText = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.init(name: "Arial Hebrew", size: 35)!, NSAttributedString.Key.foregroundColor : color])
         titleTextLbl.attributedText = attributedText
+        titleTextLbl.textAlignment = .center
     }
     
-    func setUpAvatar() {
-        //making the UIImage circular note: height and width is 80
-        avatar.layer.cornerRadius = 40
-        avatar.clipsToBounds = true
-        //adding actions to respond to tap gesture
-        avatar.isUserInteractionEnabled = true
-        //use self becauase it it is on the signUpViewController itseld
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentPicker))
-        avatar.addGestureRecognizer(tapGesture)
-        
-        avatar.isHidden = true
+    func setUpIcon() {
+        print("place holder")
     }
-    
-    @objc func presentPicker() {
-        //video 17 image compressing
-        let picker = UIImagePickerController()
-        picker.sourceType = .photoLibrary
-        //users can edit the selected photo
-        picker.allowsEditing = true
-        //enable methods in the UIImage picker delegate
-        picker.delegate = self
-        //Making the image fill the entire UIIMage space
-        avatar.contentMode = . scaleAspectFill
-        self.present(picker, animated: true, completion: nil)
-    }
+
     
     func setUpUsernameTxt() {
-        //build a wall! Caugh cuagh make a border
-        usernameContainerView.layer.borderWidth = 1
+        let color = getUIColor(hex: "#66CD5D")
+        usernameContainerView.layer.borderWidth = 2
         //note the type for border color is cgColor
-        usernameContainerView.layer.borderColor = UIColor(red: 210/255, green: 210/255, blue: 210/255, alpha: 1).cgColor
-        usernameContainerView.layer.cornerRadius = 3
+        usernameContainerView.layer.borderColor = UIColor.green.cgColor
+        usernameContainerView.layer.cornerRadius = 27.5
         usernameContainerView.clipsToBounds = true
+        usernameContainerView.backgroundColor = UIColor.clear
         //we don't need the border for the full name text field. Tthis is because the container came with a border
         usernameTxt.borderStyle = .none
         //coding in the placeholder string with the same key value pairing attributed string just like on ViewController+UI.
-        let placeholderAttr = NSAttributedString(string: "Username", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)])
+        let placeholderAttr = NSAttributedString(string: "Username", attributes: [NSAttributedString.Key.foregroundColor : color])
         
         usernameTxt.attributedPlaceholder = placeholderAttr
-        usernameTxt.textColor = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
+        usernameTxt.textColor = color
     }
     func setUpEmailTxt() {
-        emailContainerView.layer.borderWidth = 1
-        emailContainerView.layer.borderColor = UIColor(red: 210/255, green: 210/255, blue: 210/255, alpha: 1).cgColor
-        emailContainerView.layer.cornerRadius = 3
+        let color = getUIColor(hex: "#66CD5D")
+        emailContainerView.layer.borderWidth = 2
+        emailContainerView.layer.borderColor = UIColor.green.cgColor
+        emailContainerView.layer.cornerRadius = 27.5
         emailContainerView.clipsToBounds = true
-        
+        emailContainerView.backgroundColor = UIColor.clear
         emailTxt.borderStyle = .none
-        
-        let placeholderAttr = NSAttributedString(string: "Email Address", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)])
+        let placeholderAttr = NSAttributedString(string: "Email Address", attributes: [NSAttributedString.Key.foregroundColor : color])
         
         emailTxt.attributedPlaceholder = placeholderAttr
-        emailTxt.textColor = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
+        emailTxt.textColor = color
     }
     
     func setUpPasswordTxt() {
+        let color = getUIColor(hex: "#66CD5D")
         //the encryption text should be done in storyboard
-        passwordContainerView.layer.borderWidth = 1
-        passwordContainerView.layer.borderColor = UIColor(red: 210/255, green: 210/255, blue: 210/255, alpha: 1).cgColor
-        passwordContainerView.layer.cornerRadius = 3
+        passwordContainerView.layer.borderWidth = 2
+        passwordContainerView.layer.borderColor = UIColor.green.cgColor
+        passwordContainerView.layer.cornerRadius = 27.5
         passwordContainerView.clipsToBounds = true
-        
+        passwordContainerView.backgroundColor = UIColor.clear
         passwordTxt.borderStyle = .none
-        
-        let placeholderAttr = NSAttributedString(string: "Password (6+ Characters)", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)])
+        let placeholderAttr = NSAttributedString(string: "Password (6+ Characters)", attributes: [NSAttributedString.Key.foregroundColor : color])
         
         passwordTxt.attributedPlaceholder = placeholderAttr
-        passwordTxt.textColor = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
+        passwordTxt.textColor = color
     }
     
     func setUpSignUpBtn() {
+        let color = getUIColor(hex: "#66CD5D")
         signUpBtn.setTitle("Sign Up", for: UIControl.State.normal)
-        signUpBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        signUpBtn.backgroundColor = UIColor.black
-        signUpBtn.layer.cornerRadius = 5
+        signUpBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        signUpBtn.backgroundColor = UIColor.white
+        signUpBtn.layer.cornerRadius = 27.5
         signUpBtn.clipsToBounds = true
         signUpBtn.setTitleColor(.white, for: UIControl.State.normal)
+        signUpBtn.backgroundColor = color
         
     }
     
     func setUpSignInBtn() {
+        let color = getUIColor(hex: "#66CD5D")
         // We're going to apply the key value UI attributed string to a UI button
-        let attributedText = NSMutableAttributedString(string: "Already have an account? ", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor : UIColor(white: 0, alpha: 0.65)])
+        let attributedText = NSMutableAttributedString(string: "Already have an account? ", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12), NSAttributedString.Key.foregroundColor : UIColor.white])
         
-        let attributedSubText = NSMutableAttributedString(string: "Sign In", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 16), NSAttributedString.Key.foregroundColor : UIColor.black])
+        let attributedSubText = NSMutableAttributedString(string: "Sign In", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 16), NSAttributedString.Key.foregroundColor : color])
         
         attributedText.append(attributedSubText)
         signInBtn.setAttributedTitle(attributedText, for: UIControl.State.normal)
+    }
+    
+    //Function for converting HEX to RGBA
+    //https://www.zerotoappstore.com/how-to-set-custom-colors-swift.html
+    func getUIColor(hex: String, alpha: Double = 1.0) -> UIColor? {
+        var cleanString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        if (cleanString.hasPrefix("#")) {
+            cleanString.remove(at: cleanString.startIndex)
+        }
+        if ((cleanString.count) != 6) {
+            return nil
+        }
+        var rgbValue: UInt32 = 0
+        Scanner(string: cleanString).scanHexInt32(&rgbValue)
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
     }
     
     
@@ -315,7 +329,7 @@ extension SignUpViewController {
     
     
 }
-
+/*
 extension SignUpViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     //updating the avatar any time a user picks up an image.
     //display the photo on the UIIMage view. Use editedImage so if the photo is edited this info will return on the edited photo.
@@ -323,16 +337,17 @@ extension SignUpViewController: UIImagePickerControllerDelegate, UINavigationCon
         if let imageSelected = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
         {
             image = imageSelected
-            avatar.image = imageSelected
+            icon.image = imageSelected
             
         }
         //If the user does not update their avatar. It will return to the default image
         if let imageOrigional = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
         {
             image = imageOrigional
-            avatar.image = imageOrigional
+            icon.image = imageOrigional
             
         }
         picker.dismiss(animated: true, completion: nil)
     }
 }
+*/

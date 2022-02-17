@@ -43,14 +43,18 @@ extension AudioRadarViewController {
         } else if recordStatus == "Paused" {
             playAudio()
         } else if recordStatus == "Finished" {
-            replayAudio()
-        } else {
+            //totalReplayAudio()
+            //replayAudio()
+        } else if recordStatus == "Stopped" {
+            playAudioFromBeginning()
         }
     }
     
+    //12/17/2021 Function might not be necessary
+    /*
     @objc func stopImgDidTap() {
         totalReplayAudio()
-    }
+    } */
     
     
     func playAudioFromBeginning() {
@@ -61,40 +65,47 @@ extension AudioRadarViewController {
         startTimer()
         recordStatus = "Playing"
         playImg.isHidden = false
-        playImg.image = UIImage(systemName: "pause.circle")
-        stopImg.image = UIImage(named: "refresh_circle")
+        playImg.image = UIImage(systemName: "pause.circle.fill")
+        //stopImg.image = UIImage(named: "refresh_circle")
     }
     
     func playAudio() {
         player?.play()
         recordStatus = "Playing"
-        playImg.image = UIImage(systemName: "pause.circle")
+        playImg.image = UIImage(systemName: "pause.circle.fill")
         stopImg.image = UIImage(named: "refresh_circle")
     }
     
     func pauseAudio() {
         player?.pause()
         recordStatus = "Paused"
-        playImg.image = UIImage(systemName: "play.circle")
+        playImg.image = UIImage(systemName: "play.circle.fill")
     }
 
+    //Updated 12/17/2021 to utilize the audio button
     func stopAudio() {
+        print ("actuall we're here")
         player?.pause()
         player?.seek(to: .zero)
         recordStatus = "Stopped"
         stopTimer()
-        playImg.isHidden = true
+        //playImg.isHidden = true
+        playImg.image = UIImage(systemName: "play.circle.fill")
         stopImg.image = UIImage(named: "refresh_circle")
     }
     
+    //12/17/2021 Function might not be necessary
+    /*
     func replayAudio() {
         downloadFile(audio: (cards.first?.audio)!)
         recordStatus = "Playing"
         playImg.isHidden = false
         playImg.image = UIImage(systemName: "pause.circle")
         stopImg.image = UIImage(named: "refresh_circle")
-    }
+    } */
     
+    //12/17/2021 Function might not be necessary
+    /*
     func totalReplayAudio() {
         player?.pause()
         player?.seek(to: .zero)
@@ -104,17 +115,20 @@ extension AudioRadarViewController {
         //playImg.isHidden = false
         playImg.isHidden = false
         playImg.image = UIImage(systemName: "pause.circle")
-    }
+    } */
   
-    
+    // 12/17/2021 Here is the update
     func audioPlayerDidFinishPlaying(note: NSNotification) {
+        print("Here here here")
         player?.pause()
         player?.seek(to: .zero)
         recordStatus = "Finished"
-        playImg.isHidden = true
+        
+        //playImg.isHidden = true
+        playImg.isHidden = false
         playImg.image = UIImage(named: "play")
         //stopImg.image = UIImage(systemName: "arrow.uturn.left.circle")
-        stopImg.image = UIImage(named: "refresh_circle")
+        //stopImg.image = UIImage(named: "refresh_circle")
     }
 
     
@@ -153,7 +167,6 @@ extension AudioRadarViewController {
             loadingInidcator.stopAnimating()
             loadingInidcator.hidesWhenStopped = true
         }
-        
         if prog > Float(stopTime) {
             stopAudio()
         }

@@ -55,6 +55,8 @@ let IDENTIFIER_DETAIL = "DetailViewController"
 let IDENTIFIER_AUDIO_RADAR = "AudioRadarViewController"
 let IDENTIFIER_LIKES = "LikesTableViewController"
 let IDENTIFIER_AUDIO_REPORT = "AudioReportViewController"
+let IDENTIFIER_USER_PROFILE = "UserProfileViewController"
+let IDENTIFIER_USER_HOME_PAGE = "ViewController"
 
 
 

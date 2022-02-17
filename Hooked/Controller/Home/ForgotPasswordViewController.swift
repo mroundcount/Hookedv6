@@ -13,6 +13,8 @@ class ForgotPasswordViewController: UIViewController {
 
     
     @IBOutlet weak var closeBtn: UIButton!
+    @IBOutlet weak var titleText: UILabel!
+    @IBOutlet weak var icon: UIImageView!
     @IBOutlet weak var emailContainerView: UIView!
     @IBOutlet weak var emailTxt: UITextField!
     @IBOutlet weak var resetBtn: UIButton!
@@ -23,9 +25,11 @@ class ForgotPasswordViewController: UIViewController {
     }
     
     func setUpUI() {
+        setUpCloseBtn()
+        setUpBackground()
+        setUpTitleTextLbl()
         setUpEmailTxt()
         setUpResetBtn()
-        closeBtn.setImage(UIImage(named: "close-1"), for: .normal)
     }
     
     //Dismissing the view and navigate back to the welcome in scene

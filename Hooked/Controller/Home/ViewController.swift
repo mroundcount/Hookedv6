@@ -11,13 +11,13 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var titleLbl: UILabel!
-    @IBOutlet weak var signInFacebookBtn: UIButton!
-    @IBOutlet weak var signInGoogleBtn: UIButton!
-    @IBOutlet weak var signInAppleBtn: UIButton!
-    
+    @IBOutlet weak var signInEmailBtn: UIButton!
     @IBOutlet weak var createAccountBtn: UIButton!
     @IBOutlet weak var orLbl: UILabel!
     @IBOutlet weak var termsOfServiceLbl: UILabel!
+    @IBOutlet weak var backgroundImg: UIImageView!
+    @IBOutlet weak var iconImg: UIImageView!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,35 +37,25 @@ class ViewController: UIViewController {
         }
     }
     
-    func setUpUI() {
+    func setUpUI() {        
         //remeber to right click and "jump to definition"
-        //Find all methods in the ViewController+UI.swift file
+        setBackgroundImg()
         setUpHeaderTitle()
         setUpOrLabel()
-        //setUpFacebookBtn()
-        signInFacebookBtn.isHidden = true
-        setUpGoogleBtn()
-        //setUpAppleBtn()
-        signInAppleBtn.isHidden = true
         setUpCreateAccountBtn()
         setUpTermsLabel()
+        setUpSignInEmailBtn()
     }
     
     @objc func labelTapped(_ sender: UITapGestureRecognizer) {
-        print("labelTapped")
-        
-        print("Terms of Servie label tapped")
-        
         if let url = NSURL(string: "https://hookedmusic.app/Terms.pdf") {
             UIApplication.shared.open(url as URL, options:[:], completionHandler:nil)
         }        
     }
-    
 }
 
 class Core {
     static let shared = Core()
-    
     //first time user
     func isNewUser() -> Bool{
         //returning the inverse since this will default to false

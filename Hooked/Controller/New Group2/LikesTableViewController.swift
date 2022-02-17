@@ -24,17 +24,16 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
+
+        setUpUI()
         setupTableView()
-        setupSearchBarController()
-        
         popupContentController = storyboard?.instantiateViewController(withIdentifier: "DemoMusicPlayerController") as! DemoMusicPlayerController
-        
         AVAudioSession.sharedInstance()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         print("In new likes view")
+        self.centerTitle()
         observeAudio()
     }
     
@@ -50,21 +49,12 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
         }
     }
     
-    func setupNavigationBar() {
-        navigationItem.title = "Liked Songs"
-        navigationController?.navigationBar.prefersLargeTitles = true
+    func setUpUI() {
+        setupNavigationBar()
+        setUpBackground()
+        setupSearchBarController()
     }
-    
-    func setupSearchBarController() {
-        //front end characterists of the searchbar
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.placeholder = "Search playlist..."
-        searchController.searchBar.barTintColor = UIColor.white
-        searchController.obscuresBackgroundDuringPresentation = false
-        navigationItem.hidesSearchBarWhenScrolling = false
-        navigationItem.searchController = searchController
-    }
-    
+        
     func updateSearchResults(for searchController: UISearchController) {
         if searchController.searchBar.text == nil || searchController.searchBar.text!.isEmpty {
             view.endEditing(true)
@@ -136,9 +126,8 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //let cell = tableView.dequeueReusableCell(withIdentifier: "AudioTableViewCell") as! AudioTableViewCell
         let cell = tableView.dequeueReusableCell(withIdentifier: "LikesAudioTableViewCell", for: indexPath) as! LikesAudioTableViewCell
-        
         //cell.configureCell(audio: audio[indexPath.row])
-        
+
         let search = searchController.isActive ? searchResults[indexPath.row] :
             audio[indexPath.row]
         cell.configureCell(audio: search)
@@ -163,6 +152,7 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
             if user.profileImageUrl != "" {
                 let url = URL(string: user.profileImageUrl)
                 let data = try? Data(contentsOf: url!)
+                
                 self.popupContentController.albumArt = UIImage(data: data!)!
             } else {
                 self.popupContentController.albumArt = UIImage(named: "default_profile")!
@@ -189,7 +179,6 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
         if #available(iOS 13.0, *) {
             tabBarController?.popupBar.tintColor = UIColor.label
         } else {
-            //tabBarController?.popupBar.tintColor = UIColor(white: 38.0 / 255.0, alpha: 1.0)
             tabBarController?.popupBar.tintColor = UIColor(red: 160, green: 160, blue: 160, alpha: 1)
         }
         

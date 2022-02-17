@@ -7,8 +7,16 @@
 //
 
 import UIKit
+import Foundation
 
 class PreferenceTableViewController: UITableViewController {
+    
+    @IBOutlet weak var backgroundView: UIView!
+    @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var resetBtn: UIButton!
+    
+    
     
     let genre = ["Alternative Rock", /*"Ambient",*/ "Classical", "Country", "Dance & EDM", /*"Dancehall", "Deep House",*/ "Disco", /*"Drum & Bass", "Dubstep", "Electronic",*/ "Folk", "Hip-hop & Rap",/* "House",*/ "Indie", "Jazz & Blues", "Latin", "Metal", "Piano", "Pop", "R&B & Soul", "Reggae", "Reggaeton", "Rock", /*"Techno", "Trance", "Trap", "Triphop",*/ "World"]
     
@@ -16,9 +24,10 @@ class PreferenceTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
+        //setupNavigationBar()
+        setUpUI()
     }
-    
+    /*
     func setupNavigationBar() {
         navigationItem.title = "Preferred Genres"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -28,28 +37,71 @@ class PreferenceTableViewController: UITableViewController {
         
         let save = UIBarButtonItem(title: "Reset", style: UIBarButtonItem.Style.plain, target: self, action: #selector(resetBtnDidTap))
         navigationItem.rightBarButtonItem = save
+    } */
+    
+    func setUpUI() {
+        setUpBackBtn()
+        setUpBackground()
+        setUpLbl()
+        setUpResetBtn()
     }
     
+    func setUpBackBtn() {
+        backBtn.setImage(UIImage(named: "close-1"), for: .normal)
+        backBtn.tintColor = .white
+        backBtn.backgroundColor = UIColor.gray
+        backBtn.layer.cornerRadius = 15
+        backBtn.clipsToBounds = true
+    }
     
-    @objc func backBtnTapped(_ sender: UIBarButtonItem) {
+    func setUpBackground() {
+        let color = getUIColor(hex: "#1A1A1A")
+        self.backgroundView.backgroundColor = color
+        self.tableView.backgroundColor = color
+    }
+    
+    func setUpLbl() {
+        let color = getUIColor(hex: "#1A1A1A")
+        self.titleLbl.text = "Genre Preferences"
+        self.titleLbl.textColor = .white
+        self.titleLbl.backgroundColor = color
+    }
+    
+    func setUpResetBtn() {
+        let color = getUIColor(hex: "#66CD5D")
+        self.resetBtn.setTitle("Reset", for: UIControl.State.normal)
+        self.resetBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        self.resetBtn.titleLabel?.textColor = UIColor.white
+        self.resetBtn.tintColor = UIColor.white
+        
+        self.resetBtn.backgroundColor = color
+        self.resetBtn.layer.cornerRadius = 5
+        self.resetBtn.clipsToBounds = true
+    }
+    
+    @IBAction func backBtnTapped(_ sender: Any) {
         print("back")
         navigationController?.popViewController(animated: true)
     }
-    @objc func resetBtnDidTap(_ sender: UIBarButtonItem) {
+
+    @IBAction func resetBtnDidTap(_ sender: Any) {
         print("saved")
-        //navigationController?.popViewController(animated: true)
         resetPreferences()
-        //clearPreferences()
     }
-        
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return genre.count
     }
     
     //Loading the view with the current preferences
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let color = getUIColor(hex: "#1A1A1A")
+        let checkColor = getUIColor(hex: "#66CD5D")
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = genre[indexPath.row]
+        cell.backgroundColor = color
+        cell.tintColor = checkColor
         
         Api.Preferences.getUserPreferencesforSingleEvent(user: Api.User.currentUserId) { (preference) in
             print("in the single event function")
@@ -330,4 +382,26 @@ class PreferenceTableViewController: UITableViewController {
         }
         tableView.reloadData()
     }
+    
+    
+    func getUIColor(hex: String, alpha: Double = 1.0) -> UIColor? {
+        var cleanString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        if (cleanString.hasPrefix("#")) {
+            cleanString.remove(at: cleanString.startIndex)
+        }
+        if ((cleanString.count) != 6) {
+            return nil
+        }
+        var rgbValue: UInt32 = 0
+        Scanner(string: cleanString).scanHexInt32(&rgbValue)
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
+    
+    
+    
 }

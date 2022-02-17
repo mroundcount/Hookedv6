@@ -16,7 +16,7 @@ class SignUpViewController: UIViewController {
     
     @IBOutlet weak var closeBtn: UIButton!
     @IBOutlet weak var titleTextLbl: UILabel!
-    @IBOutlet weak var avatar: UIImageView!
+    @IBOutlet weak var icon: UIImageView!
     @IBOutlet weak var usernameContainerView: UIView!
     @IBOutlet weak var usernameTxt: UITextField!
     @IBOutlet weak var emailContainerView: UIView!
@@ -30,10 +30,16 @@ class SignUpViewController: UIViewController {
     var image: UIImage? = nil
     
     lazy var popUpWindow: Terms = {
+        let color = getUIColor(hex: "#1A1A1A")
+        let borderColor = getUIColor(hex: "#66CD5D")
+
         let view = Terms()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 15
         view.delegate = self
+        view.backgroundColor = color
+        view.layer.borderWidth = 2
+        view.layer.borderColor = UIColor.green.cgColor
         return view
     }()
     let visualEffectView: UIVisualEffectView = {
@@ -52,14 +58,15 @@ class SignUpViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil);
         
-        closeBtn.setImage(UIImage(named: "close-1"), for: .normal)
         setUpEffects()
     }
 
     func setUpUI() {
         //Methods are in SignUpViewController file
+        setUpCloseBtn()
+        setUpBackground()
         setUpTitleTextLbl()
-        setUpAvatar()
+        setUpIcon()
         setUpUsernameTxt()
         setUpEmailTxt()
         setUpPasswordTxt()
@@ -85,15 +92,13 @@ class SignUpViewController: UIViewController {
     
     @IBAction func signUpBtnDidTap(_ sender: Any) {
         self.view.endEditing(true)
-        
-        handleShowPopUp()
-        //self.validateFields()
-        /*
-        self.signUp(onSuccess: {
-             (UIApplication.shared.delegate as! AppDelegate).configureInitialViewController()
-        }) { (errorMessage) in
-            ProgressHUD.showError(errorMessage)
-        } */
+        if usernameTxt.text == "" || emailTxt.text == "" || passwordTxt.text == "" {
+            let alert = UIAlertController(title: "", message: "Please enter a username, email address, and password", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            handleShowPopUp()
+        }
     }
     
     //Moving up the keyboard
@@ -117,7 +122,7 @@ class SignUpViewController: UIViewController {
     //Roundcount added 3/30 for pop up window
     @objc func handleShowPopUp() {
         view.addSubview(popUpWindow)
-        popUpWindow.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -20).isActive = true
+        popUpWindow.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 15).isActive = true
         popUpWindow.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         popUpWindow.heightAnchor.constraint(equalToConstant: view.frame.height - 60).isActive = true
         popUpWindow.widthAnchor.constraint(equalToConstant: view.frame.width - 64).isActive = true        
@@ -151,25 +156,12 @@ extension SignUpViewController: termsPopUpDelegate {
     func proceedToCreateAccount() {
         print("Here here here")
         print("Did press the accept button..")
-        
-        
+
         self.validateFields()
-        
         self.signUp(onSuccess: {
              (UIApplication.shared.delegate as! AppDelegate).configureInitialViewController()
         }) { (errorMessage) in
             ProgressHUD.showError(errorMessage)
         }
-
-        //handleDismissal()
-        
     }
-    /*
-    func navigateToWebsite() {
-        if let url = NSURL(string: "https://hookedmusic.app/upload.html") {
-            UIApplication.shared.open(url as URL, options:[:], completionHandler:nil)
-        }
-        handleDismissal()
-    }
-    */
 }

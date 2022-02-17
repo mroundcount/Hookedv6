@@ -13,10 +13,10 @@ class SignInViewController: UIViewController {
     
     
     @IBOutlet weak var closeBtn: UIButton!
+    @IBOutlet weak var icon: UIImageView!
     @IBOutlet weak var titleTextLbl: UILabel!
     @IBOutlet weak var emailContainerView: UIView!
     @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var usernameTxt: UITextField!
     @IBOutlet weak var passwordContainerView: UIView!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signUpBtn: UIButton!
@@ -33,18 +33,19 @@ class SignInViewController: UIViewController {
         //Adjusting the keyboard when selecting a text field is selected
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil);
-        
-        closeBtn.setImage(UIImage(named: "close-1"), for: .normal)
 
         loginStatus = "opening"
     }
     
     func setUpUI() {
+        setUpBackground()
+        setUpCloseBtn()
         setUpTitleTextLbl()
         setUpEmailTxt()
         setUpPasswordTxt()
-        setUpSignUpBtn()
         setUpSignInBtn()
+        setUpSignUpBtn()
+        setUpForgotPasswordBtn()
     }
     
     //Dismissing the view and navigate back to the welcome in scene
@@ -56,7 +57,6 @@ class SignInViewController: UIViewController {
     @IBAction func signInButtonDidTapped(_ sender: Any) {
         //Call the sign in method afte validation is complete and dismiss the keyboard
         print("Tapped")
-        
         //This is the test script to return the username and email in this first step
         //This looks like it is just a check, I don't think we need it.
         Api.User.getUserInfoByName(username: emailTextField.text!) { (user) in
