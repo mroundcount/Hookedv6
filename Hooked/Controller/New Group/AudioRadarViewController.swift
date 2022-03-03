@@ -46,6 +46,9 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     var startTime : Int = 0
     var stopTime : Int = 0
     
+    //Checking if the loading audio function should complete
+    var proceed : Int = 1
+    
     //Keeping track of the playing status
     var recordStatus: String = ""
     //For dismissing the popup bar if music is playing
@@ -78,6 +81,7 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         nopeImg.isHidden = false
         playImg.isHidden = false
         stopImg.isHidden = true
+
     }
     
     //diabling the title area and the navigation bar the bottom
@@ -95,7 +99,11 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         stopAudio()
         //Reset the audio collection for shuffling.
         reloadViewFromNib()
+        
+        proceed = 1
+        
         findAudioFiles()
+        
         
         likeImg.isHidden = false
         nopeImg.isHidden = false
@@ -107,9 +115,11 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.prefersLargeTitles = true
+        proceed = 0
         stopAudio()
     }
     
+
     //Returning all of the audio files available
     func findAudioFiles() {
         Api.Audio.observeAudio { (audio) in

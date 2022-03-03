@@ -69,11 +69,12 @@ class AudioApi {
     
     //Pulling within all of the audio files.
     func observeAudio(onSuccess: @escaping(Audio) -> Void) {
-        //returns a snapshot of each user. We can also listed for children added, this way it can be added to the snapshot, so we don't have to reload it all the time
+        //returns a snapshot of each audio object. We can also listed for children added, this way it can be added to the snapshot, so we don't have to reload it all the time.
+        //Ref().databaseAudioFileOnly().queryLimited(toFirst: 10).observe(.childAdded) { (snapshot) in
         Ref().databaseAudioFileOnly().observe(.childAdded) { (snapshot) in
             //the value of each snapshot is like a dictionary
             if let dict = snapshot.value as? Dictionary<String, Any> {
-                //encapsulate these data dictionaries in an abstract class called 'user'
+                //encapsulate these data dictionaries in an abstract class called 'audio'
                 //Now we will transfor the dictionary into an object
                 if let audio = Audio.transformAudio(dict: dict, keyId: snapshot.key) {
                     onSuccess(audio)
@@ -81,6 +82,36 @@ class AudioApi {
             }
         }
     }
+    
+    
+    
+    
+    func createRandomIndexForFirebase() -> String {
+        let randomIndexArray = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"];
+        let randomIndex = Int.random(in: 0..<randomIndexArray.endIndex)
+
+        //In lexicographical order 'A' != 'a' so we use some clever logic to randomize the case of any letter that is chosen.
+        //If a numeric character is chosen, .capitalized will fail silently.
+        return (randomIndex % 2 == 0) ? randomIndexArray[randomIndex] : randomIndexArray[randomIndex].capitalized
+    }
+    
+    func testObserveAudio(onSuccess: @escaping(Audio) -> Void) {
+        Database.database().reference().child("audioFiles").queryOrderedByKey().queryStarting(atValue: createRandomIndexForFirebase()).queryLimited(toFirst: 1).observeSingleEvent(of: .value, with: { snapshot in
+            //Use a for-loop in case you want to set .queryLimited(toFirst: ) to some higher value.
+                if let dict = snapshot.value as? Dictionary<String, Any> {
+
+                    //encapsulate these data dictionaries in an abstract class called 'user'
+                    //Now we will transfor the dictionary into an object
+                    if let audio = Audio.transformAudio(dict: dict, keyId: snapshot.key) {
+                        onSuccess(audio)
+                    }
+                }
+            })
+        }
+    
+    
+    
+    
 }
 
 typealias AudioCompletion = (Audio) -> Void

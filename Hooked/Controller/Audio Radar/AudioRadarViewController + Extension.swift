@@ -18,6 +18,7 @@ import FirebaseDatabase
 extension AudioRadarViewController {
 
     func downloadFile(audio: Audio) {
+        
         loadingInidcator.startAnimating()
         print("The title is \(audio.title)")
         
@@ -33,7 +34,11 @@ extension AudioRadarViewController {
         startTime = Int(audio.startTime)
         stopTime = Int(audio.stopTime)
         
-        playAudioFromBeginning()
+        if proceed == 1 {
+            playAudioFromBeginning()
+        } else {
+            print ("function stopped")
+        }
     }
     
     

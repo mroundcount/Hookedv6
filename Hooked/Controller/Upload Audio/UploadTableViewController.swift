@@ -258,11 +258,6 @@ extension UploadTableViewController: UIDocumentPickerDelegate {
     func sendToFirebase(dict: Dictionary<String, Any>) {
         //Converting the start and stop time to a Double
         //See extension at the bottom
-        /*
-        Old Method
-        let stopTimeString = stopTimeTextField.text
-        let stopTime: Double = stopTimeString!.toDouble()!
-        */
 
         //https://stackoverflow.com/questions/33704961/how-do-i-convert-a-textfields-string-to-a-double-in-xcode-with-swift
         let startTimeMinString = startTimeMinTextField.text ?? "0"

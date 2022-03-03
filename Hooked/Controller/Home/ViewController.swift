@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Foundation
+import Firebase
 
 class ViewController: UIViewController {
 
@@ -47,11 +49,13 @@ class ViewController: UIViewController {
         setUpSignInEmailBtn()
     }
     
+    
     @objc func labelTapped(_ sender: UITapGestureRecognizer) {
         if let url = NSURL(string: "https://hookedmusic.app/Terms.pdf") {
             UIApplication.shared.open(url as URL, options:[:], completionHandler:nil)
         }        
     }
+
 }
 
 class Core {
