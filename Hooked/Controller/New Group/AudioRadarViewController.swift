@@ -19,7 +19,7 @@ import AVKit
 //I don't need this now, but may need it later if we decide to add in geo aids.
 //import CoreLocation
 class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
-    //Will use for geo mappin in a later version
+    //Will use for geo mapping in a later version
     //var myQuery: GFQuery!
     //var queryHandle: DatabaseHandle?
     
@@ -56,8 +56,6 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     //Monitoring function used in DispatchQueue.
     var returned = true // assume success for all
     
-    
-    
     @IBOutlet weak var cardStack: UIView!
     @IBOutlet weak var nopeImg: UIImageView!
     @IBOutlet weak var stopImg: UIImageView!
@@ -68,7 +66,6 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("ViewDidLoad")
-        //AVAudioSession.sharedInstance()
         loadingInidcator.stopAnimating()
         loadingInidcator.hidesWhenStopped = true
         
@@ -84,7 +81,7 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
 
     }
     
-    //diabling the title area and the navigation bar the bottom
+    //Playing with the title area and the navigation bar the bottom
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //Commenting this out in order to center the title
@@ -102,8 +99,8 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         
         proceed = 1
         
+        //This is the function we are hoping to modernize
         findAudioFiles()
-        
         
         likeImg.isHidden = false
         nopeImg.isHidden = false
@@ -120,11 +117,14 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     }
     
 
+    //Method to be modified
     //Returning all of the audio files available
     func findAudioFiles() {
         Api.Audio.observeAudio { (audio) in
             self.audioCollection.append(audio)
         }
+        
+        //Shuffling Method...
         //Think about adding this to the main thread and not async... review later
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.shuffleAudio { (success) -> Void in

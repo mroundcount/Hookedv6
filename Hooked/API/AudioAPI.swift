@@ -82,61 +82,9 @@ class AudioApi {
             }
         }
     }
-    
-    
-    
-    
-    func createRandomIndexForFirebase() -> String {
-        let randomIndexArray = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"];
-        let randomIndex = Int.random(in: 0..<randomIndexArray.endIndex)
 
-        //In lexicographical order 'A' != 'a' so we use some clever logic to randomize the case of any letter that is chosen.
-        //If a numeric character is chosen, .capitalized will fail silently.
-        return (randomIndex % 2 == 0) ? randomIndexArray[randomIndex] : randomIndexArray[randomIndex].capitalized
-    }
-    
-    func testObserveAudio(onSuccess: @escaping(Audio) -> Void) {
-        Database.database().reference().child("audioFiles").queryOrderedByKey().queryStarting(atValue: createRandomIndexForFirebase()).queryLimited(toFirst: 1).observeSingleEvent(of: .value, with: { snapshot in
-            //Use a for-loop in case you want to set .queryLimited(toFirst: ) to some higher value.
-                if let dict = snapshot.value as? Dictionary<String, Any> {
-
-                    //encapsulate these data dictionaries in an abstract class called 'user'
-                    //Now we will transfor the dictionary into an object
-                    if let audio = Audio.transformAudio(dict: dict, keyId: snapshot.key) {
-                        onSuccess(audio)
-                    }
-                }
-            })
-        }
-    
-    
-    
     
 }
 
 typealias AudioCompletion = (Audio) -> Void
 
-
-//This is the old method that uploads the audio file to the "audio" database. It stores each file under an artist.
-//11/29... Remove this and test
-/*
-func uploadAudio(artist: String, value: Dictionary<String, Any>) {
-    let ref = Ref().databaseAudioArtist(artist: artist)
-    ref.childByAutoId().updateChildValues(value)
-} */
-
-//pulls down the audio info....This is looking at the 'audio' node
-//Old method no longer used.
-//11/29... Remove this and test
-/*
-func pullAudio(artist: String, onSuccess: @escaping(Audio) -> Void) {
-    let ref = Ref().databaseAudioArtist(artist: artist)
-    ref.observe(.childAdded) { (snapshot) in
-        if let dict = snapshot.value as? Dictionary<String, Any> {
-            if let audio = Audio.transformAudio(dict: dict, keyId: snapshot.key) {
-                onSuccess(audio)
-            }
-        }
-    }
-}
-*/

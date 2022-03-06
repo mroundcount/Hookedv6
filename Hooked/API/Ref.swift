@@ -123,7 +123,7 @@ class Ref {
            return databaseBlockUser.child(uid)
     }
     
-    //Reporting flagged conent
+    //Call all uploaded audio files
     func databaseAudioFileOnly() -> DatabaseReference {
         return databaseRoot.child(REF_AUDIO_FILE)
     }
@@ -150,7 +150,7 @@ class Ref {
     }
  
     
-    //Uploading JUST audio files
+    //Uploading a flag report
     func databaseReportFlag() -> DatabaseReference {
         return databaseRoot.child(REF_REPORT_FLAG)
     }
