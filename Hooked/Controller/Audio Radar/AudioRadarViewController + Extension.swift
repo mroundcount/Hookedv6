@@ -55,13 +55,6 @@ extension AudioRadarViewController {
         }
     }
     
-    //12/17/2021 Function might not be necessary
-    /*
-    @objc func stopImgDidTap() {
-        totalReplayAudio()
-    } */
-    
-    
     func playAudioFromBeginning() {
         audioSettings()
         //loadingInidcator.stopAnimating()
@@ -98,29 +91,7 @@ extension AudioRadarViewController {
         playImg.image = UIImage(systemName: "play.circle.fill")
         stopImg.image = UIImage(named: "refresh_circle")
     }
-    
-    //12/17/2021 Function might not be necessary
-    /*
-    func replayAudio() {
-        downloadFile(audio: (cards.first?.audio)!)
-        recordStatus = "Playing"
-        playImg.isHidden = false
-        playImg.image = UIImage(systemName: "pause.circle")
-        stopImg.image = UIImage(named: "refresh_circle")
-    } */
-    
-    //12/17/2021 Function might not be necessary
-    /*
-    func totalReplayAudio() {
-        player?.pause()
-        player?.seek(to: .zero)
-        
-        downloadFile(audio: (cards.first?.audio)!)
-        recordStatus = "Playing"
-        //playImg.isHidden = false
-        playImg.isHidden = false
-        playImg.image = UIImage(systemName: "pause.circle")
-    } */
+
   
     // 12/17/2021 Here is the update
     func audioPlayerDidFinishPlaying(note: NSNotification) {

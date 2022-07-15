@@ -11,6 +11,12 @@ import UIKit
 
 extension LikesTableViewController {
     
+    func setUpUI() {
+        setupNavigationBar()
+        setUpBackground()
+        setupSearchBarController()
+    }
+    
     func setUpBackground() {
         let color = getUIColor(hex: "#1A1A1A")
         self.view.backgroundColor = color
@@ -75,6 +81,5 @@ extension LikesTableViewController {
             alpha: CGFloat(1.0)
         )
     }
-
 }
 

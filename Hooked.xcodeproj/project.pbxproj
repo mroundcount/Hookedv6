@@ -11,6 +11,7 @@
 		BF04F42A254F2DD800DFC625 /* UploadTableViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF04F429254F2DD800DFC625 /* UploadTableViewController + Extension.swift */; };
 		BF186A7C259A946500C38121 /* EditUploadTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF186A7B259A946500C38121 /* EditUploadTableViewController.swift */; };
 		BF186A7F259A95EA00C38121 /* EditUploadTableViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF186A7E259A95EA00C38121 /* EditUploadTableViewController + Extension.swift */; };
+		BF1E5651287D2FBD000E5025 /* LikesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1E5650287D2FBD000E5025 /* LikesAPI.swift */; };
 		BF25D3A42557927B00D9098F /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF25D3A32557927B00D9098F /* Preferences.swift */; };
 		BF25D3A625579FDD00D9098F /* PreferencesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF25D3A525579FDD00D9098F /* PreferencesAPI.swift */; };
 		BF4219B3259DA9F100A139F5 /* DemoMusicPlayerController + ExtensionPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4219B2259DA9F100A139F5 /* DemoMusicPlayerController + ExtensionPreview.swift */; };
@@ -103,6 +104,7 @@
 		BF108335264665ED003E09A0 /* Hooked.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hooked.entitlements; sourceTree = "<group>"; };
 		BF186A7B259A946500C38121 /* EditUploadTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUploadTableViewController.swift; sourceTree = "<group>"; };
 		BF186A7E259A95EA00C38121 /* EditUploadTableViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditUploadTableViewController + Extension.swift"; sourceTree = "<group>"; };
+		BF1E5650287D2FBD000E5025 /* LikesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesAPI.swift; sourceTree = "<group>"; };
 		BF25D3A32557927B00D9098F /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		BF25D3A525579FDD00D9098F /* PreferencesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesAPI.swift; sourceTree = "<group>"; };
 		BF4219B2259DA9F100A139F5 /* DemoMusicPlayerController + ExtensionPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DemoMusicPlayerController + ExtensionPreview.swift"; sourceTree = "<group>"; };
@@ -334,6 +336,7 @@
 				BF9C63982413522D00DA740D /* UserApi.swift */,
 				BF9C63A62414A09A00DA740D /* Extension.swift */,
 				BFF1C3CD244CBE4C00E99A46 /* Likes.swift */,
+				BF1E5650287D2FBD000E5025 /* LikesAPI.swift */,
 				BF9C639A241361AE00DA740D /* StorageService.swift */,
 				BF9C639C2413674300DA740D /* Ref.swift */,
 				BFEB2CC225DF678800B56B6D /* ReportFlag.swift */,
@@ -548,6 +551,7 @@
 				BF633AE924D139CD00B2BCB1 /* LikesTableViewController.swift in Sources */,
 				BFF1C3CA2449546800E99A46 /* PreferenceTableViewController.swift in Sources */,
 				BFEB2CC625DF6F2800B56B6D /* ReportFlagAPI.swift in Sources */,
+				BF1E5651287D2FBD000E5025 /* LikesAPI.swift in Sources */,
 				BFC9EF5424AC30AD004FFF1E /* AudioRadarViewController.swift in Sources */,
 				BF5177A427476200000906C1 /* UserProfileViewController+UI.swift in Sources */,
 			);
@@ -706,7 +710,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.02;
+				MARKETING_VERSION = 2.021;
 				PRODUCT_BUNDLE_IDENTIFIER = Something.Hooked;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Hooked/Controller/Demo Testing/Hooked-Bridging-Header.h";
@@ -731,7 +735,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.02;
+				MARKETING_VERSION = 2.021;
 				PRODUCT_BUNDLE_IDENTIFIER = Something.Hooked;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Hooked/Controller/Demo Testing/Hooked-Bridging-Header.h";

@@ -9,19 +9,37 @@
 import Foundation
 import UIKit
 
-//each instance of this call holds an instance of a user from the database
-//Commented out on 1/22
+/* 7/12/2022 Expermineting with pulling the dates from the likes section. Unable to figure it out come... come back later */
 
-/*
 class Likes {
-    var uid: String
-    var like: Bool?
+    var id: String
+    var audioID: String
+    var Date: Date
 
-    //teaching the class to create a new instance
-    //We create an initializer. Assign each parameter to an instance variable
-    init(uid: String, like: Bool) {
-        self.uid = uid
-        self.like = like
+    
+    //initializing the audio variables
+    init(id: String, audioID: String, Date: Date) {
+        
+        self.id = id
+        self.audioID = audioID
+        self.Date = Date
+    }
+    
+    //passing in the audio variables to be published
+    static func transformLikes(dict: [String: Any], keyId: String) -> Likes? {
+
+        let date = (dict["Date"] as? Date)!
+        let audioID = (dict["audioID"] as? String) == nil ? "" : (dict["audioID"]! as! String)
+        
+    let likes = Likes(id: keyId, audioID: audioID, Date: date)
+        return likes
+    }
+    
+    //Review the context of this function
+    static func hash(forMembers members: [String]) -> String {
+        let hash = members[0].hashString ^ members[1].hashString
+        let memberHash = String(hash)
+        return memberHash
     }
 }
-*/
+

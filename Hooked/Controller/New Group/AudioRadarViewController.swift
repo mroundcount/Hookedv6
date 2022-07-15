@@ -105,7 +105,6 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         likeImg.isHidden = false
         nopeImg.isHidden = false
         playImg.isHidden = false
-        //12/16/2021 update
         stopImg.isHidden = true
     }
     
@@ -139,6 +138,8 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         }
     }
     
+    
+    
     func shuffleAudio(completion: (_ success: Bool) -> Void) {
         audioCollection.shuffle()
         for audio in audioCollection {
@@ -147,8 +148,9 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         completion(true)
     }
     
-    
+    //Testing 7/12/2022 writing the date to the DW instead of a bool
     //saving only true like values to the firebase so can can just view them in a liked page.
+    /*
     func saveLikesToFirebase(like: Bool, card: AudioCard) {
         Ref().databaseLikesForUser(uid: Api.User.currentUserId)
             .updateChildValues([card.audio.id: like]) { (error, ref) in
@@ -159,6 +161,19 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         Ref().databaseLikesCount(id: card.audio.id)
             .updateChildValues([Api.User.currentUserId: like]) { (error, ref) in
                 if error == nil, like == true {
+                }
+            }
+    } */
+    func saveLikesToFirebase(like: Double, card: AudioCard) {
+        Ref().databaseLikesForUser(uid: Api.User.currentUserId)
+            .updateChildValues([card.audio.id: like]) { (error, ref) in
+                if error == nil, like == Date().timeIntervalSince1970 {
+                }
+            }
+        //Adding this to get a tables of likes so that we can count them later
+        Ref().databaseLikesCount(id: card.audio.id)
+            .updateChildValues([Api.User.currentUserId: like]) { (error, ref) in
+                if error == nil, like == Date().timeIntervalSince1970{
                 }
             }
     }
@@ -210,11 +225,11 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
             playImg.isHidden = true
             stopImg.isHidden = true
             
-            let alert = UIAlertController(title: "Whoa there cowboy!", message: "You've run out of songs. Start over or check your preferences", preferredStyle: .alert)
-            
-            self.present(alert, animated: true)
-            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
-            }))
+            //New methof for testing 3/8/2022
+            audioCollection.removeAll()
+            cards.removeAll()
+            findAudioFiles()
+
         }
     }
     
@@ -268,7 +283,8 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         }
         //save it to the firstbase
         //only saving likes to the liked table
-        saveLikesToFirebase(like: true, card: firstCard)
+        //saveLikesToFirebase(like: true, card: firstCard)
+        saveLikesToFirebase(like: Date().timeIntervalSince1970, card: firstCard)
         swipeAnimation(translation: 750, angle: 15)
         checkCardCount()
         setupTransforms()
@@ -352,7 +368,8 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
                 }
                 //saveToFirebase(like: true, card: card)
                 //only saving likes to the liked table
-                saveLikesToFirebase(like: true, card: card)
+                //saveLikesToFirebase(like: true, card: firstCard)
+                saveLikesToFirebase(like: Date().timeIntervalSince1970, card: card)
                 //apply the same logic to the next card in the stact
                 self.updateCards(card: card)
                 

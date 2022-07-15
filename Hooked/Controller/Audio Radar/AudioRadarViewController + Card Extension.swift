@@ -45,7 +45,6 @@ extension AudioRadarViewController {
             if card.audio.id == likedAudio.id {
                 print("preparing to remove liked audio: \(likedAudio.title)")
                 card.removeFromSuperview()
-                //self.updateCards(card: card)
                 self.removeCards(card: card)
             }
         }
@@ -56,7 +55,6 @@ extension AudioRadarViewController {
             if card.audio.artist == userAudio.artist {
                 print("preparing to remove atrist audio: \(userAudio.title)")
                 card.removeFromSuperview()
-                //self.updateCards(card: card)
                 self.removeCards(card: card)
             }
         }

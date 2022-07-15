@@ -218,20 +218,6 @@ class UserApi {
              }
          })
     }
-    
-    
-    //This observation method is used on to observe the match table
-    //This is probably not being used.... might want to consider removing it later
-    /*
-    func observeNewMatch(onSuccess: @escaping(UserCompletion)) {    Ref().databaseRoot.child("newMatch").child(Api.User.currentUserId).observeSingleEvent(of: .value) { (snapshot) in
-        guard let dict = snapshot.value as? [String: Bool] else { return }
-        dict.forEach({ (key, value) in
-            self.getUserInforSingleEvent(uid: key, onSuccess: { (user) in
-                onSuccess(user)
-            })
-        })
-        }
-    } */
 }
 
 //in the api call the observeUsers functions can accept multiple closure arements. Be declaring typealias the alias name can be used anywhere in the app instead of the type. THe name reffers to an already existing type

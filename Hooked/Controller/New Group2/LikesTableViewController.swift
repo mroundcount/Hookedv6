@@ -12,14 +12,10 @@ import AVFoundation
 import FirebaseDatabase
 
 class LikesTableViewController: UITableViewController, UISearchResultsUpdating, ProfileNavigationDelegate {
-    
+
     var audio: [Audio] = []
     var searchResults: [Audio] = []
-    var audioSet: Audio!
-    
     var searchController: UISearchController = UISearchController(searchResultsController: nil)
-    
-    //var audioPlayer: AVAudioPlayer!
     var popupContentController: DemoMusicPlayerController!
     
     override func viewDidLoad() {
@@ -32,7 +28,6 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("In new likes view")
         self.centerTitle()
         observeAudio()
     }
@@ -48,13 +43,39 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
             return
         }
     }
-    
-    func setUpUI() {
-        setupNavigationBar()
-        setUpBackground()
-        setupSearchBarController()
+
+    func observeAudio() {
+        self.audio.removeAll()
+        Api.Audio.observeNewLike { (audio) in
+            self.audio.append(audio)
+            self.tableView.reloadData()
+            self.sortAudio()
+        }
     }
+    
+
+    func sortAudio() {
+        audio = audio.sorted(by: { $0.title < $1.title })
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+
+    
+
+    //Added for navigation
+    func didTapProfilePicture(audio: Audio!) {
+        print("from the viewcontroller: \(audio.artist)")
         
+        Api.User.getUserInforSingleEvent(uid: audio.artist) { (user) in
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let detailVC = storyboard.instantiateViewController(withIdentifier: IDENTIFIER_DETAIL) as! DetailViewController
+            detailVC.user = user
+            
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
+    }
+    
     func updateSearchResults(for searchController: UISearchController) {
         if searchController.searchBar.text == nil || searchController.searchBar.text!.isEmpty {
             view.endEditing(true)
@@ -76,42 +97,6 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
         tableView.tableFooterView = UIView()
     }
     
-    func observeAudio() {
-        self.audio.removeAll()
-        print("inside observation function")
-        Api.Audio.observeNewLike { (audio) in
-            self.audio.append(audio)
-            self.tableView.reloadData()
-            self.sortAudio()
-        }
-    }
-    
-    func sortAudio() {
-        audio = audio.sorted(by: { $0.date < $1.date })
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
-    
-    
-    
-    //Added for navigation
-    func didTapProfilePicture(audio: Audio!) {
-        print ("Make it here")
-        print("from the viewcontroller: \(audio.artist)")
-        
-        Api.User.getUserInforSingleEvent(uid: audio.artist) { (user) in
-            print("user: \(user.username)")
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let detailVC = storyboard.instantiateViewController(withIdentifier: IDENTIFIER_DETAIL) as! DetailViewController
-            detailVC.user = user
-            
-            self.navigationController?.pushViewController(detailVC, animated: true)
-        }
-    }
-    
-    
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if searchController.isActive {
@@ -119,14 +104,11 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
         } else {
             return self.audio.count
         }
-        //return searchController.isActive ? searchResults.count : self.users.count
-        //return searchController.isActive ? searchResults.count : self.audio.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let cell = tableView.dequeueReusableCell(withIdentifier: "AudioTableViewCell") as! AudioTableViewCell
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "LikesAudioTableViewCell", for: indexPath) as! LikesAudioTableViewCell
-        //cell.configureCell(audio: audio[indexPath.row])
 
         let search = searchController.isActive ? searchResults[indexPath.row] :
             audio[indexPath.row]
@@ -204,7 +186,6 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
                 print(error?.localizedDescription)
             }
             //The table reload does not work for some reason
-            //self.tableView.reloadData()
             self.viewDidAppear(true)
         }
         delete.backgroundColor = .red

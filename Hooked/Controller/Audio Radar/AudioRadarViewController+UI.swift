@@ -17,8 +17,6 @@ extension AudioRadarViewController {
         setUpBackground()
         setupNavigationBar()
         setUpLoadingInidcator()
-        //let color = getUIColor(hex: "#1A1A1A")
-        //let checkColor = getUIColor(hex: "#66CD5D")
     }
     
     func setUpLoadingInidcator() {
@@ -60,16 +58,7 @@ extension AudioRadarViewController {
         let tapLikeImg = UITapGestureRecognizer(target: self, action: #selector(likeImgDidTap))
         likeImg.addGestureRecognizer(tapLikeImg)
         likeImg.image = UIImage(named: "radarLike")
-        
-        /*
-        stopImg.isUserInteractionEnabled = true
-        let tapStopImg = UITapGestureRecognizer(target: self, action: #selector(stopImgDidTap))
-        stopImg.addGestureRecognizer(tapStopImg)
-        stopImg.image = UIImage(named: "refresh_circle")
-        //This is the way that you use the built in images.. just for reference
-        //stopImg.image = UIImage(systemName: "stop.circle")
-        */
-        
+         
         playImg.isUserInteractionEnabled = true
         let tapPlayImg = UITapGestureRecognizer(target: self, action: #selector(playImgDidTap))
         playImg.addGestureRecognizer(tapPlayImg)

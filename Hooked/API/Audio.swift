@@ -56,6 +56,7 @@ class Audio {
     let audio = Audio(id: keyId, storageID: storageID, source: source, artist: artist, date: date, title: title, genre: genre, explicit: explicit, audioUrl: audioUrl, startTime: startTime, stopTime: stopTime)
         return audio
     }
+
     
     //Review the context of this function
     static func hash(forMembers members: [String]) -> String {
