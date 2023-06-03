@@ -16,7 +16,7 @@ import Foundation
 import Firebase
 import FirebaseDatabase
 
-class EditUploadTableViewController: UITableViewController {
+class EditUploadTableViewController: UITableViewController, UITextFieldDelegate {
     
     var audio: Audio!
     var audios: [Audio] = []
@@ -65,9 +65,11 @@ class EditUploadTableViewController: UITableViewController {
         setUpUI()
         
         //Need to be able to modify this
-
-        
         popupContentController = storyboard?.instantiateViewController(withIdentifier: "DemoMusicPlayerController") as! DemoMusicPlayerController
+        
+        //Setting up the keyboard to dismiss
+        titleTextField.returnKeyType = UIReturnKeyType.done
+        self.titleTextField.delegate = self
 
     }
     
@@ -100,6 +102,13 @@ class EditUploadTableViewController: UITableViewController {
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    //Setting up the keyboard to dismiss when clicking "Done"
+    //https://stackoverflow.com/questions/24180954/how-to-hide-keyboard-in-swift-on-pressing-return-key
+    func textFieldShouldReturn(_ titleTextField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
 
     @IBAction func backBtnDidTap(_ sender: Any) {

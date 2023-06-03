@@ -16,6 +16,8 @@ import LNPopupController
 import AVFoundation
 import AVKit
 
+import FirebaseMessaging
+
 //I don't need this now, but may need it later if we decide to add in geo aids.
 //import CoreLocation
 class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
@@ -27,6 +29,7 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     var likesCollection: [Audio] = []
     var userCollection: [Audio] = []
     var blockedCollection: [User] = []
+    var subscribedCollection: [User] = []
     var cards: [AudioCard] = []
     
     //detecting the position of the card at it's inital position
@@ -56,6 +59,12 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     //Monitoring function used in DispatchQueue.
     var returned = true // assume success for all
     
+    //Use to hold like count per song swipe to send notifications
+    var likeCount : Int = 0
+    var artistToken : String?
+
+    
+    
     @IBOutlet weak var cardStack: UIView!
     @IBOutlet weak var nopeImg: UIImageView!
     @IBOutlet weak var stopImg: UIImageView!
@@ -78,7 +87,6 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         nopeImg.isHidden = false
         playImg.isHidden = false
         stopImg.isHidden = true
-
     }
     
     //Playing with the title area and the navigation bar the bottom
@@ -106,6 +114,11 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
         nopeImg.isHidden = false
         playImg.isHidden = false
         stopImg.isHidden = true
+        
+        //Configuring the logged in user's topis for Firebase messaging
+        if !Api.User.currentUserId.isEmpty {
+            Messaging.messaging().subscribe(toTopic: Api.User.currentUserId)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -165,6 +178,9 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
             }
     } */
     func saveLikesToFirebase(like: Double, card: AudioCard) {
+        
+        likeCountCheck(card: card)
+                
         Ref().databaseLikesForUser(uid: Api.User.currentUserId)
             .updateChildValues([card.audio.id: like]) { (error, ref) in
                 if error == nil, like == Date().timeIntervalSince1970 {
@@ -176,6 +192,37 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
                 if error == nil, like == Date().timeIntervalSince1970{
                 }
             }
+        guard let firstCard = cards.first else {
+            return
+        }
+        // checkSubscription(like: Date().timeIntervalSince1970, card: firstCard)
+    }
+    
+    func checkSubscription(like: Double, card: AudioCard) {
+        print("in subscription check")
+        //I'm not sure if this actually works, but it looks like when you swipe someone twice it just updates the time stamp.
+        /*
+        if subscribedCollection.filter({$0.uid == card.audio.artist}).count > 0 {
+            print("Already Subscribed to: \(card.audio.artist)")
+        } else {
+            print("Subsribing to: \(card.audio.artist)")
+        */
+            //The current user is not following the artist
+            Ref().databaseFollowingForUser(uid: Api.User.currentUserId)
+                .updateChildValues([card.audio.artist: like]) { (error, ref) in
+                    if error == nil, like == Date().timeIntervalSince1970{
+                    }
+                }
+            
+            //The artist is gaining a new follower!!!!!!!
+            Ref().databaseFollowersForUser(uid: card.audio.artist)
+                .updateChildValues([Api.User.currentUserId: like]) { (error, ref) in
+                    if error == nil, like == Date().timeIntervalSince1970{
+                    }
+                }
+        
+        //}
+        
     }
     
     //move to the next card in the array
@@ -255,12 +302,10 @@ class AudioRadarViewController: UIViewController, AVAudioPlayerDelegate {
     }
     
     func playTopCard() {
-        print("in top card function")
         downloadFile(audio: (cards.first?.audio)!)
     }
     
     func resetAudio() {
-        print("Stopping Audio")
         player?.pause()
         player?.seek(to: .zero)
     }

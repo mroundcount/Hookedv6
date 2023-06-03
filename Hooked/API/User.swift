@@ -15,9 +15,8 @@ class User {
     var email: String
     var profileImageUrl: String
     var profileImage = UIImage()
-    var status: String
-    var isMale: Bool?
-    var age: Int?
+    var status: Any
+    //var age: Int?
     var latitude = ""
     var longitude = ""
     var website: String?
@@ -27,7 +26,7 @@ class User {
     
     //teaching the class to create a new instance
     //We create an initializer. Assign each parameter to an instance variable
-    init(uid: String, username: String, email: String, profileImageUrl: String, status: String) {
+    init(uid: String, username: String, email: String, profileImageUrl: String, status: Any) {
         self.uid = uid
         self.username = username
         self.email = email
@@ -41,20 +40,13 @@ class User {
         guard let email = dict["email"] as? String,
         let username = dict["username"] as? String,
         let profileImageUrl = dict["profileImageUrl"] as? String,
-        let status = dict["status"] as? String,
+        let status = dict["status"] as? Any,
         let uid = dict["uid"] as? String else {
             return nil
         }
         //assign all of the unwrapped data to the instnce user, and return the full user at the end
         let user = User (uid: uid, username: username, email: email, profileImageUrl: profileImageUrl, status: status)
         
-        //edit later.... Not using but it might be good to have the place holder for the boolean
-        if let isMale = dict["isMale"] as? Bool {
-            user.isMale = isMale
-        }
-        if let age = dict["age"] as? Int {
-            user.age = age
-        }
         //Attempting to fix observer in video 72
         if let latitude = dict["current_latitude"] as? String {
             user.latitude = latitude
@@ -74,17 +66,7 @@ class User {
         
         return user
     }
-    
-    //might not use this function
-    func updateData(key: String, value: String) {
-        switch key {
-        case "username": self.username = value
-        case "email": self.email = value
-        case "profileImageUrl": self.profileImageUrl = value
-        case "status": self.status = value
-        default: break
-        }
-    }
+
 }
 
 

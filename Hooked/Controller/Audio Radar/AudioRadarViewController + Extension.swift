@@ -20,7 +20,6 @@ extension AudioRadarViewController {
     func downloadFile(audio: Audio) {
         
         loadingInidcator.startAnimating()
-        print("The title is \(audio.title)")
         
         let url = NSURL(string: audio.audioUrl)
                 

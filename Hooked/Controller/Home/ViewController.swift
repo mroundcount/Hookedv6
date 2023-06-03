@@ -51,7 +51,7 @@ class ViewController: UIViewController {
     
     
     @objc func labelTapped(_ sender: UITapGestureRecognizer) {
-        if let url = NSURL(string: "https://hookedmusic.app/Terms.pdf") {
+        if let url = NSURL(string: "https://hookedmusic.app/legal/Terms.pdf") {
             UIApplication.shared.open(url as URL, options:[:], completionHandler:nil)
         }        
     }

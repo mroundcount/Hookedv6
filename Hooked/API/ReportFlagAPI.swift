@@ -14,4 +14,9 @@ class ReportFlagApi {
         let ref = Ref().databaseReportFlag()
         ref.childByAutoId().updateChildValues(value)
     }
+    
+    func uploadMessageReportFlag(value: Dictionary<String, Any>) {
+        let ref = Ref().databaseReportMessageFlag()
+        ref.childByAutoId().updateChildValues(value)
+    }
 }

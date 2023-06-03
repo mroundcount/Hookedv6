@@ -11,11 +11,13 @@ target 'Hooked' do
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
   pod 'Firebase/Messaging'
+  pod 'Firebase/Firestore'
   pod 'ProgressHUD'
   pod 'SDWebImage'
   pod 'GeoFire'
   pod 'FBSDKLoginKit'
   pod 'ZMSwiftRangeSlider'
+  
 
   # Pods for Hooked
   # add the Firebase pod for Google Analytics

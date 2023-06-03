@@ -15,4 +15,5 @@ struct Api {
     static var Preferences = PreferencesApi()
     static var ReportFlag = ReportFlagApi()
     static var Likes = LikesApi()
+    static var Message = MessageApi()
 }

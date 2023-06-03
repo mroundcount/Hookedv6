@@ -12,7 +12,7 @@ import FirebaseDatabase
 import FirebaseStorage
 import ProgressHUD
 
-class SignUpViewController: UIViewController {
+class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var closeBtn: UIButton!
     @IBOutlet weak var titleTextLbl: UILabel!
@@ -59,6 +59,14 @@ class SignUpViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil);
         
         setUpEffects()
+        
+        //Setting up the keyboard to dismiss
+        usernameTxt.returnKeyType = UIReturnKeyType.done
+        self.usernameTxt.delegate = self
+        emailTxt.returnKeyType = UIReturnKeyType.done
+        self.emailTxt.delegate = self
+        passwordTxt.returnKeyType = UIReturnKeyType.done
+        self.passwordTxt.delegate = self
     }
 
     func setUpUI() {
@@ -108,6 +116,21 @@ class SignUpViewController: UIViewController {
 
     @objc func keyboardWillHide(sender: NSNotification) {
          self.view.frame.origin.y = 0 // Move view to original position
+    }
+    
+    //Setting up the keyboard to dismiss when clicking "Done"
+    //https://stackoverflow.com/questions/24180954/how-to-hide-keyboard-in-swift-on-pressing-return-key
+    func textFieldShouldReturn(_ usernameTxt: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    func textFieldShouldReturnII(_ emailTxt: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    func textFieldShouldReturnIII(_ passwordTxt: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
     
     //Patching up because the validate field for the username does not work.

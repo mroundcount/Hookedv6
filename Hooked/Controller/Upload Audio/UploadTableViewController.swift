@@ -12,7 +12,7 @@ import MobileCoreServices
 import AVFoundation
 import ZMSwiftRangeSlider
 
-class UploadTableViewController: UITableViewController {
+class UploadTableViewController: UITableViewController, UITextFieldDelegate {
     
     var audioUrl: URL?
     var storageID: String?
@@ -62,12 +62,17 @@ class UploadTableViewController: UITableViewController {
         setupView()
 
         checkForAudioFile()
-        //setUpSlider()        
+        //setUpSlider()
+        
+        //Setting up the keyboard to dismiss
+        titleTextField.returnKeyType = UIReturnKeyType.done
+        self.titleTextField.delegate = self
+        
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        super.viewWillAppear(animated)
     }
     //unhide the navigation bar
     override func viewWillDisappear(_ animated: Bool) {
@@ -109,6 +114,16 @@ class UploadTableViewController: UITableViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    
+    //Setting up the keyboard to dismiss when clicking "Done"
+    //https://stackoverflow.com/questions/24180954/how-to-hide-keyboard-in-swift-on-pressing-return-key
+    func textFieldShouldReturn(_ titleTextField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+
+    
+    
     
     @IBAction func uploadBtnDidTap(_ sender: Any) {
         print("opening browser")

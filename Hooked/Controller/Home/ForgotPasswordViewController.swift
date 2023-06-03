@@ -9,7 +9,7 @@
 import UIKit
 import ProgressHUD
 
-class ForgotPasswordViewController: UIViewController {
+class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
 
     
     @IBOutlet weak var closeBtn: UIButton!
@@ -22,6 +22,9 @@ class ForgotPasswordViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        
+        emailTxt.returnKeyType = UIReturnKeyType.done
+        self.emailTxt.delegate = self
     }
     
     func setUpUI() {
@@ -36,6 +39,12 @@ class ForgotPasswordViewController: UIViewController {
     //Remember the action is "show"
     @IBAction func dismissionAction(_ sender: Any) {
         navigationController?.popViewController(animated: true)
+    }
+    
+    //https://stackoverflow.com/questions/24180954/how-to-hide-keyboard-in-swift-on-pressing-return-key
+    func textFieldShouldReturn(_ emailTxt: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
     
     

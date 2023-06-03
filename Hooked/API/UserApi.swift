@@ -56,26 +56,13 @@ class UserApi {
                     EMAIL: authData.user.email,
                     USERNAME: username,
                     PROFILE_IMAGE_URL: "",
-                    STATUS: "Welcome to Hooked"
+                    STATUS: 1,
+                    EXPLICIT_CONTENT: false,
+                    CREATED_DATE: Date().timeIntervalSince1970
+                    
                 ]
                  print("In the fourth step of the API")
-                //Convert the UIImage to jpeg data format.
-                
-                //used to convert images
-                /*
-                guard let imageSelected = image else {
-                    print("No Photo")
-                    //ProgressHUD.showError(ERROR_EMPTY_PHOTO)
-                    return
-                }
-                */
-                //firebase format. We need to use jpeg format. We will use the compression ratio of 0.4 so it is lightweight.
-            
-                /*
-                guard let imageData = imageSelected.jpegData(compressionQuality: 0.4) else {
-                    return
-                }
-                */
+
                 
                 let storageProfile = Ref().storageSpecificProfile(uid: authData.user.uid)
                 //upload the image data to Firebase.
@@ -124,6 +111,7 @@ class UserApi {
         //user the built in FirebaseAuth functions
         do {
             try Auth.auth().signOut()
+            //Messaging.messaging().unsubscribe(fromTopic: uid)
         } catch {
             ProgressHUD.showError(error.localizedDescription)
             return
@@ -159,7 +147,31 @@ class UserApi {
             })
         }
     }
-
+    
+    //Looking for artists the current user is following.
+    func observeUsersIamFollowing(onSuccess: @escaping(UserCompletion)) {
+        Ref().databaseRoot.child("following").child(Api.User.currentUserId).observeSingleEvent(of: .value) { (snapshot) in
+            guard let dict = snapshot.value as? [String: Any] else { return }
+            dict.forEach({ (key, value) in
+                self.getUserInforSingleEvent(uid: key, onSuccess: { (user) in
+                    onSuccess(user)
+                })
+            })
+        }
+    }
+    
+    //Looking other users that follow the logged in user
+    func observeMyFollowers(onSuccess: @escaping(UserCompletion)) {
+        Ref().databaseRoot.child("followers").child(Api.User.currentUserId).observeSingleEvent(of: .value) { (snapshot) in
+            guard let dict = snapshot.value as? [String: Bool] else { return }
+            dict.forEach({ (key, value) in
+                self.getUserInforSingleEvent(uid: key, onSuccess: { (user) in
+                    onSuccess(user)
+                })
+            })
+        }
+    }
+    
     //For data that only needs to be changed one or infrequently (ie profile photos)
     //prevents cetrain loadings from happening multiple times like when we changed the profile photo in video 50
     func getUserInforSingleEvent(uid: String, onSuccess: @escaping(UserCompletion)) {
@@ -188,18 +200,13 @@ class UserApi {
     
     //This is used for signing in with a usernmane
     func getUserInfoByName(username: String, onSuccess: @escaping(User) -> Void) {
-        print("set 1")
         let ref = Database.database().reference().child("users")
-        print("set 2")
         
         ref.queryOrdered(byChild: "username").queryEqual(toValue: username).observe(.childAdded, with: {
             snapshot in
-            print("set 3")
             if let dict = snapshot.value as? [String : AnyObject] {
-                print("set 4")
                 // do stuff with 'post' here.
                 if let user = User.transformUser(dict: dict) {
-                    print("set 5")
                     onSuccess(user)
                 }
             }
@@ -207,12 +214,9 @@ class UserApi {
         
         ref.queryOrdered(byChild: "email").queryEqual(toValue: username).observe(.childAdded, with: {
              snapshot in
-             print("set 6")
              if let dict = snapshot.value as? [String : AnyObject] {
-                 print("set 7")
                  // do stuff with 'post' here.
                  if let user = User.transformUser(dict: dict) {
-                     print("set 8")
                      onSuccess(user)
                  }
              }

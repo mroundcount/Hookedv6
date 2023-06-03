@@ -12,13 +12,12 @@ import FirebaseAuth
 
 
 import FirebaseStorage
-
 import Foundation
 import Firebase
 import FirebaseDatabase
 
 //The page where someone can edit the profile.
-class ProfileTableViewController: UITableViewController {
+class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
     
     
     @IBOutlet weak var titleLbl: UILabel!
@@ -60,6 +59,11 @@ class ProfileTableViewController: UITableViewController {
         let myPreferencesLblTap = UITapGestureRecognizer(target: self, action: #selector(self.myPreferencesLblTap(_:)))
         self.myPreferencesLbl.isUserInteractionEnabled = true
         self.myPreferencesLbl.addGestureRecognizer(myPreferencesLblTap)
+        
+        //Setting up the keyboard to dismiss
+        websiteTextField.returnKeyType = UIReturnKeyType.done
+        self.websiteTextField.delegate = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,9 +81,16 @@ class ProfileTableViewController: UITableViewController {
         view.endEditing(true)
     }
     
+    //Setting up the keyboard to dismiss when clicking "Done"
+    //https://stackoverflow.com/questions/24180954/how-to-hide-keyboard-in-swift-on-pressing-return-key
+    func textFieldShouldReturn(_ websiteTextField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    
     @objc func privacyPolicyLblTap(_ sender: UITapGestureRecognizer) {
         print("Privacy label tapped")
-        if let url = NSURL(string: "https://hookedmusic.app/Terms.pdf") {
+        if let url = NSURL(string: "https://hookedmusic.app/legal/Privacy_Policy.pdf") {
             UIApplication.shared.open(url as URL, options:[:], completionHandler:nil)
         }
     }
@@ -87,7 +98,7 @@ class ProfileTableViewController: UITableViewController {
     @objc func termsOfServiceLblTap(_ sender: UITapGestureRecognizer) {
         print("Terms of Servie label tapped")
         
-        if let url = NSURL(string: "https://hookedmusic.app/Terms.pdf") {
+        if let url = NSURL(string: "https://hookedmusic.app/legal/Terms.pdf") {
             UIApplication.shared.open(url as URL, options:[:], completionHandler:nil)
         }
     }
@@ -148,6 +159,8 @@ class ProfileTableViewController: UITableViewController {
         }
         
         //updating email in the authentication storage
+        /*
+        3/3/2023... I think this was just for facebook... we can remove if testing works.
         //https://stackoverflow.com/questions/54958026/how-to-update-email-address-in-firebase-authentication-in-swift-4
         let user = Auth.auth().currentUser
         var credential: AuthCredential = EmailAuthProvider.credential(withEmail: "email", password: "pass")
@@ -164,8 +177,7 @@ class ProfileTableViewController: UITableViewController {
                         }
                     }
                 })
-
-        
+         */
         //Dismiss view controller here. There is a delay so the changes have time to go up to firebase
         //Two seconds might be cuttin it close
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
@@ -201,7 +213,6 @@ class ProfileTableViewController: UITableViewController {
             } else {
                 self.explicitContentSegment.selectedSegmentIndex = 1
             }
-            
         }
     }
     
@@ -211,180 +222,8 @@ class ProfileTableViewController: UITableViewController {
     }
     
     @IBAction func deleteBtnDidTap(_ sender: Any) {
-                
-        print("deleting account")
-        let alert = UIAlertController(title: "Whoa there cowboy!", message: "Are you sure you want to delete your account?", preferredStyle: .alert)
-        
-        self.present(alert, animated: true)
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+        deleteProfile()
 
-        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
- 
-            self.clearPhotoStorgage()
-            
-            let reference = Ref().databaseSpecificUser(uid: Api.User.currentUserId)
-
-            //Calling the userID up here
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-
-                self.clearAudio()
-                self.clearLikes()
-                //Test this one
-                self.clearLikeCount()
-                self.clearPreferences()
-                
-
-                //I think this was just for facebook
-                /*
-                let user = Auth.auth().currentUser
-                var credential: AuthCredential = EmailAuthProvider.credential(withEmail: "email", password: "pass")
-                // Prompt the user to re-provide their sign-in credentials
-                //We need to reauthenticate in order to delete the facebook account
-                //https://stackoverflow.com/questions/52159866/updated-approach-to-reauthenticate-a-user
-                user?.reauthenticateAndRetrieveData(with: credential, completion: {(authResult, error) in
-                            if let error = error {
-                                // An error happened.
-                            }else{
-                                // User re-authenticated.
-                            }
-                        })
-                 */
-
-
-                
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    //This is the method that actually deletes a user from the authentication side of Firebase
-                    let user = Auth.auth().currentUser
-                    user?.delete { error in
-                        if let error = error {
-                            print("error")
-                        } else {
-                            print("Account deleted")
-                        }
-                    }
-                    print("Deleting account step 3")
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let preferencesVC = storyboard.instantiateViewController(withIdentifier: IDENTIFIER_USER_HOME_PAGE) as! ViewController
-                    self.navigationController?.pushViewController(preferencesVC, animated: true)
-                    //(UIApplication.shared.delegate as! AppDelegate).configureInitialViewController()
-                    
-                    
-                    //Removing the user name at this point and referencing it above so we can pass the ID into the previous function
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        //let reference = Ref().databaseSpecificUser(uid: Api.User.currentUserId)
-                        reference.removeValue { error, _ in
-                            print(error?.localizedDescription)
-                            print("Deleting account step 2")
-                        }
-                    }
-                    
-                    
-                    
-                }
-            })
-        }))
-    }
-    
-    func clearPhotoStorgage() {
-        print("calling the delete photo")
-        Api.User.getUserInforSingleEvent(uid: Api.User.currentUserId) { (user) in
-            //removing the URL
-            print("calling the delete photo 2")
-            if user.profileImageUrl != "" {
-                if user.profileImageUrl.contains("facebook") {
-                   print("facebook URL, not in storage. Do nothing")
-                } else {
-            
-                    let photoStorageURL = user.profileImageUrl
-                    let photoStorageURLDelete = photoStorageURL.subString(from:81,to:108)
-                    print("photoStorageURLDelete: \(photoStorageURL.subString(from:81,to:108))")
-                    let desertRef = Ref().storageSpecificProfile(uid: photoStorageURLDelete)
-                    // Delete the file
-                    desertRef.delete { error in
-                        if let error = error {
-                            // Uh-oh, an error occurred!
-                        } else {
-                            // File deleted successfully
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    func clearPreferences() {
-        let reference = Ref().databasePreferencesUser(user: Api.User.currentUserId)
-        reference.removeValue { error, _ in
-            print(error?.localizedDescription)
-        }
-    }
-    
-    func clearLikes() {
-        let reference = Ref().databaseLikesForUser(uid: Api.User.currentUserId)
-        reference.removeValue { error, _ in
-            print(error?.localizedDescription)
-        }
-    }
-
-
-    func clearAudio() {
-        Api.Audio.loadAudioFile(artist: Api.User.currentUserId) { (audio) in
-            
-            //removing the URL
-            let storageURL = audio.audioUrl
-            let storageURLDelete = storageURL.subString(from:79,to:114)
-            print("StorageURL: \(storageURL.subString(from:79,to:114))")
-            let desertRef = Ref().storageSpecificAudio(id: storageURLDelete)
-            // Delete the file
-            desertRef.delete { error in
-                if let error = error {
-                    // Uh-oh, an error occurred!
-                } else {
-                    // File deleted successfully
-                }
-            }
-            
-            Api.User.getUserInforSingleEvent(uid: Api.User.currentUserId) { (user) in
-                //removing the URL
-                print("calling the delete photo")
-                let photoStorageURL = user.profileImageUrl
-                let photoStorageURLDelete = photoStorageURL.subString(from:81,to:108)
-                print("photoStorageURLDelete: \(photoStorageURLDelete)")
-                let desertRef = Ref().storageSpecificProfile(uid: photoStorageURLDelete)
-                // Delete the file
-                desertRef.delete { error in
-                    if let error = error {
-                        // Uh-oh, an error occurred!
-                    } else {
-                        // File deleted successfully
-                    }
-                }
-            }
-            
-            
-            //creates an array called "audioCollection" which containts all the audio files
-            let selection = audio.id
-            let reference = Database.database().reference().child("audioFiles").child(selection)
-            print("Reference from deletion: \(reference)")
-            //Test making the error optional
-            reference.removeValue { error, _ in
-                print(error?.localizedDescription)
-            }
-        }
-    }
-    
-    func clearLikeCount() {
-        Api.Audio.loadAudioFile(artist: Api.User.currentUserId) { (audio) in
-            //creates an array called "audioCollection" which containts all the audio files
-            let selection = audio.id
-            let reference = Database.database().reference().child("likesCount").child(selection)
-            print("Reference from deletion: \(reference)")
-            //Test making the error optional
-            reference.removeValue { error, _ in
-                print(error?.localizedDescription)
-            }
-        }
     }
 }
 
@@ -402,13 +241,7 @@ extension ProfileTableViewController: UIImagePickerControllerDelegate, UINavigat
         }
         //If the user does not update their avatar. It will return to the default image
         // 1/26/2022 I removed this code based on this video saying we only needed one or the other. We should test this. https://www.hackingwithswift.com/read/10/4/importing-photos-with-uiimagepickercontroller
-        /*
-        if let imageOrigional = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
-        {
-            image = imageOrigional
-            avatar.image = imageOrigional
-        }
-         */
+
         picker.dismiss(animated: true, completion: nil)
     }
 }

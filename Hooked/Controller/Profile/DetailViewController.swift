@@ -18,18 +18,24 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var websiteBtn: UIButton!
+    @IBOutlet weak var subscriptionBtn: UIButton!
     
     var popupContentController: DemoMusicPlayerController!
     
     var user: User!
     var users: [User] = []
     var audio = [Audio]()
-    //var audioPlayer: AVAudioPlayer!
+    var subscribedCollection: [User] = []
+    var subscribed : Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         observeData()
         setUpUI()
+        
+        //Hiding subscription button for now.
+        subscriptionBtn.isHidden = true
+        subscriptionBtn.isEnabled = false
         
         //removing the white menu at the top by hiding the same area.
         tableView.contentInsetAdjustmentBehavior = .never
@@ -56,7 +62,6 @@ class DetailViewController: UIViewController {
         
         //This is a temporary measure until I cn figure out how to only stop this player when the discover view controller is up.
         if popupContentController.player != nil {
-            print("audio is playing")
             popupContentController.closeAction()
         }
     }
@@ -66,13 +71,50 @@ class DetailViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func subscriptionBtnDidTap(_ sender: Any) {
+        if self.subscribed == 1 {
+            print("Unfollowing: \(self.user.username)")
+            unfollow()
+        } else {
+            print("Now following: \(self.user.username)")
+            AddSubscription(subscribe: Date().timeIntervalSince1970)
+        }
+    }
+    
+    func AddSubscription(subscribe: Double) {
+        Ref().databaseFollowingForUser(uid: Api.User.currentUserId)
+            .updateChildValues([user.uid: subscribe]) { (error, ref) in
+                if error == nil, subscribe == Date().timeIntervalSince1970{
+                }
+            }
+        //The artist is gaining a new follower!!!!!!!
+        Ref().databaseFollowersForUser(uid: user.uid)
+            .updateChildValues([Api.User.currentUserId: subscribe]) { (error, ref) in
+                if error == nil, subscribe == Date().timeIntervalSince1970{
+                }
+            }
+    }
+    
+    func unfollow() {
+        //Removing from THEIR followers list
+        let following = Ref().databaseFollowersForUser(uid: user.uid).child(Api.User.currentUserId)
+        print("Reference from deletion: \(following)")
+        following.removeValue { error, _ in
+            print(error?.localizedDescription)
+        }
+        
+        //Removing from MY followers list
+        let follower = Ref().databaseFollowingForUser(uid: Api.User.currentUserId).child(user.uid)
+        print("Reference from deletion: \(follower)")
+        follower.removeValue { error, _ in
+            print(error?.localizedDescription)
+        }
+    }
+    
     
     @IBAction func websiteBtnDidTap(_ sender: Any) {
-        print("website tapped")
-        
         Api.User.getUserInforSingleEvent(uid: user.uid) { (user) in
             if user.website == nil {
-                print("no website")
                 let alert = UIAlertController(title: "No Website", message: "This artist does not have a link to a site", preferredStyle: .alert)
                 
                 self.present(alert, animated: true)
@@ -92,12 +134,7 @@ class DetailViewController: UIViewController {
             //creates an array called "audioCollection" which containts all the audio files
             self.audio.append(audio)
             self.sortAudio()
-            print("Returned Audio \(audio.title)")
-            print("Observation complete")
-            print("start time \(audio.startTime)")
-            print("stop time \(audio.stopTime)")
         }
-        print("username: \(user.username)")
     }
     
     func sortAudio() {
@@ -147,7 +184,6 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
 
         //Stopping the audio if it is already playing
         if popupContentController.player != nil {
-            print("audio is playing... stopping it")
             popupContentController.player?.pause()
             popupContentController.player?.seek(to: .zero)
         }

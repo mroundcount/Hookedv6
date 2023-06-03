@@ -9,7 +9,7 @@
 import UIKit
 import ProgressHUD
 
-class SignInViewController: UIViewController {
+class SignInViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBOutlet weak var closeBtn: UIButton!
@@ -35,6 +35,12 @@ class SignInViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil);
 
         loginStatus = "opening"
+        
+        //Setting up the keyboard to dismiss
+        emailTextField.returnKeyType = UIReturnKeyType.done
+        self.emailTextField.delegate = self
+        passwordTextField.returnKeyType = UIReturnKeyType.done
+        self.passwordTextField.delegate = self
     }
     
     func setUpUI() {
@@ -102,5 +108,16 @@ class SignInViewController: UIViewController {
     
     @objc func keyboardWillHide(sender: NSNotification) {
         self.view.frame.origin.y = 0 // Move view to original position
+    }
+    
+    //Setting up the keyboard to dismiss when clicking "Done"
+    //https://stackoverflow.com/questions/24180954/how-to-hide-keyboard-in-swift-on-pressing-return-key
+    func textFieldShouldReturn(_ emailTextField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    func textFieldShouldReturnII(_ passwordTextField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
 }

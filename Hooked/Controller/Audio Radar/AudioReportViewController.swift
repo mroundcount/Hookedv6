@@ -46,6 +46,12 @@ class AudioReportViewController: UIViewController, UITableViewDataSource, UITabl
         //https://stackoverflow.com/questions/25693130/move-textfield-when-keyboard-appears-swift
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil);
+        
+        
+        //Setting up the keyboard tap and dismiss so it does not interfier with other functions like the row selection.
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
 
         self.tableView.dataSource = self;
         self.tableView.delegate = self;
@@ -71,21 +77,17 @@ class AudioReportViewController: UIViewController, UITableViewDataSource, UITabl
         navigationController?.popViewController(animated: true)
     }
     
-    //Dismissing the keyboard. Looks for the repsonder to the text field to give up the startis
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
-    
     //Moving up the keyboard
     @objc func keyboardWillShow(sender: NSNotification) {
-        //self.view.frame.origin.y += 350+100 // Move view y points upward
-        self.navigationController?.isNavigationBarHidden = true
+        self.view.frame.origin.y -= 200 // Move view x points upward
     }
     
     @objc func keyboardWillHide(sender: NSNotification) {
         self.view.frame.origin.y = 0 // Move view to original position
-        self.navigationController?.isNavigationBarHidden = false
+    }
+    
+    @objc func dismissKeyboard() {
+        commentField.endEditing(true)
     }
 
 

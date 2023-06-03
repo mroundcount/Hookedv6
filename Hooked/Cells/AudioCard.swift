@@ -18,7 +18,6 @@ class AudioCard: UIView {
     
     @IBOutlet weak var photo: UIImageView!
     
-    
     @IBOutlet weak var textBackgroundView: UIView!
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var usernameLbl: UILabel!
@@ -27,8 +26,7 @@ class AudioCard: UIView {
     @IBOutlet weak var nopeView: UIView!
     @IBOutlet weak var nopeLbl: UILabel!
     @IBOutlet weak var infoBtn: UIButton!
-    
-    
+
     private var gradient: CAGradientLayer!
     
     var controller: AudioRadarViewController!
@@ -36,9 +34,7 @@ class AudioCard: UIView {
     
     var audioPlayer: AVAudioPlayer!
     var audioPath: URL!
-    
-    
-    
+
     //for testing
     var user: User!
     
@@ -160,30 +156,14 @@ class AudioCard: UIView {
         // add the actions (buttons)
         alert.addAction(UIAlertAction(title: "Report", style: UIAlertAction.Style.default, handler: { action in
             
-            print ("Make it here")
             print("from the viewcontroller: \(self.audio.artist)")
-           /*
-            Api.User.getUserInforSingleEvent(uid: self.audio.artist) { (user) in
-                print("user: \(user.username)")
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let reportVC = storyboard.instantiateViewController(withIdentifier: IDENTIFIER_AUDIO_REPORT) as! AudioReportViewController
-                reportVC.user = user
-                
-                //self.presentViewController(reportVC, animated: true, completion: nil)
-                (self.superview?.next as? UIViewController)?.navigationController?.pushViewController(reportVC, animated: false)
 
-            }
-            */
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let reportVC = storyboard.instantiateViewController(withIdentifier: IDENTIFIER_AUDIO_REPORT) as! AudioReportViewController
             reportVC.audio = self.audio
 
             
             self.controller.navigationController?.pushViewController(reportVC, animated: true)
-             
-            
-
-            
         }))
         
         //Beginning of blocking options

@@ -87,6 +87,9 @@ class UserProfileViewController: UIViewController, AVAudioPlayerDelegate {
         visualEffectView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         visualEffectView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         visualEffectView.alpha = 0
+        
+        //Resetting Push notifications if applicable
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
  
     //Hide the navigation bar

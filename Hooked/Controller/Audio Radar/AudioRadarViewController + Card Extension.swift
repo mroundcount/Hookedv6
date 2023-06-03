@@ -79,6 +79,12 @@ extension AudioRadarViewController {
                 self.removeCards(card: card)
             }
         }
+        
+        //Checking to see who the user is already subscribed to (following))
+        Api.User.observeUsersIamFollowing { (subscribedUser) in
+            self.subscribedCollection.append(subscribedUser)
+            print("Subscribed to: \(subscribedUser.username) : \(subscribedUser.username)")
+        }
     
         
         //Checking user preferences and removing cards accordingly

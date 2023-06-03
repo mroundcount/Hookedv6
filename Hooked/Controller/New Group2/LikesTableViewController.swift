@@ -39,7 +39,6 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
             print("audio is playing")
             popupContentController.closeAction()
         } else {
-            print("audio is null")
             return
         }
     }
@@ -175,13 +174,10 @@ class LikesTableViewController: UITableViewController, UISearchResultsUpdating, 
             let cell = tableView.cellForRow(at: editActionsForRowAt) as? LikesAudioTableViewCell
             print("Removing \(cell?.audio.id) which is titled \(cell?.audio.title)")
             
-            //Testing if this works.
             let selection = cell?.audio.id
             let reference = Ref().databaseLikesForUser(uid: Api.User.currentUserId).child(selection!)
             
-            //let reference = Database.database().reference().child("likes").child(selection!)
             print("Reference from deletion: \(reference)")
-            //Test making the error optional
             reference.removeValue { error, _ in
                 print(error?.localizedDescription)
             }

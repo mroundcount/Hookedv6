@@ -22,6 +22,7 @@ let REF_LIKES = "likes"
 let REF_LIKE_COUNT = "likesCount"
 let REF_PREFERENCES = "preferences"
 let REF_REPORT_FLAG = "reportFlag"
+let REF_REPORT_MESSAGE_FLAG = "reportMessageFlag"
 let REF_USER = "users"
 let STORAGE_PROFILE = "profile"
 
@@ -32,9 +33,10 @@ let UID = "uid"
 let EMAIL = "email"
 let USERNAME = "username"
 let STATUS = "status"
+let EXPLICIT_CONTENT = "explicitContent"
+let CREATED_DATE = "createdDate"
 
 //Error handling
-//let ERROR_EMPTY_PHOTO = "Please choose your profile image"
 let ERROR_EMPTY_EMAIL = "Please enter an email address"
 let ERROR_EMPTY_USERNAME = "Please enter a username"
 let ERROR_EMPTY_PASSWORD = "Please enter a password"
@@ -57,6 +59,16 @@ let IDENTIFIER_LIKES = "LikesTableViewController"
 let IDENTIFIER_AUDIO_REPORT = "AudioReportViewController"
 let IDENTIFIER_USER_PROFILE = "UserProfileViewController"
 let IDENTIFIER_USER_HOME_PAGE = "ViewController"
+
+
+//Subscriptions
+let REF_FOLLOWING = "following"
+let REF_FOLLOWERS = "followers"
+
+//Messaging
+let IDENTIFIER_MESSAGING = "MessageVC"
+let REF_MESSAGE = "messages"
+let IDENTIFIER_MESSAGE_REPORT = "MessageReportViewController"
 
 
 
@@ -102,6 +114,26 @@ class Ref {
      func databaseLikesForUser(uid: String) -> DatabaseReference {
            return databaseLikes.child(uid)
     }
+    
+    //FOLLOWERS
+    //WHO FOLLWS THE LOGGED IN USER. The logged in user is the child
+    var databaseFollowers: DatabaseReference {
+         return databaseRoot.child(REF_FOLLOWERS)
+     }
+    func databaseFollowersForUser(uid: String) -> DatabaseReference {
+        return databaseFollowers.child(uid)
+    }
+    
+    //FOLLOWING
+    //WHO THE LOGGED IN USER IS FOLLOWING he logged in user is the parent
+    var databaseFollowing: DatabaseReference {
+         return databaseRoot.child(REF_FOLLOWING)
+     }
+     func databaseFollowingForUser(uid: String) -> DatabaseReference {
+           return databaseFollowing.child(uid)
+    }
+    
+
     
     
     //adding in the new tables for just the ability to count likes
@@ -155,6 +187,11 @@ class Ref {
         return databaseRoot.child(REF_REPORT_FLAG)
     }
     
+    //Uploading a flag report for messages
+    func databaseReportMessageFlag() -> DatabaseReference {
+        return databaseRoot.child(REF_REPORT_MESSAGE_FLAG)
+    }
+    
     //In an attempt to remove records from audioFile
     var databaseAudioFile: DatabaseReference {
         return databaseRoot.child(REF_AUDIO_FILE)
@@ -179,12 +216,21 @@ class Ref {
     func databaseSpecificAudio(id: String) -> DatabaseReference {
         return databaseAudioFileOnly().child(id)
      }
-
+    
+    
+    //Sending Messages
+    var databaseMessage: DatabaseReference {
+        return databaseRoot.child(REF_MESSAGE)
+    }
+    
+    //From origional video 34
+    /*
+    func databaseMessageSendTo(from: String, to: String) -> DatabaseReference {
+        return databaseMessage.child(from).child(to)
+    }
+     */
+    //Modified Method
+    func databaseMessageSendTo(from: String) -> DatabaseReference {
+        return databaseMessage.child(from)
+    }
 }
-
-
-/*
-let storageRef = Storage.storage().reference(forURL: "gs://hooked-217d3.appspot.com")
- download the profile image url
-let storageProfileRef = storageRef.child("profile").child(authData.user.uid)
-*/
